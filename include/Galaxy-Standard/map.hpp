@@ -22,9 +22,9 @@ namespace gal {
 			public:
 				typedef sp::shared_ptr<T>					shared_type;
 
-				typedef Neb::WrapperTyped<T>					mapped_type;
+				typedef gal::std::wrapper<T>					mapped_type;
 
-				typedef ::std::weak_ptr< Neb::Factory<T> >			factory_weak;
+				typedef ::std::weak_ptr< gal::std::factory >			factory_weak;
 
 				typedef ::std::map< gal::std::index_type, mapped_type >		map_type;
 

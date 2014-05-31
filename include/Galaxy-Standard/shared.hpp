@@ -13,7 +13,8 @@ namespace gal {
 	namespace std {
 		
 		typedef int					index_type;
-		
+		typedef long int				hash_type;
+
 		class shared;
 		class registry {
 			public:
@@ -32,7 +33,7 @@ namespace gal {
 			virtual public sp::enable_shared_from_this<shared>
 		{
 			public:
-				typedef long int				hash_type;
+				
 				
 			public:
 				shared();

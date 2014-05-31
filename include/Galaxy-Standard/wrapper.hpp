@@ -14,78 +14,80 @@
 #include <Galaxy-Standard/shared.hpp>
 #include <Galaxy-Standard/factory.hpp>
 
-namespace Neb {
-	/** @brief WrapperTyped
-	 * class T must be derived from and registered with gal::std::Typed or exceptions will be thrown
-	 */
-	template<class T> class WrapperTyped {
-		public:
-			typedef std::weak_ptr< Neb::Factory<T> >		factory_weak;
-			typedef std::shared_ptr<T>				shared;
-			/** */
-			WrapperTyped():
-				factory_(Neb::Factory<T>::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>()
-		{
-		}
-			/** */
-			WrapperTyped(shared ptr):
-				ptr_(ptr),
-				factory_(Neb::Factory<T>::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>())
-		{
-		}
-			/** @brief Destructor */
-			virtual ~WrapperTyped() {}
-			/** @brief %Load */
-			template<class Archive> void		load(Archive & ar, unsigned int const & version) {
-				// get the code
-				long int hash_code;
-				ar >> boost::serialization::make_nvp("hash_code", hash_code);
-
-				// get the factory
-				auto fs = factory_.lock();
-				assert(fs);
-
-				// allocate the object
-				ptr_.reset((T*)fs->alloc(hash_code));
-
-				// read objcet data
-				ar >> boost::serialization::make_nvp("object", *ptr_);
+namespace gal {
+	namespace std {
+		/** @brief wrapper
+		 * class T must be derived from and registered with gal::std::Typed or exceptions will be thrown
+		 */
+		template<class T> class wrapper {
+			public:
+				typedef sp::weak_ptr<factory>		factory_weak;
+				typedef sp::shared_ptr<T>				shared;
+				/** */
+				wrapper():
+					factory_(factory::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>()
+			{
 			}
-			/** @brief %Save */
-			template<class Archive> void		save(Archive & ar, unsigned int const & version) const {
-				gal::std::shared::hash_type hash_code = ptr_->hash_code();
-				ar << boost::serialization::make_nvp("hash_code", hash_code);
-				ar << boost::serialization::make_nvp("object", *ptr_);
+				/** */
+				wrapper(shared ptr):
+					ptr_(ptr),
+					factory_(factory::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>())
+			{
 			}
-			/** */
-			void					load(boost::archive::xml_iarchive & ar, unsigned int const & version) {
-				// get the code
-				std::string name;
-				ar >> boost::serialization::make_nvp("name", name);
-				gal::std::shared::hash_type hash = gal::std::shared::to_hash_code(name);
+				/** @brief Destructor */
+				virtual ~wrapper() {}
+				/** @brief %Load */
+				template<class Archive> void		load(Archive & ar, unsigned int const & version) {
+					// get the code
+					long int hash_code;
+					ar >> boost::serialization::make_nvp("hash_code", hash_code);
 
-				// get the factory
-				auto fs = factory_.lock();
-				assert(fs);
+					// get the factory
+					auto fs = factory_.lock();
+					assert(fs);
 
-				// allocate the object
-				ptr_.reset((T*)fs->alloc(hash));
+					// allocate the object
+					ptr_.reset((T*)fs->alloc(hash_code));
 
-				// read objcet data
-				ar >> boost::serialization::make_nvp("object", *ptr_);
-			}
-			/** */
-			void					save(boost::archive::xml_oarchive & ar, unsigned int const & version) const {
-				::std::string name = gal::std::shared::to_string(ptr_->hash_code());
-				ar << boost::serialization::make_nvp("name", name);
-				ar << boost::serialization::make_nvp("object", *ptr_);
-			}
-			BOOST_SERIALIZATION_SPLIT_MEMBER();
-		public:
-			/** @brief Pointer */
-			shared				ptr_;
-			factory_weak			factory_;
-	};
+					// read objcet data
+					ar >> boost::serialization::make_nvp("object", *ptr_);
+				}
+				/** @brief %Save */
+				template<class Archive> void		save(Archive & ar, unsigned int const & version) const {
+					gal::std::hash_type hash_code = ptr_->hash_code();
+					ar << boost::serialization::make_nvp("hash_code", hash_code);
+					ar << boost::serialization::make_nvp("object", *ptr_);
+				}
+				/** */
+				void					load(boost::archive::xml_iarchive & ar, unsigned int const & version) {
+					// get the code
+					::std::string name;
+					ar >> boost::serialization::make_nvp("name", name);
+					gal::std::hash_type hash = gal::std::shared::to_hash_code(name);
+
+					// get the factory
+					auto fs = factory_.lock();
+					assert(fs);
+
+					// allocate the object
+					ptr_.reset((T*)fs->alloc(hash));
+
+					// read objcet data
+					ar >> boost::serialization::make_nvp("object", *ptr_);
+				}
+				/** */
+				void					save(boost::archive::xml_oarchive & ar, unsigned int const & version) const {
+					::std::string name = gal::std::shared::to_string(ptr_->hash_code());
+					ar << boost::serialization::make_nvp("name", name);
+					ar << boost::serialization::make_nvp("object", *ptr_);
+				}
+				BOOST_SERIALIZATION_SPLIT_MEMBER();
+			public:
+				/** @brief Pointer */
+				shared				ptr_;
+				factory_weak			factory_;
+		};
+	}
 }
 
 #endif
