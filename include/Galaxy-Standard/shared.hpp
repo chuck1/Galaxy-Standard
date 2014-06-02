@@ -1,33 +1,28 @@
 #ifndef __GRU_SHARED_HPP__
 #define __GRU_SHARED_HPP__
 
+/** @file shared.hpp
+ */
+
 #include <memory>
 #include <map>
 #include <typeindex>
 
-//#include <Nebula/types.hpp>
+
+#include <Galaxy-Standard/decl.hpp>
+#include <Galaxy-Standard/typedef.hpp>
+
 
 namespace sp = std;
 
 namespace gal {
 	namespace std {
-		
-		typedef int					index_type;
-		typedef long int				hash_type;
-
-		class shared;
-		class registry {
-			public:
-				registry();
-				void					reg(sp::shared_ptr< gal::std::shared > s);
-				shared					get(gal::std::index_type i);
-			private:
-				::std::map< index_type, sp::weak_ptr< gal::std::shared > >	map_;
-				gal::std::index_type						next_;
-
-		};
-		/** @brief %Shared.
-		 * avoid multiple enabled_shared_from_this bases
+		/** @brief %shared.
+		 *
+		 * Avoid multiple enabled_shared_from_this bases.
+		 * Provide common base for working with factory and map.
+		 * Supply type info.
+		 *
 		 */
 		class shared:
 			virtual public sp::enable_shared_from_this<shared>

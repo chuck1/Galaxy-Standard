@@ -2,8 +2,11 @@
 #define NEBULA_UTIL_FACTORY_HPP
 
 #include <map>
+#include <memory>
 
+#include <Galaxy-Standard/decl.hpp>
 #include <Galaxy-Standard/helper.hpp>
+#include <Galaxy-Standard/typedef.hpp>
 
 namespace sp = std;
 
@@ -86,7 +89,7 @@ namespace gal {
 				}
 
 			public:
-				static sp::shared_ptr<factory>		default_factory_;
+				static sp::shared_ptr<factory>					default_factory_;
 		};
 		/** @brief Initializer
 		 *
