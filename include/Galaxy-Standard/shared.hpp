@@ -7,7 +7,7 @@
 #include <memory>
 #include <map>
 #include <typeindex>
-
+#include <string>
 
 #include <Galaxy-Standard/decl.hpp>
 #include <Galaxy-Standard/typedef.hpp>
@@ -60,11 +60,11 @@ namespace gal {
 					map_string_hash_[new_index.name()] = new_index.hash_code();
 				}
 			public:
-				index_type					i_;
+				index_type						i_;
 			public:
 				static gal::std::registry				registry_;
 				static ::std::map<hash_type, ::std::string>		map_hash_string_;
-				static ::std::map<::std::string, hash_type>		map_string_hash_;
+				static ::std::map< ::std::string, hash_type >		map_string_hash_;
 
 		};
 	}

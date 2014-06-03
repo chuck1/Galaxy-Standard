@@ -12,15 +12,27 @@ namespace sp = std;
 
 namespace gal {
 	namespace std {
+
 		/** @brief FuncMap
 		 *
 		 * A map containing @c ::std::function objects with arbitrary signatures
 		 * Motivation: See factory and Initializer classes
 		 */
 		class FuncMap {
-			public:
-				typedef sp::shared_ptr<gal::std::shared>		return_type;
 			private:
+				typedef sp::shared_ptr<gal::std::shared>				shared_type;
+				/** */
+				struct __base_function {
+					virtual ~__base_function() {}
+				};
+				/** */
+				template<class... A> struct __function: __base_function {
+					/** */
+					__function(::std::function< shared_type(A...) > f): f_(f) {}
+					/** */
+					::std::function< shared_type(A...) >		f_;
+				};
+				typedef ::std::map< long int, ::std::shared_ptr<__base_function> >	map_type;
 				/** */
 				struct invalid_key: ::std::exception {
 					char const *	what() {
@@ -33,41 +45,37 @@ namespace gal {
 						return "invalid args";
 					}
 				};
-				/** */
-				struct __base_function {
-					virtual ~__base_function() {}
-				};
-				/** */
-				template<class... A> struct __function: __base_function {
-					/** */
-					__function(::std::function<return_type(A...)> f): f_(f) {}
-					/** */
-					::std::function<return_type(A...)>		f_;
-				};
+
 			public:
 				FuncMap() {}
 				virtual ~FuncMap() {}
 				/** */
-				template<class... Args> void		add(long int hash_code, ::std::function<return_type(Args...)> f) {
-					::std::shared_ptr<__base_function> b(new __function<return_type, Args...>(f));
+				template<class... Args> void											add(
+						gal::std::hash_type hash_code,
+						::std::function< shared_type(Args...)> f)
+				{
+					::std::shared_ptr<__base_function> b(new __function< Args...>(f));
 
-					map_.emplace(hash_code, b);
+					//map_.emplace(hash_code, b);
+					map_[hash_code] = b;
 				}
 				/** */
-				template<class... Args> ::std::shared_ptr< __function<return_type, Args...> >		find(long hash_code) {
+				template<class... Args> sp::shared_ptr< __function< Args... > >		find(
+						gal::std::hash_type hash_code)
+				{
 					auto it = map_.find(hash_code);
 
 					if(it == map_.cend()) throw invalid_key();
 
 					//::std::shared_ptr< __function<return_type, Args...> >
-					auto f = ::std::dynamic_pointer_cast< __function<return_type, Args...> >(it->second);
+					auto f = ::std::dynamic_pointer_cast< __function< Args... > >(it->second);
 
 					if(!f) throw invalid_args();
 
 					return f;
 				}
 			private:
-				::std::map< long int, ::std::shared_ptr<__base_function> >         	map_;
+				map_type         	map_;
 
 		};
 		/** @brief factory.
@@ -82,7 +90,7 @@ namespace gal {
 		class factory: public FuncMap {
 			public:
 				/** */
-				template<class... Args> sp::shared_ptr<gal::std::shared>	alloc(gal::std::hash_type hash_code, Args&&... args) {
+				template<class... Args> sp::shared_ptr<gal::std::shared>		alloc(gal::std::hash_type hash_code, Args&&... args) {
 					auto f = find<Args...>(hash_code);
 
 					return (f->f_)(::std::forward<Args>(args)...);

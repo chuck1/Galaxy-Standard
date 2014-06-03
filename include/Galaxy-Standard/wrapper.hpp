@@ -47,7 +47,8 @@ namespace gal {
 					assert(fs);
 
 					// allocate the object
-					ptr_.reset((T*)fs->alloc(hash_code));
+					
+					ptr_ = sp::dynamic_pointer_cast<T>(fs->alloc<>(hash_code));
 
 					// read objcet data
 					ar >> boost::serialization::make_nvp("object", *ptr_);

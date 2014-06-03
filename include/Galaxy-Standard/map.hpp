@@ -20,19 +20,15 @@ namespace gal {
 	namespace std {
 		template <class T> class map {
 			public:
-				typedef sp::shared_ptr<T>					shared_type;
-
-				typedef gal::std::wrapper<T>					mapped_type;
-
 				typedef ::std::weak_ptr< gal::std::factory >			factory_weak;
 
-				typedef ::std::map< gal::std::index_type, mapped_type >		map_type;
+				typedef ::std::map< gal::std::index_type, gal::std::wrapper< T > >		map_type;
 
 				typedef typename map_type::iterator				iterator;
 				typedef typename map_type::const_iterator			const_iterator;
 
 				typedef typename map_type::value_type				value_type_const;
-				typedef ::std::pair<gal::std::index_type, mapped_type>		value_type;
+				typedef ::std::pair<gal::std::index_type, gal::std::wrapper< T > >		value_type;
 
 				enum { CONTINUE, BREAK };
 
@@ -49,14 +45,15 @@ namespace gal {
 
 					ar & boost::serialization::make_nvp("map",map_);
 				}
-				void				insert(shared_type& u) {
+				void				insert(sp::shared_ptr< T > u) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					assert(u);
 
-					mapped_type m(u);
-
-					map_.emplace(u->i_, m);
+					gal::std::wrapper< T > m(u);
+					
+					//map_.emplace(u->i_, m);
+					map_[u->i] = m;
 				}
 				void				for_each(::std::function<void(const_iterator)> const & f) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
@@ -80,7 +77,7 @@ namespace gal {
 					}
 				}
 				/** */
-				shared_type			find(gal::std::index_type i) {
+				sp::shared_ptr<T>			find(gal::std::index_type i) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					auto it = map_.find(i);
