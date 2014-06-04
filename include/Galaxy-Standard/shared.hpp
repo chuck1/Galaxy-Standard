@@ -59,6 +59,13 @@ namespace gal {
 					map_hash_string_[new_index.hash_code()] = new_index.name();
 					map_string_hash_[new_index.name()] = new_index.hash_code();
 				}
+				/** @brief static get index
+				 *
+				 * for boost multi_index indexing
+				 */
+				static index_type const &				static_get_index(sp::shared_ptr<gal::std::shared> ptr) {
+					return ptr->i_;
+				}
 			public:
 				index_type						i_;
 			public:

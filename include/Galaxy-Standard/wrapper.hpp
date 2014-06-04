@@ -83,6 +83,14 @@ namespace gal {
 					ar << boost::serialization::make_nvp("object", *ptr_);
 				}
 				BOOST_SERIALIZATION_SPLIT_MEMBER();
+				static index_type const &			static_get_index(gal::std::wrapper<T> const & wrap) {
+					if(wrap.ptr_->i_ == -1) {
+						::std::cout << "warning: gal::std::shared object is uninitialized" << ::std::endl;
+						throw 0;
+					}
+					return wrap.ptr_->i_;
+				}
+
 			public:
 				/** @brief Pointer */
 				shared				ptr_;
