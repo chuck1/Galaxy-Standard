@@ -117,6 +117,16 @@ namespace gal {
 
 					container_.clear();
 				}
+				/** @brief begin iterator 0
+				 */
+				iterator<0>				begin() {
+					return mi::get<0>(container_).begin();
+				}
+				/** @brief end iterator 0
+				 */
+				iterator<0>				end() {
+					return mi::get<0>(container_).end();
+				}
 				/** */
 				void				release(gal::std::index_type i) {
 
