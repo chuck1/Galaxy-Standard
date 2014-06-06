@@ -112,7 +112,7 @@ namespace gal {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					for(auto it = mi::get<0>(container_).begin(); it != mi::get<0>(container_).cend(); ++it) {
-						it->second.ptr_->release();
+						it->ptr_->release();
 					}
 
 					container_.clear();
@@ -136,7 +136,7 @@ namespace gal {
 
 					if(it == container_.cend()) return;
 
-					it->second.ptr_->release();
+					it->ptr_->release();
 
 					container_.erase(it);
 				}
