@@ -27,10 +27,7 @@ namespace mi = boost::multi_index;
 
 namespace gal {
 	namespace std {
-	
-
 		template <class T, typename... INDICES> class map {
-			public:
 			public:
 				typedef sp::shared_ptr<gal::std::factory>			factory_shared_type;
 				
