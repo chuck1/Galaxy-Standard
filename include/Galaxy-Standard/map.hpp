@@ -125,7 +125,7 @@ namespace gal {
 					return mi::get<0>(container_).end();
 				}
 				/** */
-				void				release(gal::std::index_type i) {
+				void					erase(gal::std::index_type i) {
 
 					boost::lock_guard<boost::mutex> lk(mutex_);
 

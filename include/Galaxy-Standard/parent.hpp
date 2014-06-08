@@ -23,11 +23,11 @@ namespace gal {
 				sp::shared_ptr< T >			get(gal::std::index_type i) {
 					return map_.find(i);
 				}
-				void					release(gal::std::index_type i) {
+				void					erase(gal::std::index_type i) {
 					auto me = sp::dynamic_pointer_cast< gal::std::parent< T > >(shared_from_this());
 					
 					boost::thread t(boost::bind(
-							&gal::std::parent< T >::thread_release,
+							&gal::std::parent< T >::thread_erase,
 							me,
 							i
 							));
@@ -35,8 +35,8 @@ namespace gal {
 					t.detach();
 				}
 			private:
-				void					thread_release(gal::std::index_type i) {
-					map_.release(i);
+				void					thread_erase(gal::std::index_type i) {
+					map_.erase(i);
 				}
 			public:
 				void					clear() {
