@@ -21,17 +21,17 @@ namespace gal {
 		 */
 		template<typename T> class wrapper {
 			public:
-				typedef sp::weak_ptr<factory>		factory_weak;
+				typedef sp::weak_ptr< factory<T> >			factory_weak;
 				typedef sp::shared_ptr<T>				shared;
 				/** */
 				wrapper():
-					factory_(factory::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>()
+					factory_(factory<T>::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>()
 			{
 			}
 				/** */
 				wrapper(shared ptr):
 					ptr_(ptr),
-					factory_(factory::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>())
+					factory_(factory<T>::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>())
 			{
 			}
 				/** @brief Destructor */
@@ -48,7 +48,7 @@ namespace gal {
 
 					// allocate the object
 					
-					ptr_ = fs->alloc<>(hash_code);
+					ptr_ = fs->template alloc<>(hash_code);
 
 					// read objcet data
 					ar >> boost::serialization::make_nvp("object", *ptr_);
@@ -73,7 +73,7 @@ namespace gal {
 					assert(fs);
 					
 					// allocate the object
-					ptr_ = fs->alloc<>(hash);
+					ptr_ = fs->template alloc<>(hash);
 
 					// read objcet data
 					ar >> boost::serialization::make_nvp("object", *ptr_);

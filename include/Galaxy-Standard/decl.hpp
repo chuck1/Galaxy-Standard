@@ -7,9 +7,9 @@ namespace gal {
 	namespace std {
 		class registry;
 		class shared;
-		class FuncMap;
-		class factory;
-		template <class T> class Initializer;
+		template<typename T> class funcmap;
+		template<typename T> class factory;
+		template<typename T> class Initializer;
 	}
 }
 

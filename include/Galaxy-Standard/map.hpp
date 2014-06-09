@@ -29,7 +29,7 @@ namespace gal {
 	namespace std {
 		template <class T, typename... INDICES> class map {
 			public:
-				typedef sp::shared_ptr<gal::std::factory>			factory_shared_type;
+				typedef sp::shared_ptr< gal::std::factory<T> >			factory_shared_type;
 				
 				typedef sp::shared_ptr<T>					shared_type;
 				
