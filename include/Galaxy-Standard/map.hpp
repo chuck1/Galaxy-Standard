@@ -33,13 +33,18 @@ namespace gal {
 				
 				typedef sp::shared_ptr<T>					shared_type;
 				
-				typedef gal::std::wrapper<T>					wrapper_type;
+				//typedef gal::std::wrapper<T>					wrapper_type;
 
 				//typedef ::std::map< gal::std::index_type, gal::std::wrapper< T > >		map_type;
-				
-				typedef mi::ordered_unique< mi::global_fun< wrapper_type const &, gal::std::index_type const &, wrapper_type::static_get_index > >	index0;
-				
-				typedef mi::multi_index_container<wrapper_type, mi::indexed_by<index0, INDICES...> >		container_type;
+
+				typedef mi::ordered_unique< mi::global_fun<
+					gal::std::wrapper<T> const &,
+					gal::std::index_type const &,
+					gal::std::wrapper<T>::static_get_index > >		index0;
+
+				typedef mi::multi_index_container<
+					gal::std::wrapper<T>,
+					mi::indexed_by<index0, INDICES...> >		container_type;
 
 				//typedef mi::nth_index<container_type, 0>::type::iterator	iterator0;
 
@@ -66,13 +71,13 @@ namespace gal {
 
 					ar & boost::serialization::make_nvp("container",container_);
 				}
-				void				insert(sp::shared_ptr< T > u) {
+				void				insert(sp::shared_ptr< T > t) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
-					assert(u);
+					assert(t);
 
-					gal::std::wrapper< T > m(u);
-					
+					gal::std::wrapper<T> m(t);
+
 					//map_.emplace(u->i_, m);
 					container_.insert(m);
 				}

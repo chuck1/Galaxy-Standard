@@ -19,7 +19,7 @@ namespace gal {
 		/** @brief wrapper
 		 * class T must be derived from and registered with gal::std::Typed or exceptions will be thrown
 		 */
-		template<class T> class wrapper {
+		template<typename T> class wrapper {
 			public:
 				typedef sp::weak_ptr<factory>		factory_weak;
 				typedef sp::shared_ptr<T>				shared;
@@ -48,7 +48,7 @@ namespace gal {
 
 					// allocate the object
 					
-					ptr_ = sp::dynamic_pointer_cast<T>(fs->alloc<>(hash_code));
+					ptr_ = fs->alloc<>(hash_code);
 
 					// read objcet data
 					ar >> boost::serialization::make_nvp("object", *ptr_);
@@ -60,7 +60,9 @@ namespace gal {
 					ar << boost::serialization::make_nvp("object", *ptr_);
 				}
 				/** */
-				void					load(boost::archive::xml_iarchive & ar, unsigned int const & version) {
+				void					load(
+						boost::archive::xml_iarchive & ar,
+						unsigned int const & version) {
 					// get the code
 					::std::string name;
 					ar >> boost::serialization::make_nvp("name", name);
@@ -69,15 +71,17 @@ namespace gal {
 					// get the factory
 					auto fs = factory_.lock();
 					assert(fs);
-
+					
 					// allocate the object
-					ptr_.reset((T*)fs->alloc(hash));
+					ptr_ = fs->alloc<>(hash);
 
 					// read objcet data
 					ar >> boost::serialization::make_nvp("object", *ptr_);
 				}
 				/** */
-				void					save(boost::archive::xml_oarchive & ar, unsigned int const & version) const {
+				void					save(
+						boost::archive::xml_oarchive & ar,
+						unsigned int const & version) const {
 					::std::string name = gal::std::shared::to_string(ptr_->hash_code());
 					ar << boost::serialization::make_nvp("name", name);
 					ar << boost::serialization::make_nvp("object", *ptr_);
