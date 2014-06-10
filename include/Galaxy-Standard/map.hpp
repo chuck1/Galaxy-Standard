@@ -76,6 +76,13 @@ namespace gal {
 
 					assert(t);
 
+					// make sure index is initialized
+					auto i = gal::std::shared::static_get_index(t);
+					if(i == -1) {
+						sp::shared_ptr<gal::std::shared> sh(t);
+						sh->gal::std::shared::init();
+					}
+
 					gal::std::wrapper<T> m(t);
 
 					//map_.emplace(u->i_, m);

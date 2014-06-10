@@ -33,11 +33,9 @@ int main() {
 		m.insert(b1);
 	} catch(...) {}
 
-	try {
-		auto b2 = std::make_shared<bar>();
-		//b2->init();
-		m.insert(b2);
-	} catch(...) {}
+	auto b2 = std::make_shared<bar>();
+	//b2->init();
+	m.insert(b2);
 
 	try {
 		auto b3 = std::make_shared<bar>();
