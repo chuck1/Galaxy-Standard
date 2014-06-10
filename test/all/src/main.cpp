@@ -3,10 +3,17 @@ using namespace std;
 
 #include <Galaxy-Standard/map.hpp>
 
+
+
+
 class foo: public gal::std::shared {
 	public:
 		virtual ~foo() {}
 };
+
+//template class gal::std::factory<foo>;
+
+//template sp::shared_ptr< gal::std::factory<foo> >	gal::std::factory<foo>::default_factory_;
 
 class bar: public foo {
 	public:

@@ -1,5 +1,5 @@
-#ifndef NEBULA_ENUM_HPP
-#define NEBULA_ENUM_HPP
+#ifndef GALAXY_STD_FLAG_HPP
+#define GALAXY_STD_FLAG_HPP
 
 #include <boost/preprocessor/punctuation/comma.hpp>
 #include <boost/preprocessor/control/iif.hpp>

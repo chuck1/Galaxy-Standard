@@ -38,6 +38,8 @@ namespace gal {
 			public:
 				static sp::shared_ptr< factory<T> >					default_factory_;
 		};
+
+		template<typename T> sp::shared_ptr< factory<T> >					factory<T>::default_factory_ = 0;
 	}
 }
 
