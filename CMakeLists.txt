@@ -1,8 +1,8 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
 
-PROJECT(Galaxy-Standard)
+INCLUDE($ENV{HOME}/.config.cmake)
 
-SET(CMAKE_INSTALL_PREFIX /scratch/usr)
+PROJECT(Galaxy-Standard)
 
 FIND_PACKAGE(CMakeHelper)
 
