@@ -66,12 +66,12 @@ namespace gal {
 				  map_.insert(p);
 				  }*/
 				/** */
-				template<class Archive> void	serialize(Archive & ar, unsigned int const & version) {
+				template<class Archive> void		serialize(Archive & ar, unsigned int const & version) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					ar & boost::serialization::make_nvp("container",container_);
 				}
-				void				insert(sp::shared_ptr< T > t) {
+				void					insert(sp::shared_ptr< T > t) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					assert(t);
@@ -79,23 +79,24 @@ namespace gal {
 					// make sure index is initialized
 					auto i = gal::std::shared::static_get_index(t);
 					if(i == -1) {
-						sp::shared_ptr<gal::std::shared> sh(t);
-						sh->gal::std::shared::init();
+						//sp::shared_ptr<gal::std::shared> sh(t);
+						t->gal::std::shared::init();
 					}
-
+					
 					gal::std::wrapper<T> m(t);
+					
+					assert(m.ptr_);
 
-					//map_.emplace(u->i_, m);
 					container_.insert(m);
 				}
-				template<int I> void		for_each(::std::function<void(iterator<I>)> const & f) {
+				template<int I> void			for_each(::std::function<void(iterator<I>)> const & f) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					for(auto it = mi::get<I>(container_).begin(); it != mi::get<I>(container_).cend(); ++it) {
 						f(it);
 					}
 				}
-				template<int I> void		for_each_int(::std::function<int(iterator<I>)> const & f) {
+				template<int I> void			for_each_int(::std::function<int(iterator<I>)> const & f) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					int ret;

@@ -33,7 +33,21 @@ namespace gal {
 					ptr_(ptr),
 					factory_(factory<T>::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>())
 			{
+				assert(ptr_);
 			}
+				wrapper(wrapper<T> const & w):
+					ptr_(w.ptr_),
+					factory_(w.factory_)
+			{
+				assert(ptr_);
+			}
+				wrapper(wrapper<T>&& w):
+					ptr_(::std::move(w.ptr_)),
+					factory_(::std::move(w.factory_))
+			{
+				assert(ptr_);
+			}
+			public:
 				/** @brief Destructor */
 				virtual ~wrapper() {}
 				/** @brief %Load */
@@ -47,7 +61,7 @@ namespace gal {
 					assert(fs);
 
 					// allocate the object
-					
+
 					ptr_ = fs->template alloc<>(hash_code);
 
 					// read objcet data
@@ -71,7 +85,7 @@ namespace gal {
 					// get the factory
 					auto fs = factory_.lock();
 					assert(fs);
-					
+
 					// allocate the object
 					ptr_ = fs->template alloc<>(hash);
 
