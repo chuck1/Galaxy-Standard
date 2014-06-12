@@ -77,11 +77,11 @@ namespace gal {
 		\
 		\
 		void				save(boost::archive::xml_oarchive & ar, unsigned int const & version) {\
-			std::vector<std::string> vec = maps_.maps_.toStringVec(val_);\
+			::std::vector< ::std::string > vec = maps_.maps_.toStringVec(val_);\
 			ar << boost::serialization::make_nvp("value",vec);\
 		}\
 		void				load(boost::archive::xml_iarchive & ar, unsigned int const & version) {\
-			std::vector<std::string> vec;\
+			::std::vector< ::std::string > vec;\
 			ar >> boost::serialization::make_nvp("value",vec);\
 			val_ = (E)maps_.maps_.toEnum(vec);\
 		}\
