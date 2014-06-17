@@ -3,7 +3,12 @@ Galaxy-Standard
 
 Some generic c++ classes
 
+## Requirements
+- Boost multi-index
+
 ## Test
+
+### All
 
 ### DLL
 
@@ -19,7 +24,7 @@ Shared library which defines member functions of class ``myclass`` and derived c
 
 #### prog
 
-executable program which opens and uses shared libraries.
+Executable program which opens and uses shared libraries. The header file for ``myclass`` is located here.
 
 
 
