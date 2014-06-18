@@ -69,7 +69,7 @@ namespace gal {
 		name(unsigned int e): val_((E)e) {}\
 		\
 		void		set(flag_type fl)	{ val_ = (E)(val_ | fl); }\
-		void		unset(flag_type fl)	{ val_ = (E)(val_ & !fl); }\
+		void		unset(flag_type fl)	{ val_ = (E)(val_ & ~fl); }\
 		void		toggle(flag_type fl)	{ val_ = (E)(val_ ^ fl); }\
 		bool		all(flag_type fl)	{ return ( ( val_ & fl ) == fl ); }\
 		bool		any(flag_type fl)	{ return ( val_ & fl ); }\
