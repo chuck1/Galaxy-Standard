@@ -1,13 +1,11 @@
-#ifndef NEBULA_UTIL_PARENT_HH
-#define NEBULA_UTIL_PARENT_HH
+#ifndef GAL_STD_PARENT_HH
+#define GAL_STD_PARENT_HH
 
 #include <Galaxy-Standard/map.hpp>
 #include <Galaxy-Standard/shared.hpp>
 #include <Galaxy-Standard/wrapper.hpp>
 
 
-
-#include <Nebula/Types.hh>
 
 namespace gal {
 	namespace std {
