@@ -23,7 +23,6 @@ SET(libs
 	dl
 	)
 
-INCLUDE(${CMakeHelper_INCLUDE_DIR}/CMakeHelper/static/library.cmake)
 
 cmh_static_library()
 
