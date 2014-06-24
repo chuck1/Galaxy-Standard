@@ -11,8 +11,9 @@
 
 #include <boost/thread.hpp>
 
-#include <Galaxy-Standard/decl.hpp>
-#include <Galaxy-Standard/typedef.hpp>
+#include <gal/std/release.hpp>
+#include <gal/std/decl.hpp>
+#include <gal/std/typedef.hpp>
 
 
 namespace sp = std;
@@ -27,7 +28,8 @@ namespace gal {
 		 *
 		 */
 		class shared:
-			virtual public sp::enable_shared_from_this<shared>
+			virtual public sp::enable_shared_from_this<shared>,
+			virtual public gal::std::__release
 		{
 			public:
 				

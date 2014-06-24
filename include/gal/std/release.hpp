@@ -1,5 +1,5 @@
-#ifndef NEBULA_UTIL_RELEASE_HH
-#define NEBULA_UTIL_RELEASE_HH
+#ifndef GAL_STD_RELEASE_HH
+#define GAL_STD_RELEASE_HH
 
 #include <boost/signals2.hpp>
 
@@ -20,12 +20,12 @@
  *     bad: confusing, therefore probably hard to maintain
  *          MULTIPLE INHERITANCE OF DIFFERENT TEMPLATE VERSIONS OF BASE CLASS
  */
-namespace Neb {
-	namespace Util {
-		class Release {
+namespace gal {
+	namespace std {
+		class __release {
 			public:
 				virtual void				release();
-			protected:
+			public:
 				boost::signals2::signal<void()>		sig_release_;
 		};
 	}

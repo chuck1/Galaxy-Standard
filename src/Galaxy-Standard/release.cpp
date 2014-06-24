@@ -1,6 +1,6 @@
 #include <Galaxy-Standard/release.hpp>
 
-void            Neb::Util::Release::release() {
+void            gal::std::__release::release() {
         sig_release_();
 }
 
