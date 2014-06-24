@@ -9,6 +9,8 @@
 #include <typeindex>
 #include <string>
 
+#include <boost/thread.hpp>
+
 #include <Galaxy-Standard/decl.hpp>
 #include <Galaxy-Standard/typedef.hpp>
 
@@ -72,6 +74,14 @@ namespace gal {
 				static gal::std::registry				registry_;
 				static ::std::map<hash_type, ::std::string>		map_hash_string_;
 				static ::std::map< ::std::string, hash_type >		map_string_hash_;
+
+				/** @brief general mutex
+				 *
+				 * for thread-safe erasure from gal::std::map
+				 */
+
+				boost::recursive_mutex		mutex_;
+
 
 		};
 	}

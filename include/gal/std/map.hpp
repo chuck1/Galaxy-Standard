@@ -140,15 +140,27 @@ namespace gal {
 				/** */
 				void					erase(gal::std::index_type i) {
 
-					boost::lock_guard<boost::mutex> lk(mutex_);
+					while(1) {	
+						boost::lock_guard<boost::mutex> lk(mutex_);
 
-					auto it = container_.find(i);
+						auto it = container_.find(i);
 
-					if(it == container_.cend()) return;
+						if(it == container_.cend()) throw 0;
 
-					it->ptr_->release();
+						assert(it->ptr_);
 
-					container_.erase(it);
+						// so deadlock can't occur:
+						// if object is already locked, release map then try again
+						if(!it->ptr_->mutex_.try_lock()) continue;
+
+						it->ptr_->release();
+
+						it->ptr_->mutex_.unlock();
+
+						container_.erase(it);
+
+						return;
+					}
 				}
 			private:
 				factory_shared_type		factory_;

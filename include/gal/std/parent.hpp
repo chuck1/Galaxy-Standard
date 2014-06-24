@@ -6,7 +6,6 @@
 #include <Galaxy-Standard/wrapper.hpp>
 
 
-
 namespace gal {
 	namespace std {
 		template<class T> class parent: virtual public gal::std::shared {
@@ -22,6 +21,7 @@ namespace gal {
 					return map_.find(i);
 				}
 				void					erase(gal::std::index_type i) {
+
 					auto me = sp::dynamic_pointer_cast< gal::std::parent< T > >(shared_from_this());
 					
 					boost::thread t(boost::bind(
