@@ -6,9 +6,9 @@ PROJECT(Galaxy-Standard)
 
 FIND_PACKAGE(CMakeHelper)
 
-SET(Boost_USE_STATIC_LIBS ON)
-SET(Boost_NO_SYSTEM_PATHS ON)
-SET(BOOST_ROOT /scratch/usr)
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_STATIC_RUNTIME OFF)
+add_definitions( -DBOOST_ALL_DYN_LINK )
 
 FIND_PACKAGE(Boost 1.55 COMPONENTS
 	system
@@ -19,10 +19,8 @@ FIND_PACKAGE(Boost 1.55 COMPONENTS
 
 INCLUDE_DIRECTORIES("/usr/include/python2.7")
 
-MESSAGE(STATUS "boost: ${Boost_SYSTEM_LIBRARY}")
 
 SET(libs
-	Galaxy-Standard
 	${Boost_LIBRARIES}
 	pthread
 	python2.7
@@ -33,5 +31,9 @@ SET(libs
 
 cmh_static_library()
 
-ADD_SUBDIRECTORY(test)
+PROJECT(gal_std_shared)
+
+cmh_shared_library()
+
+#ADD_SUBDIRECTORY(test)
 

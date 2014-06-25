@@ -15,14 +15,7 @@ namespace gal { namespace std {
 		public:
 			typedef ::std::shared_ptr<gal::std::terminal>		terminal_type;
 
-			void		operator()(terminal_type term, int ac, char const ** av) {
-				bpo::variables_map vm;
-				bpo::store(bpo::parse_command_line(ac, av, desc_), vm);
-				bpo::notify(vm);
-				if(func_) {
-					func_(term, vm);
-				}
-			}
+			void		operator()(terminal_type term, int ac, char const ** av);
 
 			bpo::options_description						desc_;
 
