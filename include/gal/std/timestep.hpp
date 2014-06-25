@@ -5,6 +5,9 @@
 namespace gal {
 	namespace std {
 		struct timestep {
+			timestep();
+			void			step(double time);
+			
 			double			time;
 			double			last;
 			double			dt;
