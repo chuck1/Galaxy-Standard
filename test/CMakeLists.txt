@@ -1,4 +1,6 @@
 ADD_SUBDIRECTORY(all)
 ADD_SUBDIRECTORY(dll)
+ADD_SUBDIRECTORY(terminal)
+ADD_SUBDIRECTORY(terminal_python)
 
 

@@ -10,15 +10,22 @@ SET(Boost_USE_STATIC_LIBS ON)
 SET(Boost_NO_SYSTEM_PATHS ON)
 SET(BOOST_ROOT /scratch/usr)
 
-FIND_PACKAGE(Boost 1.55 COMPONENTS system thread REQUIRED)
+FIND_PACKAGE(Boost 1.55 COMPONENTS
+	system
+	thread
+	program_options
+	python
+	REQUIRED)
+
+INCLUDE_DIRECTORIES("/usr/include/python2.7")
 
 MESSAGE(STATUS "boost: ${Boost_SYSTEM_LIBRARY}")
 
 SET(libs
 	Galaxy-Standard
-	${Boost_SYSTEM_LIBRARY}
-	${Boost_THREAD_LIBRARY}
+	${Boost_LIBRARIES}
 	pthread
+	python2.7
 	rt
 	dl
 	)
