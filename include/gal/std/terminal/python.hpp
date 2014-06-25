@@ -1,9 +1,11 @@
 #ifndef GAL_STD_TERMINAL_PYTHON_HPP
 #define GAL_STD_TERMINAL_PYTHON_HPP
 
+#include <boost/python.hpp>
+
+
 #include <sstream>
 
-#include <boost/python.hpp>
 
 #include <gal/std/terminal/terminal.hpp>
 
