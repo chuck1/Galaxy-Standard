@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
 
 INCLUDE($ENV{HOME}/.config.cmake)
 
-PROJECT(Galaxy-Standard)
+PROJECT(galaxy_std_shared)
 
 FIND_PACKAGE(CMakeHelper)
 
@@ -29,9 +29,7 @@ SET(libs
 	)
 
 
-cmh_static_library()
 
-PROJECT(gal_std_shared)
 
 cmh_shared_library()
 
