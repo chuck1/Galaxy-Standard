@@ -2,7 +2,11 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
 
 INCLUDE($ENV{HOME}/.config.cmake)
 
-PROJECT(galaxy_std_shared)
+
+PROJECT(galaxy_std)
+
+SET(galaxy_std_STATIC TRUE)
+SET(galaxy_std_SHARED TRUE)
 
 FIND_PACKAGE(CMakeHelper)
 
@@ -28,10 +32,7 @@ SET(libs
 	dl
 	)
 
-
-
-
-cmh_shared_library()
+cmh_library()
 
 #ADD_SUBDIRECTORY(test)
 
