@@ -24,6 +24,8 @@ namespace gal {
 	namespace std {
 		class __release {
 			public:
+				virtual ~__release() {}
+
 				virtual void				release();
 			public:
 				boost::signals2::signal<void()>		sig_release_;
