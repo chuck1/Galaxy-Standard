@@ -1,10 +1,9 @@
-#ifndef GAL_STD_PARENT_HH
-#define GAL_STD_PARENT_HH
+#ifndef GAL_STD_PARENT_HPP
+#define GAL_STD_PARENT_HPP
 
-#include <Galaxy-Standard/map.hpp>
-#include <Galaxy-Standard/shared.hpp>
-#include <Galaxy-Standard/wrapper.hpp>
-
+#include <gal/std/map.hpp>
+#include <gal/std/shared.hpp>
+#include <gal/std/wrapper.hpp>
 
 namespace gal {
 	namespace std {

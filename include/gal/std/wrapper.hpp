@@ -11,8 +11,8 @@
 
 //#include <Nebula/App/BaseFactory.hh>
 
-#include <Galaxy-Standard/shared.hpp>
-#include <Galaxy-Standard/factory.hpp>
+#include <gal/std/shared.hpp>
+#include <gal/std/factory.hpp>
 
 namespace gal {
 	namespace std {
