@@ -2,7 +2,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
 
 INCLUDE($ENV{HOME}/.config.cmake)
 
-
 PROJECT(galaxy_std)
 
 SET(galaxy_std_STATIC TRUE)
