@@ -20,7 +20,7 @@
 #include <boost/serialization/map.hpp>
 #endif
 
-#include <Galaxy-Standard/wrapper.hpp>
+#include <gal/std/wrapper.hpp>
 
 namespace sp = std;
 namespace mi = boost::multi_index;

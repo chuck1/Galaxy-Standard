@@ -4,10 +4,10 @@
 #include <map>
 #include <memory>
 
-#include <Galaxy-Standard/decl.hpp>
-#include <Galaxy-Standard/helper.hpp>
-#include <Galaxy-Standard/funcmap.hpp>
-#include <Galaxy-Standard/typedef.hpp>
+#include <gal/std/decl.hpp>
+#include <gal/std/helper.hpp>
+#include <gal/std/funcmap.hpp>
+#include <gal/std/typedef.hpp>
 
 namespace sp = std;
 

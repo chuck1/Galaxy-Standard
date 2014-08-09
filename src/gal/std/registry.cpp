@@ -1,5 +1,5 @@
-#include <Galaxy-Standard/registry.hpp>
-#include <Galaxy-Standard/shared.hpp>
+#include <gal/std/registry.hpp>
+#include <gal/std/shared.hpp>
 
 
 gal::std::registry::registry(): next_(0) {

@@ -4,8 +4,8 @@
 #include <map>
 #include <memory>
 
-#include <Galaxy-Standard/decl.hpp>
-#include <Galaxy-Standard/typedef.hpp>
+#include <gal/std/decl.hpp>
+#include <gal/std/typedef.hpp>
 
 namespace sp = std;
 

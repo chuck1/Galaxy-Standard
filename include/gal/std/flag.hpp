@@ -72,8 +72,8 @@ namespace gal {
 		void		unset(flag_type fl)	{ val_ = (E)(val_ & ~fl); }\
 		void		toggle(flag_type fl)	{ val_ = (E)(val_ ^ fl); }\
 		bool		all(flag_type fl)	{ return ( ( val_ & fl ) == fl ); }\
-		bool		any(flag_type fl)	{ return ( val_ & fl ); }\
-		flag_type	mask(flag_type fl)	{ return ( val_ & fl ); }\
+		bool		any(flag_type fl)	{ return bool( val_ & fl ); }\
+		flag_type	mask(flag_type fl)	{ return bool( val_ & fl ); }\
 		\
 		\
 		void				save(boost::archive::xml_oarchive & ar, unsigned int const & version) {\
