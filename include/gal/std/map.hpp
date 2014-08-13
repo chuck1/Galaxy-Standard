@@ -80,7 +80,7 @@ namespace gal {
 					auto i = gal::std::shared::static_get_index(t);
 					if(i == -1) {
 						//sp::shared_ptr<gal::std::shared> sh(t);
-						t->gal::std::shared::init();
+						t->gal::std::shared::__init();
 					}
 					
 					gal::std::wrapper<T> m(t);

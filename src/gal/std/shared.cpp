@@ -3,7 +3,7 @@
 
 gal::std::shared::shared(): i_(-1) {
 }
-void    				        gal::std::shared::init() {
+void    				        gal::std::shared::__init() {
 	registry_.reg(shared_from_this());
 }
 gal::std::hash_type				gal::std::shared::hash_code() const {

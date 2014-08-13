@@ -15,9 +15,6 @@
 #include <gal/std/decl.hpp>
 #include <gal/std/typedef.hpp>
 
-
-namespace sp = std;
-
 namespace gal {
 	namespace std {
 		/** @brief %shared.
@@ -32,15 +29,12 @@ namespace gal {
 			virtual public gal::std::__release
 		{
 			public:
-				
-				
-			public:
 				shared();
-				/** @brief Destructor */
+				/** @brief destructor */
 				virtual ~shared() {}
-				virtual void					init();
-			public:
-				/** @brief Hash Code */
+				/** @brief init */
+				virtual void					__init();
+				/** @brief hash code */
 				hash_type					hash_code() const;
 				/** */
 				::std::string					name() const;
