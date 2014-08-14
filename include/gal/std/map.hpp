@@ -149,7 +149,7 @@ namespace gal {
 
 						auto it = container_.find(i);
 
-						if(it == container_.cend()) throw item_not_found();
+						if(it == container_.cend()) return;//throw item_not_found();
 
 						assert(it->ptr_);
 
