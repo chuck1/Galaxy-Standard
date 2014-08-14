@@ -4,6 +4,7 @@
 #include <map>
 #include <assert.h>
 #include <functional>
+#include <exception>
 #include <stdio.h>
 
 
@@ -22,17 +23,20 @@
 
 #include <gal/std/wrapper.hpp>
 
-namespace sp = std;
+using namespace std;
+
 namespace mi = boost::multi_index;
 
 namespace gal {
 	namespace std {
 		template <class T, typename... INDICES> class map {
 			public:
-				typedef sp::shared_ptr< gal::std::factory<T> >			factory_shared_type;
-				
-				typedef sp::shared_ptr<T>					shared_type;
-				
+				struct item_not_found: exception {
+				};
+				typedef shared_ptr< gal::std::factory<T> >			factory_shared_type;
+
+				typedef shared_ptr<T>					shared_type;
+
 				//typedef gal::std::wrapper<T>					wrapper_type;
 
 				//typedef ::std::map< gal::std::index_type, gal::std::wrapper< T > >		map_type;
@@ -71,7 +75,7 @@ namespace gal {
 
 					ar & boost::serialization::make_nvp("container",container_);
 				}
-				void					insert(sp::shared_ptr< T > t) {
+				void					insert(shared_ptr< T > t) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					assert(t);
@@ -79,12 +83,12 @@ namespace gal {
 					// make sure index is initialized
 					auto i = gal::std::shared::static_get_index(t);
 					if(i == -1) {
-						//sp::shared_ptr<gal::std::shared> sh(t);
+						//shared_ptr<gal::std::shared> sh(t);
 						t->gal::std::shared::__init();
 					}
-					
+
 					gal::std::wrapper<T> m(t);
-					
+
 					assert(m.ptr_);
 
 					container_.insert(m);
@@ -111,7 +115,7 @@ namespace gal {
 					}
 				}
 				/** */
-				sp::shared_ptr<T>			find(gal::std::index_type i) {
+				shared_ptr<T>			find(gal::std::index_type i) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					auto it = container_.find(i);
@@ -128,12 +132,12 @@ namespace gal {
 					container_.clear();
 				}
 				/** @brief begin iterator 0
-				 */
+				*/
 				iterator<0>				begin() {
 					return mi::get<0>(container_).begin();
 				}
 				/** @brief end iterator 0
-				 */
+				*/
 				iterator<0>				end() {
 					return mi::get<0>(container_).end();
 				}
@@ -145,7 +149,7 @@ namespace gal {
 
 						auto it = container_.find(i);
 
-						if(it == container_.cend()) throw 0;
+						if(it == container_.cend()) throw item_not_found();
 
 						assert(it->ptr_);
 
