@@ -21,7 +21,7 @@
  *          MULTIPLE INHERITANCE OF DIFFERENT TEMPLATE VERSIONS OF BASE CLASS
  */
 namespace gal {
-	namespace std {
+	namespace itf {
 		class __release {
 			public:
 				virtual ~__release() {}

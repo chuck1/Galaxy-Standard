@@ -23,12 +23,12 @@
 
 #include <gal/std/wrapper.hpp>
 
-using namespace std;
+using namespace stl;
 
 namespace mi = boost::multi_index;
 
 namespace gal {
-	namespace std {
+	namespace stl {
 		template <class T, typename... INDICES> class map {
 			public:
 				struct item_not_found: exception {

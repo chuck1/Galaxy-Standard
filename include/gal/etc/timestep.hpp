@@ -3,7 +3,7 @@
 
 
 namespace gal {
-	namespace std {
+	namespace etc {
 		struct timestep {
 			timestep();
 			void			step(double time);

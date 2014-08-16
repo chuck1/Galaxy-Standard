@@ -16,7 +16,7 @@
 #include <gal/std/typedef.hpp>
 
 namespace gal {
-	namespace std {
+	namespace itf {
 		/** @brief %shared.
 		 *
 		 * Avoid multiple enabled_shared_from_this bases.

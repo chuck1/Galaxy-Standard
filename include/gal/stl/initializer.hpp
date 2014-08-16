@@ -11,7 +11,7 @@
 namespace sp = std;
 
 namespace gal {
-	namespace std {
+	namespace stl {
 
 		/** @brief FuncMap
 		 *

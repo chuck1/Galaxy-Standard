@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace gal { namespace std { namespace dll {
+namespace gal { namespace dll {
 
 	template<class T> class helper {
 		public:

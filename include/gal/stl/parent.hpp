@@ -6,7 +6,7 @@
 #include <gal/std/wrapper.hpp>
 
 namespace gal {
-	namespace std {
+	namespace stl {
 		template<class T> class parent: virtual public gal::std::shared {
 			public:
 				typedef gal::std::map< T >		map_type;

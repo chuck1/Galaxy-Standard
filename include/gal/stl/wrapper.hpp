@@ -15,7 +15,7 @@
 #include <gal/std/factory.hpp>
 
 namespace gal {
-	namespace std {
+	namespace stl {
 		/** @brief wrapper
 		 * class T must be derived from and registered with gal::std::Typed or exceptions will be thrown
 		 */

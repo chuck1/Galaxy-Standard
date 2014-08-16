@@ -17,7 +17,7 @@
 #include <map>
 
 namespace gal {
-	namespace std {
+	namespace etc {
 		template <typename enum_type> struct enum_map {
 			::std::map< ::std::string, enum_type >		map_string_enum_;
 			::std::map< enum_type, ::std::string >		map_enum_string_;

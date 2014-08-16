@@ -12,7 +12,7 @@
 namespace sp = std;
 
 namespace gal {
-	namespace std {
+	namespace stl {
 		/** @brief factory.
 		 *
 		 * Store and use allocator functions

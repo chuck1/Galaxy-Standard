@@ -10,7 +10,7 @@
 namespace sp = std;
 
 namespace gal {
-	namespace std {
+	namespace stl {
 		/** @brief funcmap
 		 *
 		 * A map containing @c ::std::function objects with arbitrary signatures

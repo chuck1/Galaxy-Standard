@@ -14,7 +14,7 @@
 namespace sp = std;
 
 namespace gal {
-	namespace std {
+	namespace itf {
 		class registry {
 			public:
 				registry();
