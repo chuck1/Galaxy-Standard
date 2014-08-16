@@ -9,7 +9,7 @@
 #include <typeindex>
 
 #include <gal/std/decl.hpp>
-#include <gal/std/typedef.hpp>
+#include <gal/itf/typedef.hpp>
 
 namespace sp = std;
 
@@ -18,11 +18,11 @@ namespace gal {
 		class registry {
 			public:
 				registry();
-				void								reg(sp::shared_ptr< gal::std::shared > s);
-				sp::shared_ptr<shared>						get(gal::std::index_type i);
+				void								reg(std::shared_ptr< gal::itf::shared > s);
+				std::shared_ptr<shared>						get(gal::itf::index_type i);
 			private:
-				::std::map< index_type, sp::weak_ptr< gal::std::shared > >	map_;
-				gal::std::index_type						next_;
+				::std::map< index_type, std::weak_ptr< gal::itf::shared > >	map_;
+				gal::itf::index_type						next_;
 
 		};
 	}

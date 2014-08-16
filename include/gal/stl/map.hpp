@@ -21,9 +21,7 @@
 #include <boost/serialization/map.hpp>
 #endif
 
-#include <gal/std/wrapper.hpp>
-
-using namespace stl;
+#include <gal/stl/wrapper.hpp>
 
 namespace mi = boost::multi_index;
 
@@ -31,23 +29,23 @@ namespace gal {
 	namespace stl {
 		template <class T, typename... INDICES> class map {
 			public:
-				struct item_not_found: exception {
+				struct item_not_found: std::exception {
 				};
-				typedef shared_ptr< gal::std::factory<T> >			factory_shared_type;
+				typedef std::shared_ptr< gal::stl::factory<T> >			factory_shared_type;
 
-				typedef shared_ptr<T>					shared_type;
+				typedef std::shared_ptr<T>					shared_type;
 
-				//typedef gal::std::wrapper<T>					wrapper_type;
+				//typedef gal::stl::wrapper<T>					wrapper_type;
 
-				//typedef ::std::map< gal::std::index_type, gal::std::wrapper< T > >		map_type;
+				//typedef ::std::map< gal::itf::index_type, gal::stl::wrapper< T > >		map_type;
 
 				typedef mi::ordered_unique< mi::global_fun<
-					gal::std::wrapper<T> const &,
-					gal::std::index_type const &,
-					gal::std::wrapper<T>::static_get_index > >		index0;
+					gal::stl::wrapper<T> const &,
+					gal::itf::index_type const &,
+					gal::stl::wrapper<T>::static_get_index > >		index0;
 
 				typedef mi::multi_index_container<
-					gal::std::wrapper<T>,
+					gal::stl::wrapper<T>,
 					mi::indexed_by<index0, INDICES...> >		container_type;
 
 				//typedef mi::nth_index<container_type, 0>::type::iterator	iterator0;
@@ -58,7 +56,7 @@ namespace gal {
 				//typedef typename map_type::const_iterator			const_iterator;
 
 				//typedef typename map_type::value_type				value_type_const;
-				//typedef ::std::pair<gal::std::index_type, gal::std::wrapper< T > >		value_type;
+				//typedef ::std::pair<gal::itf::index_type, gal::stl::wrapper< T > >		value_type;
 
 				enum { CONTINUE, BREAK };
 
@@ -75,19 +73,19 @@ namespace gal {
 
 					ar & boost::serialization::make_nvp("container",container_);
 				}
-				void					insert(shared_ptr< T > t) {
+				void					insert(std::shared_ptr< T > t) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					assert(t);
 
 					// make sure index is initialized
-					auto i = gal::std::shared::static_get_index(t);
+					auto i = gal::itf::shared::static_get_index(t);
 					if(i == -1) {
-						//shared_ptr<gal::std::shared> sh(t);
-						t->gal::std::shared::__init();
+						//shared_ptr<gal::itf::shared> sh(t);
+						t->gal::itf::shared::__init();
 					}
 
-					gal::std::wrapper<T> m(t);
+					gal::stl::wrapper<T> m(t);
 
 					assert(m.ptr_);
 
@@ -115,7 +113,7 @@ namespace gal {
 					}
 				}
 				/** */
-				shared_ptr<T>			find(gal::std::index_type i) {
+				std::shared_ptr<T>			find(gal::itf::index_type i) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
 					auto it = container_.find(i);
@@ -142,7 +140,7 @@ namespace gal {
 					return mi::get<0>(container_).end();
 				}
 				/** */
-				void					erase(gal::std::index_type i) {
+				void					erase(gal::itf::index_type i) {
 
 					while(1) {	
 						boost::lock_guard<boost::mutex> lk(mutex_);

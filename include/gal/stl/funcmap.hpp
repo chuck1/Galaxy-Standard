@@ -5,7 +5,7 @@
 #include <memory>
 
 #include <gal/std/decl.hpp>
-#include <gal/std/typedef.hpp>
+#include <gal/itf/typedef.hpp>
 
 namespace sp = std;
 
@@ -18,7 +18,7 @@ namespace gal {
 		 */
 		template<typename T> class funcmap {
 			private:
-				typedef sp::shared_ptr<T>						shared_type;
+				typedef std::shared_ptr<T>						shared_type;
 				/** */
 				struct __base_function {
 					virtual ~__base_function() {}
@@ -49,7 +49,7 @@ namespace gal {
 				virtual ~funcmap() {}
 				/** */
 				template<typename... Args> void						add(
-						gal::std::hash_type hash_code,
+						gal::itf::hash_type hash_code,
 						::std::function< shared_type(Args...)> f)
 				{
 					::std::shared_ptr<__base_function> b(new __function< Args...>(f));
@@ -58,8 +58,8 @@ namespace gal {
 					map_[hash_code] = b;
 				}
 				/** */
-				template<typename... Args> sp::shared_ptr< __function< Args... > >		find(
-						gal::std::hash_type hash_code)
+				template<typename... Args> std::shared_ptr< __function< Args... > >		find(
+						gal::itf::hash_type hash_code)
 				{
 					auto it = map_.find(hash_code);
 

@@ -1,4 +1,4 @@
-#include <gal/std/timestep.hpp>
+#include <gal/etc/timestep.hpp>
 
 gal::etc::timestep::timestep():
 	time(0.0),

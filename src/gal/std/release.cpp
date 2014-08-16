@@ -1,6 +1,6 @@
-#include <gal/std/release.hpp>
+#include <gal/itf/release.hpp>
 
-void            gal::std::__release::release() {
+void            gal::itf::__release::release() {
         sig_release_();
 }
 

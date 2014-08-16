@@ -2,7 +2,7 @@
 #define GAL_STD_TYPEDEF_HPP
 
 namespace gal {
-	namespace stl {
+	namespace itf {
 		typedef int					index_type;
 		typedef long int				hash_type;
 	}

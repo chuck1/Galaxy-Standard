@@ -6,14 +6,14 @@ using namespace std;
 
 
 
-class foo: public gal::std::shared {
+class foo: public gal::itf::shared {
 	public:
 		virtual ~foo() {}
 };
 
-//template class gal::std::factory<foo>;
+//template class gal::stl::factory<foo>;
 
-//template sp::shared_ptr< gal::std::factory<foo> >	gal::std::factory<foo>::default_factory_;
+//template std::shared_ptr< gal::stl::factory<foo> >	gal::stl::factory<foo>::default_factory_;
 
 class bar: public foo {
 	public:
@@ -25,7 +25,7 @@ class bar: public foo {
 
 int main() {
 
-	gal::std::map<foo> m;
+	gal::stl::map<foo> m;
 
 	try {
 		auto b1 = std::make_shared<bar>();
@@ -45,7 +45,7 @@ int main() {
 
 
 
-	m.for_each<0>([] (gal::std::map<foo>::iterator<0> it) {
+	m.for_each<0>([] (gal::stl::map<foo>::iterator<0> it) {
 			cout << it->ptr_->i_ << endl;
 			});
 

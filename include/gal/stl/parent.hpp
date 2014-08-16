@@ -1,30 +1,30 @@
 #ifndef GAL_STD_PARENT_HPP
 #define GAL_STD_PARENT_HPP
 
-#include <gal/std/map.hpp>
-#include <gal/std/shared.hpp>
-#include <gal/std/wrapper.hpp>
+#include <gal/stl/map.hpp>
+#include <gal/itf/shared.hpp>
+#include <gal/stl/wrapper.hpp>
 
 namespace gal {
 	namespace stl {
-		template<class T> class parent: virtual public gal::std::shared {
+		template<class T> class parent: virtual public gal::itf::shared {
 			public:
-				typedef gal::std::map< T >		map_type;
+				typedef gal::stl::map< T >		map_type;
 				parent() {
 				}
-				void					insert(sp::shared_ptr< T > s) {
+				void					insert(std::shared_ptr< T > s) {
 					map_.insert(s);
 				}
 
-				sp::shared_ptr< T >			get(gal::std::index_type i) {
+				std::shared_ptr< T >			get(gal::itf::index_type i) {
 					return map_.find(i);
 				}
-				void					erase(gal::std::index_type i) {
+				void					erase(gal::itf::index_type i) {
 
-					auto me = sp::dynamic_pointer_cast< gal::std::parent< T > >(shared_from_this());
+					auto me = std::dynamic_pointer_cast< gal::stl::parent< T > >(shared_from_this());
 					
 					boost::thread t(boost::bind(
-							&gal::std::parent< T >::thread_erase,
+							&gal::stl::parent< T >::thread_erase,
 							me,
 							i
 							));
@@ -32,7 +32,7 @@ namespace gal {
 					t.detach();
 				}
 			private:
-				void					thread_erase(gal::std::index_type i) {
+				void					thread_erase(gal::itf::index_type i) {
 					map_.erase(i);
 				}
 			public:

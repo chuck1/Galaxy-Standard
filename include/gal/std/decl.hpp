@@ -1,12 +1,12 @@
 #ifndef NEBULA_UTIL_DECL_HPP
 #define NEBULA_UTIL_DECL_HPP
 
-namespace sp = std;
-
 namespace gal {
-	namespace std {
+	namespace itf {
 		class registry;
 		class shared;
+	}
+	namespace stl {
 		template<class T, typename... INDICES> class map;
 		template<typename T> class funcmap;
 		template<typename T> class factory;

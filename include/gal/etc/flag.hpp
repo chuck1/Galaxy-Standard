@@ -94,7 +94,7 @@ namespace gal {
 					BOOST_PP_SEQ_FOR_EACH(DEFINE_MAP_STRING_ENUM_VALUE, , values)\
 					BOOST_PP_SEQ_FOR_EACH(DEFINE_MAP_ENUM_STRING_VALUE, , values)\
 				}\
-				gal::std::enum_map<unsigned long>	maps_;\
+				gal::etc::enum_map<unsigned long>	maps_;\
 			};\
 		static Maps maps_;\
 		public:\

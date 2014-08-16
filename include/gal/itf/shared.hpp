@@ -11,9 +11,9 @@
 
 #include <boost/thread.hpp>
 
-#include <gal/std/release.hpp>
+#include <gal/itf/release.hpp>
 #include <gal/std/decl.hpp>
-#include <gal/std/typedef.hpp>
+#include <gal/itf/typedef.hpp>
 
 namespace gal {
 	namespace itf {
@@ -25,8 +25,8 @@ namespace gal {
 		 *
 		 */
 		class shared:
-			virtual public sp::enable_shared_from_this<shared>,
-			virtual public gal::std::__release
+			virtual public std::enable_shared_from_this<shared>,
+			virtual public gal::itf::__release
 		{
 			public:
 				shared();
@@ -61,19 +61,19 @@ namespace gal {
 				 *
 				 * for boost multi_index indexing
 				 */
-				static index_type const &				static_get_index(sp::shared_ptr<gal::std::shared> ptr) {
+				static index_type const &				static_get_index(std::shared_ptr<gal::itf::shared> ptr) {
 					return ptr->i_;
 				}
 			public:
 				index_type						i_;
 			public:
-				static gal::std::registry				registry_;
+				static gal::itf::registry				registry_;
 				static ::std::map<hash_type, ::std::string>		map_hash_string_;
 				static ::std::map< ::std::string, hash_type >		map_string_hash_;
 
 				/** @brief general mutex
 				 *
-				 * for thread-safe erasure from gal::std::map
+				 * for thread-safe erasure from gal::stl::map
 				 */
 
 				boost::recursive_mutex		mutex_;
