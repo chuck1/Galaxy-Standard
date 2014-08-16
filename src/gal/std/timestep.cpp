@@ -1,12 +1,12 @@
 #include <gal/std/timestep.hpp>
 
-gal::std::timestep::timestep():
+gal::etc::timestep::timestep():
 	time(0.0),
 	last(0.0),
 	dt(0.0),
 	frame(0)
 {}
-void		gal::std::timestep::step(double ntime) {
+void		gal::etc::timestep::step(double ntime) {
 
 	time = ntime;
 	dt = time - last;
