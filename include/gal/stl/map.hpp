@@ -131,6 +131,14 @@ namespace gal {
 				}
 				/** @brief begin iterator 0
 				*/
+				shared_type				front() {
+					auto it = begin();
+					if(it != end()) {
+						return it->ptr_;
+					}
+
+					return shared_type();
+				}
 				iterator<0>				begin() {
 					return mi::get<0>(container_).begin();
 				}
