@@ -13,7 +13,10 @@ struct gens<0, S...> {
 };
 
 template <typename... T>
-void pass(T...) {}
+void pass(T&&...) {}
+
+template <typename... T>
+void pass(T const &...) {}
 
 #endif
 
