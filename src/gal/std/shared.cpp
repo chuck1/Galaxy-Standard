@@ -3,17 +3,21 @@
 
 gal::itf::shared::shared(): _M_index(-1) {
 }
+gal::itf::shared::~shared()
+{
+	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
+}
 void    				        gal::itf::shared::__init() {
 	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 	registry_.reg(shared_from_this());
 	assert(_M_index != -1);
 }
 gal::itf::hash_type				gal::itf::shared::hash_code() const {
-	::std::type_index type(typeid(*this));
+	std::type_index type(typeid(*this));
 	return type.hash_code();
 }
 std::string					gal::itf::shared::name() const {
-	::std::type_index type(typeid(*this));
+	std::type_index type(typeid(*this));
 	return type.name();
 }
 

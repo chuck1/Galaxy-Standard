@@ -31,7 +31,7 @@ namespace gal {
 			public:
 				shared();
 				/** @brief destructor */
-				virtual ~shared() {}
+				virtual ~shared();
 				/** @brief init */
 				virtual void					__init();
 				/** @brief hash code */

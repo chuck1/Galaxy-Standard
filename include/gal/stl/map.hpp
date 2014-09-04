@@ -273,11 +273,14 @@ namespace gal {
 				}
 				/** */
 				void					clear() {
+					std::cout << __PRETTY_FUNCTION__ << std::endl;
+
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
-					for(auto it = container_.begin(); it != container_.cend(); ++it) {
-						it->second.ptr_->release();
-					}
+					// replaced by deleter objects
+					//for(auto it = container_.begin(); it != container_.end(); ++it) {
+					//	it->second.ptr_->release();
+					//}
 
 					container_.clear();
 				}

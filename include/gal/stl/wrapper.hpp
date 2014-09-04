@@ -57,7 +57,7 @@ namespace gal {
 				/** @brief Destructor */
 				virtual ~wrapper()
 				{
-					std::cout << "wrapper dtor" << std::endl;
+					std::cout << __PRETTY_FUNCTION__ << std::endl;
 				}
 				/** @brief %Load */
 				template<class Archive> void		load(Archive & ar, unsigned int const & version) {
