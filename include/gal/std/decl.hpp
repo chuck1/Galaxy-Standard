@@ -7,7 +7,8 @@ namespace gal {
 		class shared;
 	}
 	namespace stl {
-		template<class T, typename... INDICES> class map;
+		//template<class T, typename... INDICES> class map;
+		template<class T> class map;
 		template<typename T> class funcmap;
 		template<typename T> class factory;
 		template<typename T> class Initializer;

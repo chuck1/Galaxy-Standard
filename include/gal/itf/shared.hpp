@@ -62,10 +62,10 @@ namespace gal {
 				 * for boost multi_index indexing
 				 */
 				static index_type const &				static_get_index(std::shared_ptr<gal::itf::shared> ptr) {
-					return ptr->i_;
+					return ptr->_M_index;
 				}
 			public:
-				index_type						i_;
+				index_type						_M_index;
 			public:
 				static gal::itf::registry				registry_;
 				static ::std::map<hash_type, ::std::string>		map_hash_string_;

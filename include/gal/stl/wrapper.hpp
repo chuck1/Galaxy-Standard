@@ -24,32 +24,41 @@ namespace gal {
 				typedef std::weak_ptr< factory<T> >			factory_weak;
 				typedef std::shared_ptr<T>				shared;
 				/** */
-				wrapper():
-					factory_(factory<T>::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>()
+				wrapper(): 
+					factory_(factory<T>::default_factory_)
 			{
+				std::cout << "wrapper default ctor" << std::endl;
 			}
 				/** */
 				wrapper(shared ptr):
 					ptr_(ptr),
-					factory_(factory<T>::default_factory_) //Neb::App::BaseFactory::global()->getFactoryDefault<T>())
+					factory_(factory<T>::default_factory_)
 			{
+				std::cout << "wrapper ctor 1" << std::endl;
 				assert(ptr_);
 			}
+
 				wrapper(wrapper<T> const & w):
 					ptr_(w.ptr_),
 					factory_(w.factory_)
 			{
+				std::cout << "wrapper copy ctor" << std::endl;
 				assert(ptr_);
 			}
+
 				wrapper(wrapper<T>&& w):
-					ptr_(::std::move(w.ptr_)),
-					factory_(::std::move(w.factory_))
+					ptr_(std::move(w.ptr_)),
+					factory_(std::move(w.factory_))
 			{
+				std::cout << "wrapper move ctor" << std::endl;
 				assert(ptr_);
 			}
 			public:
 				/** @brief Destructor */
-				virtual ~wrapper() {}
+				virtual ~wrapper()
+				{
+					std::cout << "wrapper dtor" << std::endl;
+				}
 				/** @brief %Load */
 				template<class Archive> void		load(Archive & ar, unsigned int const & version) {
 					// get the code
@@ -102,7 +111,7 @@ namespace gal {
 				}
 				BOOST_SERIALIZATION_SPLIT_MEMBER();
 				static gal::itf::index_type const &			static_get_index(gal::stl::wrapper<T> const & wrap) {
-					if(wrap.ptr_->i_ == -1) {
+					if(wrap.ptr_->_M_index == -1) {
 						::std::cout << "warning: gal::itf::shared object is uninitialized" << ::std::endl;
 						throw 0;
 					}

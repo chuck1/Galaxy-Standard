@@ -5,9 +5,11 @@
 gal::itf::registry::registry(): next_(0) {
 }
 void                                            gal::itf::registry::reg(std::shared_ptr<gal::itf::shared> s) {
-	if(s->i_ == -1) s->i_ = next_++;
+	std::cout << __PRETTY_FUNCTION__ << " s=" << s.get() << std::endl;
 
-	map_[s->i_] = s;
+	if(s->_M_index == -1) s->_M_index = next_++;
+
+	map_[s->_M_index] = s;
 }
 std::shared_ptr<gal::itf::shared>		gal::itf::registry::get(gal::itf::index_type i) {
 	auto it = map_.find(i);
