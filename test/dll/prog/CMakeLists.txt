@@ -1,9 +1,11 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
 
-PROJECT(dll)
+PROJECT(test_dll_prog)
 
+set(libs
+	dl)
 
-link_exe()
+INCLUDE(cmh_executable)
 
 
 
