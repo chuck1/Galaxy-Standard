@@ -38,38 +38,27 @@ namespace gal {
 				hash_type					hash_code() const;
 				/** */
 				::std::string					name() const;
+
+
 				/** */
-				static hash_type				to_hash_code(::std::string const & str) {
-					auto it = map_string_hash_.find(str);
-					if(it == map_string_hash_.cend()) throw 0;
-					return it->second;
-				}
+				static hash_type				to_hash_code(std::string const & str);
 				/** */
-				static ::std::string const &			to_string(hash_type const & hash) {
-					auto it = map_hash_string_.find(hash);
-					if(it == map_hash_string_.cend()) throw 0;
-					return it->second;
-				}
+				static ::std::string const &			to_string(hash_type const & hash);
 				/** @brief Register new type index.
 				 * a type must be registered before the conversion functions will work.
 				 */
-				static void					register_type(::std::type_index new_index) {
-					map_hash_string_[new_index.hash_code()] = new_index.name();
-					map_string_hash_[new_index.name()] = new_index.hash_code();
-				}
+				static void					register_type(std::type_index new_index);
 				/** @brief static get index
 				 *
 				 * for boost multi_index indexing
 				 */
-				static index_type const &				static_get_index(std::shared_ptr<gal::itf::shared> ptr) {
-					return ptr->_M_index;
-				}
+				static index_type const &			static_get_index(std::shared_ptr<gal::itf::shared> ptr);
 			public:
-				index_type						_M_index;
+				index_type					_M_index;
 			public:
 				static gal::itf::registry				registry_;
-				static ::std::map<hash_type, ::std::string>		map_hash_string_;
-				static ::std::map< ::std::string, hash_type >		map_string_hash_;
+				static std::map< hash_type, std::string >		map_hash_string_;
+				static std::map< std::string, hash_type >		map_string_hash_;
 
 				/** @brief general mutex
 				 *

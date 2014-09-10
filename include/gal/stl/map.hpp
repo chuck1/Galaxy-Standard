@@ -329,6 +329,10 @@ namespace gal {
 						return;
 					}
 				}
+				bool				empty() const
+				{
+					return container_.empty();
+				}
 			private:
 				factory_shared_type		factory_;
 				container_type			container_;

@@ -22,7 +22,36 @@ std::string					gal::itf::shared::name() const {
 }
 
 
-gal::itf::registry		gal::itf::shared::registry_;
 
+
+gal::itf::hash_type			gal::itf::shared::to_hash_code(std::string const & str)
+{
+	auto it = map_string_hash_.find(str);
+	if(it == map_string_hash_.cend()) throw 0;
+	return it->second;
+}
+std::string const &			gal::itf::shared::to_string(gal::itf::hash_type const & hash)
+{
+	auto it = map_hash_string_.find(hash);
+	if(it == map_hash_string_.cend()) throw 0;
+	return it->second;
+}
+void					gal::itf::shared::register_type(std::type_index new_index)
+{
+	map_hash_string_[new_index.hash_code()] = new_index.name();
+	map_string_hash_[new_index.name()] = new_index.hash_code();
+}
+gal::itf::index_type const &		gal::itf::shared::static_get_index(std::shared_ptr<gal::itf::shared> ptr)
+{
+	return ptr->_M_index;
+}
+
+
+
+
+gal::itf::registry					gal::itf::shared::registry_;
+
+std::map< gal::itf::hash_type, std::string >		gal::itf::shared::map_hash_string_;
+std::map< std::string, gal::itf::hash_type >		gal::itf::shared::map_string_hash_;
 
 

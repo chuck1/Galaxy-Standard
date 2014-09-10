@@ -2,12 +2,13 @@
 #define NEBULA_UTIL_WRAPPERTYPED_HH
 
 #include <map>
+#include <exception>
 
 //#include <boost/function.hpp>
 #include <boost/serialization/split_member.hpp>
 #include <boost/serialization/nvp.hpp>
-#include <boost/archive/xml_iarchive.hpp>
-#include <boost/archive/xml_oarchive.hpp>
+#include <boost/archive/polymorphic_xml_iarchive.hpp>
+#include <boost/archive/polymorphic_xml_oarchive.hpp>
 
 //#include <Nebula/App/BaseFactory.hh>
 
@@ -21,6 +22,14 @@ namespace gal {
 		 */
 		template<typename T> class wrapper {
 			public:
+				struct nullptrException: std::exception
+				{
+					const char *	what()
+					{
+						return "null ptr";
+					}
+				};
+
 				typedef std::weak_ptr< factory<T> >			factory_weak;
 				typedef std::shared_ptr<T>				shared;
 				/** */
@@ -28,6 +37,7 @@ namespace gal {
 					factory_(factory<T>::default_factory_)
 			{
 				std::cout << "wrapper default ctor" << std::endl;
+				assert(!factory_.expired());
 			}
 				/** */
 				wrapper(shared ptr):
@@ -84,7 +94,7 @@ namespace gal {
 				}
 				/** */
 				void					load(
-						boost::archive::xml_iarchive & ar,
+						boost::archive::polymorphic_xml_iarchive & ar,
 						unsigned int const & version) {
 					// get the code
 					::std::string name;
@@ -103,10 +113,17 @@ namespace gal {
 				}
 				/** */
 				void					save(
-						boost::archive::xml_oarchive & ar,
+						boost::archive::polymorphic_xml_oarchive & ar,
 						unsigned int const & version) const {
-					::std::string name = gal::itf::shared::to_string(ptr_->hash_code());
+					if(!ptr_)
+					{
+						throw nullptrException();
+					}
+					
+					std::string name = gal::itf::shared::to_string(ptr_->hash_code());
+
 					ar << boost::serialization::make_nvp("name", name);
+					
 					ar << boost::serialization::make_nvp("object", *ptr_);
 				}
 				BOOST_SERIALIZATION_SPLIT_MEMBER();

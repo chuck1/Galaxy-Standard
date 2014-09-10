@@ -9,18 +9,32 @@ namespace gal { namespace stl {
 		public:
 			typedef T parent_t;
 
+			/**
+			 * exists so you don't have to call every construct for every class in a virtual class hierarchy
+			 */
 			child(): _M_parent(0)
 		{
-			assert(0);
 		}
+
+
 			child(T* p): _M_parent(p)
 		{
 			assert(p);
 		}
 
+			void		setParent(T * const & p)
+			{
+				assert(p);
+				_M_parent = p;
+			}
 			T* const &	getParent() const
 			{
+				assert(_M_parent);
 				return _M_parent;
+			}
+			bool		hasParent() const
+			{
+				return _M_parent != NULL;
 			}
 		private:
 			T*	_M_parent;
