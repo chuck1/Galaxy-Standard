@@ -1,6 +1,7 @@
 #ifndef GAL_CHILD_HPP
 #define GAL_CHILD_HPP
 
+#include <cstdlib>
 #include <cassert>
 
 namespace gal { namespace stl {
