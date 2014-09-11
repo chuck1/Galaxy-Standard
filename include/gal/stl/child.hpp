@@ -26,6 +26,9 @@ namespace gal { namespace stl {
 			void		setParent(T * const & p)
 			{
 				assert(p);
+				
+				assert(dynamic_cast<gal::stl::child<T>*>(p) != this);
+				
 				_M_parent = p;
 			}
 			T* const &	getParent() const

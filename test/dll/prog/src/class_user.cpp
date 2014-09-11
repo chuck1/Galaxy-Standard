@@ -36,24 +36,27 @@ int main(int argc, char **argv) {
 	std::shared_ptr<MyClass> c1;
 
 	{
-		std::shared_ptr<H> h1(new H);
-		h1->open("test/dll/sh1/libtest_dll_sh1_0_so_db.so","MyClass");
+		std::shared_ptr<H> h1(new H("test/dll/sh1/libtest_dll_sh1_0_so_db.so", "MyClass"));
+		h1->open();
 
-		c1.reset(h1->create(), gal::dll::deleter<H>(h1));
+		//c1.reset(h1->create(), gal::dll::deleter<H>(h1));
+		c1 = h1->make_shared();
 	}
 
 
-	gal::dll::helper<MyClass> h2;
-	h2.open("test/dll/sh2/libtest_dll_sh2_0_so_db.so","MyClass");
+	gal::dll::helper<MyClass> h2("test/dll/sh2/libtest_dll_sh2_0_so_db.so","MyClass");;
+	h2.open();
 
 	//MyClass* c1 = h1.create();
-	MyClass* c2 = h2.create();
-
+	
+	
+	//MyClass* c2 = h2.create();
+	
 	c1->DoSomething();
-	c2->DoSomething();
+	//c2->DoSomething();
 
 	//h1.destroy(c1);
-	h2.destroy(c2);
+	//h2.destroy(c2);
 
 }
 
