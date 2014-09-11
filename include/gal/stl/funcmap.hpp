@@ -33,13 +33,13 @@ namespace gal {
 				typedef ::std::map< long int, ::std::shared_ptr<__base_function> >	map_type;
 				/** */
 				struct invalid_key: ::std::exception {
-					char const *	what() {
+					virtual char const *	what() {
 						return "invalid key";
 					}
 				};
 				/** */
 				struct invalid_args: ::std::exception {
-					char const *	what() {
+					virtual char const *	what() {
 						return "invalid args";
 					}
 				};
@@ -48,7 +48,7 @@ namespace gal {
 				funcmap() {}
 				virtual ~funcmap() {}
 				/** */
-				template<typename... Args> void						add(
+				template<typename... Args> void							add(
 						gal::itf::hash_type hash_code,
 						::std::function< shared_type(Args...)> f)
 				{
@@ -63,12 +63,25 @@ namespace gal {
 				{
 					auto it = map_.find(hash_code);
 
-					if(it == map_.cend()) throw invalid_key();
-
+					if(it == map_.cend())
+					{	
+						std::cout
+							<< "T = " << typeid(T).name() << std::endl
+							<< "hash = " << hash_code << std::endl;
+						throw invalid_key();
+					}
+				
 					//::std::shared_ptr< __function<return_type, Args...> >
 					auto f = ::std::dynamic_pointer_cast< __function< Args... > >(it->second);
 
-					if(!f) throw invalid_args();
+					if(!f)
+					{
+						std::cout
+							<< "T = " << typeid(T).name() << std::endl
+							<< "hash = " << hash_code << std::endl;
+
+						throw invalid_args();
+					}
 
 					return f;
 				}
