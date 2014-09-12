@@ -39,7 +39,7 @@ namespace gal {
 		};
 		struct HashCode
 		{
-			HashCode(): hc(-1) {}
+			HashCode(): hc(0) {}
 			HashCode(gal::itf::hash_type nhc): hc(nhc) {}
 
 			template<class Archive> void	load(Archive & ar, unsigned int const & version)
@@ -137,7 +137,7 @@ namespace gal {
 				assert(!factory_.expired());
 			}
 				/** */
-				wrapper(shared ptr, gal::dll::helper_info* o = NULL):
+				wrapper(shared ptr):
 					ptr_(ptr),
 					factory_(factory<T>::default_factory_)
 			{
@@ -172,11 +172,15 @@ namespace gal {
 					if(!ptr_) throw nullptrException();
 
 					// determine if created statically or by dll
-					auto del = std::get_deleter<gal::dll::deleter_base>(ptr_);
-					
+					auto del = std::get_deleter<gal::dll::deleter>(ptr_);
+
+					std::cout << "del = " << del << std::endl;
+
 					int load_type;
 					if(del)
 					{
+						std::cout << "dynamic" << std::endl;
+
 						load_type = 1;					
 						ar << BOOST_SERIALIZATION_NVP(load_type);
 
@@ -186,6 +190,8 @@ namespace gal {
 					}
 					else
 					{
+						std::cout << "static" << std::endl;
+
 						load_type = 0;
 						ar << BOOST_SERIALIZATION_NVP(load_type);
 
@@ -205,13 +211,13 @@ namespace gal {
 					{
 						gal::dll::helper_info hi;
 						ar >> boost::serialization::make_nvp("helper", hi);
-						
+
 						// get the factory
 						auto fs = factory_.lock();
 						assert(fs);
-						
+
 						// allocate the object
-						ptr_ = fs->template alloc<>(hi.hc, hi);
+						ptr_ = fs->template alloc<gal::dll::helper_info&>(hi.hc, hi);
 					}
 					else
 					{

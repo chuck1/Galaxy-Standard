@@ -12,12 +12,29 @@ void    				        gal::itf::shared::__init() {
 	registry_.reg(shared_from_this());
 	assert(_M_index != -1);
 }
-gal::itf::hash_type				gal::itf::shared::hash_code() const {
+void						gal::itf::shared::release()
+{
+}
+gal::itf::hash_type				gal::itf::shared::hash_code() const
+{
+	std::cout << __PRETTY_FUNCTION__ << std::endl;
+
 	std::type_index type(typeid(*this));
+
+	std::cout << type.name() << std::endl;
+	std::cout << type.hash_code() << std::endl;
+
 	return type.hash_code();
 }
-std::string					gal::itf::shared::name() const {
+std::string					gal::itf::shared::name() const
+{
+	std::cout << __PRETTY_FUNCTION__ << std::endl;
+
 	std::type_index type(typeid(*this));
+
+	std::cout << type.name() << std::endl;
+	std::cout << type.hash_code() << std::endl;
+
 	return type.name();
 }
 
@@ -27,13 +44,30 @@ std::string					gal::itf::shared::name() const {
 gal::itf::hash_type			gal::itf::shared::to_hash_code(std::string const & str)
 {
 	auto it = map_string_hash_.find(str);
-	if(it == map_string_hash_.cend()) throw 0;
+	if(it == map_string_hash_.cend())
+	{
+		std::cout << std::setw(64) << str << std::endl;
+
+		for(auto p : map_string_hash_)
+		{
+			std::cout << std::setw(64) << p.first << std::setw(64) << p.second << std::endl;
+		}
+		throw 0;
+	}
 	return it->second;
 }
 std::string const &			gal::itf::shared::to_string(gal::itf::hash_type const & hash)
 {
 	auto it = map_hash_string_.find(hash);
-	if(it == map_hash_string_.cend()) throw 0;
+	if(it == map_hash_string_.cend())
+	{
+		std::cout << std::setw(128) << hash << std::endl;
+		for(auto p : map_string_hash_)
+		{
+			std::cout << std::setw(64) << p.first << std::setw(64) << p.second << std::endl;
+		}
+		throw 0;
+	}
 	return it->second;
 }
 void					gal::itf::shared::register_type(std::type_index new_index)

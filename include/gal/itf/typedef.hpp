@@ -3,8 +3,8 @@
 
 namespace gal {
 	namespace itf {
-		typedef int					index_type;
-		typedef long int				hash_type;
+		typedef int				index_type;
+		typedef size_t				hash_type;
 	}
 }
 

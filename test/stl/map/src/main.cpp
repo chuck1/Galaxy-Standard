@@ -14,6 +14,7 @@ class B: virtual public gal::itf::shared {
 class foo: virtual public A, virtual public B {
 	public:
 		virtual ~foo() {}
+		virtual void	release() {}
 };
 
 gal::stl::map<foo> m;

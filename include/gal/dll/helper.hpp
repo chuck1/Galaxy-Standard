@@ -9,44 +9,25 @@
 
 #include <gal/itf/typedef.hpp>
 
+#include <gal/dll/helper_info.hpp>
+#include <gal/dll/deleter.hpp>
+
 #include <boost/serialization/nvp.hpp>
 
 namespace gal { namespace dll {
 
-	template<typename H> struct deleter;
-
-	struct helper_info
+	class helper_base
 	{
 		public:
-			helper_info() {}
-			helper_info(std::string f, std::string o, gal::itf::hash_type nhc):
-				file_name(f),
-				object_name(o),
-	       			hc(nhc) {}
-
-			helper_info(helper_info const & h):
-				file_name(h.file_name),
-				object_name(h.object_name),
-	       			hc(h.hc) {}
-
-			template<class Archive> void	serialize(Archive & ar, int v)
-			{
-				ar & BOOST_SERIALIZATION_NVP(file_name);
-				ar & BOOST_SERIALIZATION_NVP(object_name);
-				ar & BOOST_SERIALIZATION_NVP(hc);
-			}
-		public:
-			std::string		file_name;
-			std::string		object_name;
-			gal::itf::hash_type	hc;
+			virtual void		destroy(gal::itf::shared* v) = 0;
 	};
 
 	template<class T_, typename... CTOR_ARGS> class helper:
-		public std::enable_shared_from_this< helper< T_, CTOR_ARGS... > >
+		public std::enable_shared_from_this< helper< T_, CTOR_ARGS... > >,
+		public helper_base
 	{
 		public:
 			typedef T_ T;
-			typedef deleter< helper<T> > del;
 			typedef std::enable_shared_from_this< helper< T_, CTOR_ARGS... > > estf;
 		private:
 			helper(helper<T> const & h) {}
@@ -55,7 +36,7 @@ namespace gal { namespace dll {
 				handle_(0),
 				create_(0),
 				destroy_(0),
-				hi_(f, o, typeid(T).hash_code()) {}
+				hi_(f, o, typeid(T)) {}
 
 			helper(helper<T>&& h):
 				hi_(h.hi_),
@@ -75,7 +56,7 @@ namespace gal { namespace dll {
 				auto name_create = hi_.object_name + "_create";
 				auto name_destroy = hi_.object_name + "_destroy";
 
-				create_	= (T* (*)(CTOR_ARGS...))dlsym(handle_, hi_.object_name.c_str());
+				create_	= (T* (*)(CTOR_ARGS...))dlsym(handle_, name_create.c_str());
 				if(create_ == NULL) {
 					perror(dlerror());
 					abort();
@@ -92,11 +73,14 @@ namespace gal { namespace dll {
 					dlclose(handle_);
 			}
 		public:
-			friend class deleter< helper<T> >;
+			friend class gal::dll::deleter;
 
 			std::shared_ptr<T>	make_shared(CTOR_ARGS... c)
 			{
-				std::shared_ptr<T> t(create(c...), del(estf::shared_from_this()));
+				std::shared_ptr<T> t(
+						create(c...),
+						gal::dll::deleter(estf::shared_from_this(), hi_)
+						);
 				return t;
 			}
 		private:
@@ -104,6 +88,11 @@ namespace gal { namespace dll {
 			{
 				if(!create_) abort();
 				return create_(c...);
+			}
+			virtual void	destroy(gal::itf::shared* p)
+			{
+				T* t = dynamic_cast<T*>(p);
+				destroy(t);
 			}
 			void		destroy(T* t)
 			{
@@ -117,37 +106,22 @@ namespace gal { namespace dll {
 			void		(*destroy_)(T*);
 			helper_info	hi_;
 	};
-	struct deleter_base
+	/*struct deleter
 	{
 		public:
-			deleter_base(helper_info hi): hi_(hi) {}
+			helper_info const	getHelperInfo();
 
-			helper_info const	getHelperInfo() { return hi_; }
-		protected:
-			helper_info const	hi_;
-	};
-	template<typename H> struct deleter
-	{
 		public:
-			typedef typename H::T		T;
-			typedef std::shared_ptr< H >	H_s;
+			deleter(std::shared_ptr<helper_base> h, helper_info hi);
+			virtual ~deleter();
+			deleter(deleter<H>&& d);
+			deleter(deleter<H> const & d);
 
-			deleter(H_s h):
-				_M_helper(h) { assert(h); }
-
-			deleter(deleter<H>&& d):
-				_M_helper(std::move(d._M_helper)) {}
-
-			deleter(deleter<H> const & d):
-				_M_helper(d._M_helper) {}
-
-			void			operator()(T* t) {
-				t->release();
-				_M_helper->destroy(t);
-			}
+			void			operator()(gal::itf;:shared* p);
 		private:
-			H_s		_M_helper;
-	};
+			std::shared_ptr<helper_base>		_M_helper;
+			helper_info const	hi_;
+	};*/
 }}
 
 #endif

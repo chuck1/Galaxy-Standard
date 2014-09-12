@@ -34,6 +34,7 @@ namespace gal {
 				virtual ~shared();
 				/** @brief init */
 				virtual void					__init();
+				virtual void					release() = 0;
 				/** @brief hash code */
 				hash_type					hash_code() const;
 				/** */
