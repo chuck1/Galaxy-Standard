@@ -265,10 +265,26 @@ namespace gal {
 					}
 				}
 				/** */
-				std::shared_ptr<T>			find(gal::itf::index_type i) {
+				std::shared_ptr<T>			find(std::string name)
+				{
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
+					for(auto it = container_.begin(); it != container_.cend(); ++it)
+					{
+						auto p = it->second.ptr_;
+						assert(p);
+						if(p->_M_name == name) return p;
+					}
+
+					return std::shared_ptr<T>();
+				}
+				std::shared_ptr<T>			find(gal::itf::index_type i) {
+					boost::lock_guard<boost::mutex> lk(mutex_);
+					
 					auto it = container_.find(i);
+					
+					if(it == container_.end()) throw 0;
+					
 					return it->second.ptr_;
 				}
 				/** */

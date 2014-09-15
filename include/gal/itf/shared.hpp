@@ -10,6 +10,7 @@
 #include <string>
 
 #include <boost/thread.hpp>
+#include <boost/serialization/nvp.hpp>
 
 #include <gal/itf/release.hpp>
 #include <gal/std/decl.hpp>
@@ -29,23 +30,12 @@ namespace gal {
 			virtual public gal::itf::__release
 		{
 			public:
-				shared();
-				/** @brief destructor */
-				virtual ~shared();
-				/** @brief init */
-				virtual void					__init();
-				virtual void					release() = 0;
-				/** @brief hash code */
-				hash_type					hash_code() const;
-				/** */
-				::std::string					name() const;
-
-
 				/** */
 				static hash_type				to_hash_code(std::string const & str);
 				/** */
 				static ::std::string const &			to_string(hash_type const & hash);
 				/** @brief Register new type index.
+				 *
 				 * a type must be registered before the conversion functions will work.
 				 */
 				static void					register_type(std::type_index new_index);
@@ -55,23 +45,39 @@ namespace gal {
 				 */
 				static index_type const &			static_get_index(std::shared_ptr<gal::itf::shared> ptr);
 			public:
-				index_type					_M_index;
-			public:
 				static gal::itf::registry				registry_;
 				static std::map< hash_type, std::string >		map_hash_string_;
 				static std::map< std::string, hash_type >		map_string_hash_;
-
+			public:
+				shared();
+				/** @brief destructor */
+				virtual ~shared();
+				/** @brief init */
+				virtual void					__init();
+				virtual void					release() = 0;
+				/** @brief hash code */
+				hash_type					hash_code() const;
+				/** */
+				std::string					name() const;
+				/** */
+				template<class A> void				serialize(A & ar, unsigned int const v)
+				{
+					ar & BOOST_SERIALIZATION_NVP(_M_index);
+					ar & BOOST_SERIALIZATION_NVP(_M_name);
+				}
+			public:
+				index_type					_M_index;
+				std::string					_M_name;
 				/** @brief general mutex
 				 *
 				 * for thread-safe erasure from gal::stl::map
 				 */
-
 				boost::recursive_mutex		mutex_;
-
-
 		};
 	}
 }
 
 #endif
+
+
 
