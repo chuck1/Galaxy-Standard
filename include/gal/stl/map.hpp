@@ -196,6 +196,14 @@ namespace gal {
 				/** @brief Constructor */
 				map() {}
 				map(factory_shared_type factory): factory_(factory) {}
+				/** @brief destructor
+				 *
+				 * ensure proper shutdown
+				 */
+				~map()
+				{
+					assert(container_.empty());
+				}
 				template<class Archive> void		serialize(Archive & ar, unsigned int const & version) {
 					boost::lock_guard<boost::mutex> lk(mutex_);
 
