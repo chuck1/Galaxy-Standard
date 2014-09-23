@@ -1,8 +1,16 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
 
-PROJECT(sh2)
+INCLUDE($ENV{HOME}/.config.cmake)
+
+FIND_PACKAGE(CMakeHelper)
+
+PROJECT(test_dll_sh2)
+INCLUDE(../../../../../../../config.cmake)
+INCLUDE(cmh_build_config)
 
 
+SET(libs
+	)
 
-
-cmh_shared_library()
+INCLUDE(cmh_library)
 

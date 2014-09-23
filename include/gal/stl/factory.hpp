@@ -39,7 +39,7 @@ namespace gal {
 				static std::shared_ptr< factory<T> >					default_factory_;
 		};
 
-		template<typename T> std::shared_ptr< factory<T> >					factory<T>::default_factory_ = 0;
+		template<typename T> std::shared_ptr< factory<T> >					factory<T>::default_factory_ = std::shared_ptr< factory<T> >(new factory<T>());
 	}
 }
 

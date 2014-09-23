@@ -16,15 +16,6 @@ extern "C" void MyClass_destroy( MyClass* object )
 
 
 
-MyClass::MyClass()
-{
-	  x = 20;
-}
-void MyClass::DoSomething()
-{
-	  std::cout<<x<<std::endl;
-}
-
 
 
 MyClass1::~MyClass1() {

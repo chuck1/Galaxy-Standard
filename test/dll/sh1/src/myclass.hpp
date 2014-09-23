@@ -1,17 +1,19 @@
-#ifndef __MYCLASS_H__
-#define __MYCLASS_H__
+#ifndef __MYCLASS1_H__
+#define __MYCLASS1_H__
 
 #include <iostream>
 
-class MyClass {
+#include "../../prog/src/myclass.hpp"
+
+class MyClass1: public MyClass {
 	public:
-		MyClass() {}
-		virtual ~MyClass() {}
+		MyClass1();
+		virtual ~MyClass1() {}
 
 		void	release() { std::cout << "release" << std::endl; }
 
 		/* use virtual otherwise linker will try to perform static linkage */
-		virtual void DoSomething() = 0;
+		virtual void DoSomething();
 
 	protected:
 		int x;
@@ -20,4 +22,7 @@ class MyClass {
 
 
 #endif
+
+
+
 

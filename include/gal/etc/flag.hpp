@@ -19,15 +19,17 @@
 namespace gal {
 	namespace etc {
 		template <typename enum_type> struct enum_map {
-			::std::map< ::std::string, enum_type >		map_string_enum_;
-			::std::map< enum_type, ::std::string >		map_enum_string_;
+			std::map< std::string, enum_type >		map_string_enum_;
+			std::map< enum_type, std::string >		map_enum_string_;
 
-			::std::string		toString(enum_type val) {
+			std::string		toString(enum_type val)
+			{
 				auto it = map_enum_string_.find(val);
 				if(it == map_enum_string_.cend()) throw 0;
 				return it->second;
 			}
-			enum_type		toEnum(::std::string str) {
+			enum_type		toEnum(::std::string str)
+			{
 				auto it = map_string_enum_.find(str);
 				if(it == map_string_enum_.cend()) throw 0;
 				return it->second;
@@ -60,45 +62,46 @@ namespace gal {
 #define DEFINE_FLAG(name, values)\
 	struct name {\
 		public:\
-		       typedef unsigned long int		flag_type;\
-		enum E: unsigned long int {\
-			BOOST_PP_SEQ_FOR_EACH(DEFINE_ENUM_VALUE, , values)\
-		};\
-		name(): val_((E)0) {}\
-		name(E e): val_(e) {}\
-		name(unsigned int e): val_((E)e) {}\
-		\
-		void		set(flag_type fl)	{ val_ = (E)(val_ | fl); }\
-		void		unset(flag_type fl)	{ val_ = (E)(val_ & ~fl); }\
-		void		toggle(flag_type fl)	{ val_ = (E)(val_ ^ fl); }\
-		bool		all(flag_type fl)	{ return ( ( val_ & fl ) == fl ); }\
-		bool		any(flag_type fl)	{ return bool( val_ & fl ); }\
-		flag_type	mask(flag_type fl)	{ return bool( val_ & fl ); }\
-		\
-		\
-		void				save(boost::archive::xml_oarchive & ar, unsigned int const & version) {\
-			::std::vector< ::std::string > vec = maps_.maps_.toStringVec(val_);\
-			ar << boost::serialization::make_nvp("value",vec);\
-		}\
-		void				load(boost::archive::xml_iarchive & ar, unsigned int const & version) {\
-			::std::vector< ::std::string > vec;\
-			ar >> boost::serialization::make_nvp("value",vec);\
-			val_ = (E)maps_.maps_.toEnum(vec);\
-		}\
-		template<class Archive> void	serialize(Archive & ar, unsigned int const & version) {\
-			ar & boost::serialization::make_nvp("value",val_);\
-		}\
+			typedef unsigned int		flag_type;\
+			enum E: flag_type\
+			{\
+				BOOST_PP_SEQ_FOR_EACH(DEFINE_ENUM_VALUE, , values)\
+			};\
+			name(): val_((E)0) {}\
+			name(E e): val_(e) {}\
+			name(unsigned int e): val_((E)e) {}\
+			\
+			void		set(flag_type fl)	{ val_ = (E)(val_ | fl); }\
+			void		unset(flag_type fl)	{ val_ = (E)(val_ & ~fl); }\
+			void		toggle(flag_type fl)	{ val_ = (E)(val_ ^ fl); }\
+			bool		all(flag_type fl)	{ return ( ( val_ & fl ) == fl ); }\
+			bool		any(flag_type fl)	{ return bool( val_ & fl ); }\
+			flag_type	mask(flag_type fl)	{ return bool( val_ & fl ); }\
+			operator flag_type()			{ return (flag_type)val_; }\
+			\
+			void		save(boost::archive::xml_oarchive & ar, unsigned int const & version) {\
+				std::vector< ::std::string > vec = maps_.maps_.toStringVec(val_);\
+				ar << boost::serialization::make_nvp("value",vec);\
+			}\
+			void				load(boost::archive::xml_iarchive & ar, unsigned int const & version) {\
+				::std::vector< ::std::string > vec;\
+				ar >> boost::serialization::make_nvp("value",vec);\
+				val_ = (E)maps_.maps_.toEnum(vec);\
+			}\
+			template<class Archive> void	serialize(Archive & ar, unsigned int const & version) {\
+				ar & boost::serialization::make_nvp("value",val_);\
+			}\
 		private:\
 			struct Maps {\
 				Maps() {\
 					BOOST_PP_SEQ_FOR_EACH(DEFINE_MAP_STRING_ENUM_VALUE, , values)\
 					BOOST_PP_SEQ_FOR_EACH(DEFINE_MAP_ENUM_STRING_VALUE, , values)\
 				}\
-				gal::etc::enum_map<unsigned long>	maps_;\
+				gal::etc::enum_map<flag_type>		maps_;\
 			};\
-		static Maps maps_;\
+			static Maps	maps_;\
 		public:\
-		       E	val_;\
+			E		val_;\
 	};\
 
 

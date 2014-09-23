@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-#include "../../prog/src/myclass.hpp"
+#include "myclass.hpp"
 
 using namespace std;
 
@@ -11,7 +11,7 @@ using namespace std;
 
 extern "C" MyClass* MyClass_create()
 {
-	  return new MyClass;
+	  return new MyClass1;
 }
 
 extern "C" void MyClass_destroy( MyClass* object )
@@ -19,12 +19,12 @@ extern "C" void MyClass_destroy( MyClass* object )
 	  delete object;
 }
 
-MyClass::MyClass()
+MyClass1::MyClass1()
 {
 	  x = 40;
 }
 
-void MyClass::DoSomething()
+void MyClass1::DoSomething()
 {
 	  cout<< x <<endl;
 }

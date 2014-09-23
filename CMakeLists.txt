@@ -11,8 +11,6 @@ INCLUDE(cmh_build_config)
 
 INCLUDE(cmh_boost)
 FIND_PACKAGE(Boost 1.55 COMPONENTS
-	system
-	thread
 	REQUIRED)
 
 #INCLUDE_DIRECTORIES("/usr/include/python2.7")
@@ -20,10 +18,9 @@ FIND_PACKAGE(Boost 1.55 COMPONENTS
 SET(libs
 	${Boost_LIBRARIES}
 	pthread
-	rt
-	dl
 	)
 
 INCLUDE(cmh_library)
 
-#ADD_SUBDIRECTORY(test)
+ADD_SUBDIRECTORY(test)
+

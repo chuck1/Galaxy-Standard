@@ -33,13 +33,13 @@ namespace gal {
 				typedef ::std::map< long int, ::std::shared_ptr<__base_function> >	map_type;
 				/** */
 				struct invalid_key: ::std::exception {
-					char const *	what() {
+					virtual char const *	what() {
 						return "invalid key";
 					}
 				};
 				/** */
 				struct invalid_args: ::std::exception {
-					char const *	what() {
+					virtual char const *	what() {
 						return "invalid args";
 					}
 				};
@@ -48,27 +48,61 @@ namespace gal {
 				funcmap() {}
 				virtual ~funcmap() {}
 				/** */
-				template<typename... Args> void						add(
+				template<typename... Args> void							add(
 						gal::itf::hash_type hash_code,
 						::std::function< shared_type(Args...)> f)
 				{
-					::std::shared_ptr<__base_function> b(new __function< Args...>(f));
-
+					typedef __function< Args... > func_t;
+					
+					std::shared_ptr<__base_function> b(new func_t(f));
+					
 					//map_.emplace(hash_code, b);
-					map_[hash_code] = b;
+					std::pair<typename map_type::iterator, bool> p = map_.insert(std::make_pair(hash_code, b));
+					
+					if(p.second)
+					{
+						std::cout << "inserted:" << std::endl;
+						std::cout << "hash_code " << hash_code << std::endl;
+						std::cout << "func_t    " << typeid(func_t).name() << std::endl;
+						std::cout << typeid(f).name() << std::endl;
+					}
+					else
+					{
+						std::cout << "inserted:" << std::endl;
+						std::cout << "hash_code " << hash_code << std::endl;
+						std::cout << "func_t    " << typeid(func_t).name() << std::endl;
+						std::cout << typeid(f).name() << std::endl;
+						throw 0;
+					}
 				}
 				/** */
 				template<typename... Args> std::shared_ptr< __function< Args... > >		find(
 						gal::itf::hash_type hash_code)
 				{
+					typedef __function< Args... > func_t;
+					
 					auto it = map_.find(hash_code);
 
-					if(it == map_.cend()) throw invalid_key();
-
+					if(it == map_.cend())
+					{	
+						std::cout
+							<< "T = " << typeid(T).name() << std::endl
+							<< "hash = " << hash_code << std::endl;
+						throw invalid_key();
+					}
+					
 					//::std::shared_ptr< __function<return_type, Args...> >
-					auto f = ::std::dynamic_pointer_cast< __function< Args... > >(it->second);
+					auto f = std::dynamic_pointer_cast< __function< Args... > >(it->second);
+					
+					if(!f)
+					{
+						std::cout
+							<< "func = " << typeid(func_t).name() << std::endl
+							<< "T    = " << typeid(T).name() << std::endl
+							<< "hash = " << hash_code << std::endl;
 
-					if(!f) throw invalid_args();
+						throw invalid_args();
+					}
 
 					return f;
 				}
