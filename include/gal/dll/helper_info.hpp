@@ -22,6 +22,11 @@ namespace gal { namespace dll {
 	{
 		public:
 			helper_info();
+			/** @brief constructor
+			* 
+			* @param search_path search path for finding shared library
+			*/
+			helper_info(std::string search_path);
 		public:
 			helper_info(std::string f, std::string o, std::type_index ti);
 
@@ -39,6 +44,8 @@ namespace gal { namespace dll {
 			std::string		object_name;
 			size_t			hc;
 			std::string		name;
+			
+			static std::string	search_path_;
 	};
 
 

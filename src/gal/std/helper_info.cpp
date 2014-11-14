@@ -2,7 +2,14 @@
 
 #include <gal/dll/helper_info.hpp>
 
+std::string gal::dll::helper_info::search_path_;
+
 gal::dll::helper_info::helper_info():
+	hc(0)
+{
+
+}
+gal::dll::helper_info::helper_info(std::string search_path):
 	hc(0)
 {
 

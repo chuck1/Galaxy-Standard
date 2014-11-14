@@ -46,8 +46,10 @@ namespace gal { namespace dll {
 
 
 			void			open() {
-
-				handle_ = dlopen(hi_.file_name.c_str(), RTLD_LAZY);
+				
+				std::string filename = hi_.search_path_ + hi_.file_name;
+				
+				handle_ = dlopen(filename.c_str(), RTLD_LAZY);
 				if(handle_ == NULL) {
 					perror(dlerror());
 					abort();

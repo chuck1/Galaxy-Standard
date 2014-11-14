@@ -129,14 +129,16 @@ namespace gal {
 
 				typedef std::weak_ptr< factory<T> >			factory_weak;
 				typedef std::shared_ptr<T>				shared;
-				/** */
+				/** @brief constructor
+				*/
 				wrapper(): 
 					factory_(factory<T>::default_factory_)
 			{
 				std::cout << "wrapper default ctor" << std::endl;
 				assert(!factory_.expired());
 			}
-				/** */
+				/** @brief constructor
+				*/
 				wrapper(shared ptr):
 					ptr_(ptr),
 					factory_(factory<T>::default_factory_)
@@ -202,7 +204,7 @@ namespace gal {
 
 					ar << boost::serialization::make_nvp("object", *ptr_);
 				}
-				template<class Archive> void		load(Archive & ar, unsigned int const & version, search_path)
+				template<class Archive> void		load(Archive & ar, unsigned int const & version)
 				{
 					int load_type;
 					ar >> BOOST_SERIALIZATION_NVP(load_type);
@@ -253,7 +255,6 @@ namespace gal {
 				/** @brief Pointer */
 				shared				ptr_;
 				factory_weak			factory_;
-			private:
 		};
 
 
