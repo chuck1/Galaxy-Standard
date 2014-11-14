@@ -202,7 +202,7 @@ namespace gal {
 
 					ar << boost::serialization::make_nvp("object", *ptr_);
 				}
-				template<class Archive> void		load(Archive & ar, unsigned int const & version)
+				template<class Archive> void		load(Archive & ar, unsigned int const & version, search_path)
 				{
 					int load_type;
 					ar >> BOOST_SERIALIZATION_NVP(load_type);
@@ -211,11 +211,14 @@ namespace gal {
 					{
 						gal::dll::helper_info hi;
 						ar >> boost::serialization::make_nvp("helper", hi);
-
+						
+						// must add to helper_info: search path(s) for .so files
+						// search path(s) will be passed to this by calling code
+						
 						// get the factory
 						auto fs = factory_.lock();
 						assert(fs);
-
+						
 						// allocate the object
 						ptr_ = fs->template alloc<gal::dll::helper_info&>(hi.hc, hi);
 					}
