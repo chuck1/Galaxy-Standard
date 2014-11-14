@@ -8,6 +8,7 @@ PROJECT(galaxy_std)
 INCLUDE(../../../../config.cmake)
 INCLUDE(cmh_build_config)
 
+SET(SHARED True)
 
 INCLUDE(cmh_boost)
 FIND_PACKAGE(Boost 1.55 COMPONENTS
