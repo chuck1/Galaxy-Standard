@@ -61,14 +61,16 @@ namespace gal {
 					
 					if(p.second)
 					{
+						/*
 						std::cout << "inserted:" << std::endl;
 						std::cout << "hash_code " << hash_code << std::endl;
 						std::cout << "func_t    " << typeid(func_t).name() << std::endl;
 						std::cout << typeid(f).name() << std::endl;
+						*/
 					}
 					else
 					{
-						std::cout << "inserted:" << std::endl;
+						std::cout << "not inserted:" << std::endl;
 						std::cout << "hash_code " << hash_code << std::endl;
 						std::cout << "func_t    " << typeid(func_t).name() << std::endl;
 						std::cout << typeid(f).name() << std::endl;

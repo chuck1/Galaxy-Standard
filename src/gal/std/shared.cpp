@@ -1,14 +1,16 @@
 #include <gal/itf/registry.hpp>
 #include <gal/itf/shared.hpp>
 
-gal::itf::shared::shared(): _M_index(-1) {
+gal::itf::shared::shared(): _M_index(-1)
+{
 }
 gal::itf::shared::~shared()
 {
-	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
+	//std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 }
-void    				        gal::itf::shared::__init() {
-	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
+void    				        gal::itf::shared::__init()
+{
+	//std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 	registry_.reg(shared_from_this());
 	assert(_M_index != -1);
 }
@@ -17,23 +19,23 @@ void						gal::itf::shared::release()
 }
 gal::itf::hash_type				gal::itf::shared::hash_code() const
 {
-	std::cout << __PRETTY_FUNCTION__ << std::endl;
+	//std::cout << __PRETTY_FUNCTION__ << std::endl;
 
 	std::type_index type(typeid(*this));
 
-	std::cout << type.name() << std::endl;
-	std::cout << type.hash_code() << std::endl;
+	//std::cout << type.name() << std::endl;
+	//std::cout << type.hash_code() << std::endl;
 
 	return type.hash_code();
 }
 std::string					gal::itf::shared::name() const
 {
-	std::cout << __PRETTY_FUNCTION__ << std::endl;
+	//std::cout << __PRETTY_FUNCTION__ << std::endl;
 
 	std::type_index type(typeid(*this));
 
-	std::cout << type.name() << std::endl;
-	std::cout << type.hash_code() << std::endl;
+	//std::cout << type.name() << std::endl;
+	//std::cout << type.hash_code() << std::endl;
 
 	return type.name();
 }
@@ -72,13 +74,13 @@ std::string const &			gal::itf::shared::to_string(gal::itf::hash_type const & ha
 }
 void					gal::itf::shared::register_type(std::type_index new_index)
 {
-	std::cout << __PRETTY_FUNCTION__ << std::endl;
+	//std::cout << __PRETTY_FUNCTION__ << std::endl;
 
 	map_hash_string_[new_index.hash_code()] = new_index.name();
 	map_string_hash_[new_index.name()] = new_index.hash_code();
 	
-	std::cout << new_index.name() << std::endl;
-	std::cout << new_index.hash_code() << std::endl;
+	//std::cout << new_index.name() << std::endl;
+	//std::cout << new_index.hash_code() << std::endl;
 }
 gal::itf::index_type const &		gal::itf::shared::static_get_index(std::shared_ptr<gal::itf::shared> ptr)
 {
