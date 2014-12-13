@@ -39,6 +39,14 @@ namespace gal {
 				void					clear() {
 					map_.clear();
 				}
+				typename map_type::iterator		begin()
+				{
+					return map_.begin();
+				}
+				typename map_type::iterator		end()
+				{
+					return map_.end();
+				}
 
 			
 				map_type				map_;
