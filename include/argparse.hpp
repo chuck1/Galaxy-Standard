@@ -34,6 +34,7 @@ struct Arg
 {
 	virtual std::string	name() = 0;
 	virtual void		print() = 0;
+	vec_str			values_;
 };
 
 struct Arg_tag: Arg
@@ -55,9 +56,6 @@ struct Arg_tag: Arg
 			std::cout << "\t" << s << std::endl;
 		}
 	}
-
-	vec_str			values_;
-
 };
 
 struct Arg_positional: Arg
@@ -78,7 +76,23 @@ struct Args
 			p.second->print();
 		}
 	}
-	
+	std::string	get_value_from_long(std::string l)
+	{
+		for(auto p: arg_map_) {
+			Arg_tag* a = dynamic_cast<Arg_tag*>(p.second);
+
+			if(a == NULL) continue;
+
+			if(a->tag_.long_ == l) {
+				if(a->values_.empty())
+					throw 1;
+				
+				return a->values_.front();
+			}
+		}
+
+		throw 2;
+	}
 	
 	
 	std::map< std::string, Arg* >	arg_map_;
@@ -135,7 +149,7 @@ Args Parse(int ac, char ** av, char const * format)
 	//std::cout << w << std::endl;
 
 	vec_str temp;
-	for(int i = 0; i < words.size(); i++)
+	for(unsigned int i = 0; i < words.size(); i++)
 	{
 		if(words[i][0] == '-')
 		{
@@ -166,3 +180,4 @@ Args Parse(int ac, char ** av, char const * format)
 	return ret;
 };
 
+#endif
