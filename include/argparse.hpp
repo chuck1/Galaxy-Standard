@@ -64,6 +64,7 @@ struct Arg_positional: Arg
 	std::string	name_;
 };
 
+struct ValuesEmpty {};
 
 struct Args
 {
@@ -85,7 +86,7 @@ struct Args
 
 			if(a->tag_.long_ == l) {
 				if(a->values_.empty())
-					throw 1;
+					throw ValuesEmpty();
 				
 				return a->values_.front();
 			}
@@ -93,7 +94,17 @@ struct Args
 
 		throw 2;
 	}
-	
+	bool		has_long(std::string l)
+	{
+		for(auto p: arg_map_) {
+			Arg_tag* a = dynamic_cast<Arg_tag*>(p.second);
+
+			if(a == NULL) continue;
+
+			if(a->tag_.long_ == l) return true;
+		}
+		return false;
+	}
 	
 	std::map< std::string, Arg* >	arg_map_;
 };
@@ -104,7 +115,7 @@ Arg*	make_arg(vec_str words)
 {
 	std::cout << "make_arg" << std::endl;
 	for(auto w : words)
-		std::cout << "'" << w << "'" << std::endl;
+		std::cout << "    '" << w << "'" << std::endl;
 
 	assert(!words.empty());
 
@@ -118,24 +129,24 @@ Arg*	make_arg(vec_str words)
 		}
 
 		return a;
+	} else {
+		return 0;
 	}
-
-	assert(0);
+	
 	return 0;
 }
 
-Args Parse(int ac, char ** av, char const * format)
+vec_str		split(char * str)
 {
-	vec_str words;
-
-	Args ret;
-
-	char * buf = new char[strlen(format)+1];
-	strcpy(buf, format);
-
+	char * buf = new char[strlen(str)+1];
 	char * c = buf;
 	char * head = buf;
-	for(; c < (buf + strlen(format) + 1); c++)
+	vec_str words;
+
+	strcpy(buf, str);
+
+	// split words by spaces
+	for(; c < (buf + strlen(buf) + 1); c++)
 	{
 		//std::cout << *c << std::endl;
 		if(*c == ' ' || *c == 0)
@@ -145,33 +156,67 @@ Args Parse(int ac, char ** av, char const * format)
 			head = c+1;
 		}
 	}
-	//for(auto w : words)
-	//std::cout << w << std::endl;
+	for(auto w : words)
+		std::cout << "'" << w << "'" << std::endl;
+
+	return words;
+}
+vec_str		split(int ac, char ** av)
+{
+	vec_str words;
+
+	//auto words = split(format);
+
+	for(int i = 0; i < ac; i++) {
+		auto temp = split(av[i]);
+		words.insert(
+				words.end(),
+				std::make_move_iterator(temp.begin()),
+				std::make_move_iterator(temp.end())
+			    );
+	}
+
+	return words;
+}
+
+
+Args Parse(int ac, char ** av, char const * format)
+{
+
+	Args ret;
+	
+	auto words = split(ac, av);
 
 	vec_str temp;
 	for(unsigned int i = 0; i < words.size(); i++)
 	{
 		if(words[i][0] == '-')
 		{
-			//std::cout << "tag " << words[i] << std::endl;
+			std::cout << "tag '" << words[i] << "'" << std::endl;
 			if(temp.empty()) temp.push_back(words[i]);
 			else {
 				Arg* a = make_arg(temp);
-				ret.arg_map_[a->name()] = a;
+				if(a != 0) {
+					ret.arg_map_[a->name()] = a;
+				}
 				temp.clear();
 				temp.push_back(words[i]);
 			}
 		}
 		else
 		{
+			std::cout << "value " << words[i] << std::endl;
 			temp.push_back(words[i]);
 		}
 	}
 
 	if(!temp.empty())
 	{
-		Arg* a = make_arg(temp);
-		ret.arg_map_[a->name()] = a;
+		if(temp[0][0] == '-') {
+			Arg* a = make_arg(temp);
+			ret.arg_map_[a->name()] = a;
+		} else {
+		}
 	}
 
 	ret.help();
