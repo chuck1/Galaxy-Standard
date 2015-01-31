@@ -29,5 +29,7 @@ ADD_SUBDIRECTORY(test)
 
 l = Library("galaxy_std")
 
+l.libs.append("dl")
+
 l.make()
 
