@@ -27,7 +27,7 @@ INCLUDE(cmh_library)
 ADD_SUBDIRECTORY(test)
 """
 
-l = Library("galaxy_std")
+l = Static("galaxy_std")
 
 l.libs.append("dl")
 
