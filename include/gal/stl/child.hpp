@@ -27,7 +27,8 @@ namespace gal { namespace stl {
 			{
 				assert(p);
 				
-				assert(dynamic_cast<gal::stl::child<T>*>(p) != this);
+				/** TODO need to explain why this was here, it needs to be removed or changed as some classes cannot be converted as is */
+				//assert(dynamic_cast<gal::stl::child<T>*>(p) != this);
 				
 				_M_parent = p;
 			}

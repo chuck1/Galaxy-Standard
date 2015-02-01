@@ -2,6 +2,8 @@
 #define GAL_ETC_SLOTS_HPP
 
 #include <memory>
+#include <vector>
+#include <cassert>
 
 namespace gal { namespace etc {
 
