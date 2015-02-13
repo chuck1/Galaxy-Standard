@@ -24,7 +24,7 @@ namespace gal { namespace etc {
 			}
 		private:
 			double		start_;
-			size_t		count_;
+			unsigned int	count_;
 			double		total_;
 	};
 }}

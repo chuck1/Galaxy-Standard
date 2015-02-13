@@ -3,6 +3,7 @@
 
 #include <map>
 #include <memory>
+#include <iostream>
 
 #include <gal/std/decl.hpp>
 #include <gal/itf/typedef.hpp>

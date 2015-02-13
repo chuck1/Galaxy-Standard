@@ -4,7 +4,7 @@
 namespace gal {
 	namespace itf {
 		typedef int				index_type;
-		typedef size_t				hash_type;
+		typedef unsigned int			hash_type;
 	}
 }
 
