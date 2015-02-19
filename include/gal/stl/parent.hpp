@@ -32,12 +32,18 @@ namespace gal {
 					t.detach();
 				}
 			private:
-				void					thread_erase(gal::itf::index_type i) {
+				void					thread_erase(gal::itf::index_type i)
+				{
 					map_.erase(i);
 				}
 			public:
-				void					clear() {
+				void					clear()
+				{
 					map_.clear();
+				}
+				std::shared_ptr<T>			front()
+				{
+					return map_.front();
 				}
 				typename map_type::iterator		begin()
 				{
