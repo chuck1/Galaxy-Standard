@@ -222,7 +222,7 @@ namespace gal {
 						assert(fs);
 						
 						// allocate the object
-						ptr_ = fs->template alloc<gal::dll::helper_info&>(hi.hc, hi);
+						ptr_ = fs->template alloc<gal::dll::helper_info&>(hi.base_hc, hi);
 					}
 					else
 					{
