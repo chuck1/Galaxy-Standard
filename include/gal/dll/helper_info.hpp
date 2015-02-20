@@ -28,20 +28,19 @@ namespace gal { namespace dll {
 			*/
 			helper_info(std::string search_path);
 		public:
-			helper_info(std::string f, std::string o, std::type_index ti);
+			helper_info(std::string f, std::type_index ti);
 
 			helper_info(helper_info const & h);
 
 			template<class Archive> void	serialize(Archive & ar, int v)
 			{
 				ar & BOOST_SERIALIZATION_NVP(file_name);
-				ar & BOOST_SERIALIZATION_NVP(object_name);
+				//ar & BOOST_SERIALIZATION_NVP(object_name);
 				ar & BOOST_SERIALIZATION_NVP(hc);
 				ar & BOOST_SERIALIZATION_NVP(name);
 			}
 		public:
 			std::string		file_name;
-			std::string		object_name;
 			size_t			hc;
 			std::string		name;
 			

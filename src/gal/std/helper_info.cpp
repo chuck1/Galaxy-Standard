@@ -15,9 +15,8 @@ gal::dll::helper_info::helper_info(std::string search_path):
 
 }
 
-gal::dll::helper_info::helper_info(std::string f, std::string o, std::type_index nti):
-	file_name(f),
-	object_name(o)
+gal::dll::helper_info::helper_info(std::string f, std::type_index nti):
+	file_name(f)
 {
 	std::cout << __PRETTY_FUNCTION__ << std::endl;
 
@@ -29,8 +28,7 @@ gal::dll::helper_info::helper_info(std::string f, std::string o, std::type_index
 }
 
 gal::dll::helper_info::helper_info(gal::dll::helper_info const & h):
-	file_name(h.file_name),
-	object_name(h.object_name)
+	file_name(h.file_name)
 {
 	name = h.name;
 	hc = h.hc;

@@ -18,28 +18,31 @@ namespace gal {
 		 * Store and use allocator functions
 		 * 
 		 * @par Motivation:
-		 * create an object who type is unknown but identified by a has_code.
+		 * create an object whose type is unknown but identified by a hash_code.
 		 * 
 		 * @note the app shall hold instances of factory for the various types and use cases
+		 * like local and remote??? how does this work?
 		 */
-		template<typename T> class factory: public gal::stl::funcmap<T> {
-			public:
-				typedef std::shared_ptr<T>	shared;
-				typedef gal::stl::funcmap<T>	fm;
-				/** */
-				template<typename... Args> shared					alloc(gal::itf::hash_type hash_code, Args&&... args) {
-					//auto f = find<Args...>(hash_code);
-					//auto f = gal::stl::funcmap<T>::find<Args...>(hash_code);
-					auto f = fm::template find<Args...>(hash_code);
+		template<typename T>
+		class factory: public gal::stl::funcmap<T>
+		{
+		public:
+			typedef std::shared_ptr<T>	shared;
+			typedef gal::stl::funcmap<T>	fm;
+			/** */
+			template<typename... Args> shared					alloc(gal::itf::hash_type hash_code, Args&&... args) {
+				//auto f = find<Args...>(hash_code);
+				//auto f = gal::stl::funcmap<T>::find<Args...>(hash_code);
+				auto f = fm::template find<Args...>(hash_code);
 
-					return (f->f_)(::std::forward<Args>(args)...);
-				}
+				return (f->f_)(::std::forward<Args>(args)...);
+			}
 
-			public:
-				static std::shared_ptr< factory<T> >					default_factory_;
+		public:
+			static std::shared_ptr< factory<T> >					default_factory_;
 		};
 
-		template<typename T> std::shared_ptr< factory<T> >					factory<T>::default_factory_ = std::shared_ptr< factory<T> >(new factory<T>());
+		template<typename T> std::shared_ptr< factory<T> >		factory<T>::default_factory_ = std::shared_ptr< factory<T> >(new factory<T>());
 	}
 }
 
