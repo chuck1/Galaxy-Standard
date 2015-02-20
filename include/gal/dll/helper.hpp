@@ -139,7 +139,7 @@ namespace gal { namespace dll {
 				gal::dll::deleter del(estf::shared_from_this(), func_delete, hi);
 
 				// capture by value
-				auto lamb = [=] (ARGS... args)
+				auto lamb = [=] (ARGS... args) -> std::shared_ptr<B>
 				{
 					assert(pcreate);
 					D* d = pcreate(args...);
