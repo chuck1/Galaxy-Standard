@@ -7,6 +7,7 @@
 
 #include <gal/std/decl.hpp>
 #include <gal/itf/typedef.hpp>
+#include <gal/stl/helper.hpp>
 
 namespace gal { namespace stl {
 	/** @brief funcmap
@@ -98,6 +99,8 @@ namespace gal { namespace stl {
 
 				if(it == map_.cend())
 				{	
+					printf("signature not found in funcmap\n");
+					pass1(printf("%s\n", typeid(Args).name())...);
 					std::cout
 						<< "T = " << typeid(T).name() << std::endl
 						<< "hash = " << hash_code << std::endl;
@@ -109,6 +112,8 @@ namespace gal { namespace stl {
 				
 				if(!f)
 				{
+					printf("invalid args\n");
+					pass1(printf("%s\n", typeid(Args).name())...);
 					std::cout
 						<< "func = " << typeid(func_t).name() << std::endl
 						<< "T    = " << typeid(T).name() << std::endl

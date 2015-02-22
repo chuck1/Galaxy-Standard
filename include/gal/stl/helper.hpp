@@ -18,5 +18,9 @@ void pass(T&&...) {}
 template <typename... T>
 void pass(T const &...) {}
 
+template <typename... T>
+void pass1(T&&...) {}
+
+
 #endif
 
