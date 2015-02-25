@@ -10,7 +10,7 @@
 
 gal::dll::deleter::~deleter()
 {
-	std::cout << __PRETTY_FUNCTION__ << std::endl;
+	//std::cout << __PRETTY_FUNCTION__ << std::endl;
 }
 gal::dll::deleter::deleter(
 		std::shared_ptr<helper_base> h,
@@ -46,6 +46,10 @@ gal::dll::deleter::deleter(deleter&& d):
 }
 void			gal::dll::deleter::operator()(gal::itf::shared* p)
 {
+	printf("%s\n", __PRETTY_FUNCTION__);
+
+	assert(p);
+
 	p->release();
 
 	assert(_M_delete);
