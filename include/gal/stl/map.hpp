@@ -7,8 +7,6 @@
 #include <exception>
 #include <stdio.h>
 
-
-
 #include <boost/thread.hpp>
 
 #ifdef GAL_STD_USE_BOOST
@@ -20,8 +18,12 @@
 namespace mi = boost::multi_index;
 
 namespace gal { namespace stl {
-	template <class T> class map {
+	template <class T>
+	class map:
+		public gal::tmp::Verbosity<map>
+	{
 		public:
+			using gal::tmp::Verbosity<map>::printv;
 			struct item_not_found: std::exception {
 			};
 			typedef std::shared_ptr< gal::stl::factory<T> >			factory_shared_type;

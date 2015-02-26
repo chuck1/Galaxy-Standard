@@ -134,7 +134,7 @@ namespace gal {
 				wrapper(): 
 					factory_(factory<T>::default_factory_)
 			{
-				std::cout << "wrapper default ctor" << std::endl;
+				printv(DEBUG, "wrapper default ctor\n");
 				assert(!factory_.expired());
 			}
 				/** @brief constructor
@@ -143,7 +143,7 @@ namespace gal {
 					ptr_(ptr),
 					factory_(factory<T>::default_factory_)
 			{
-				std::cout << "wrapper ctor 1" << std::endl;
+				printv(DEBUG, "wrapper ctor 1\n");
 				assert(ptr_);
 			}
 
@@ -151,7 +151,7 @@ namespace gal {
 					ptr_(w.ptr_),
 					factory_(w.factory_)
 			{
-				std::cout << "wrapper copy ctor" << std::endl;
+				printv(DEBUG, "wrapper copy ctor\n");
 				assert(ptr_);
 			}
 
@@ -159,14 +159,14 @@ namespace gal {
 					ptr_(std::move(w.ptr_)),
 					factory_(std::move(w.factory_))
 			{
-				std::cout << "wrapper move ctor" << std::endl;
+				printv(DEBUG, "wrapper move ctor\n");
 				assert(ptr_);
 			}
 			public:
 				/** @brief Destructor */
 				virtual ~wrapper()
 				{
-					std::cout << __PRETTY_FUNCTION__ << std::endl;
+					printv(DEBUG, __PRETTY_FUNCTION__ << std::endl;
 				}
 				/** @brief %Load */
 				template<class Archive> void		save(Archive & ar, unsigned int const & version) const
@@ -176,12 +176,12 @@ namespace gal {
 					// determine if created statically or by dll
 					auto del = std::get_deleter<gal::dll::deleter>(ptr_);
 
-					std::cout << "del = " << del << std::endl;
+					printv(DEBUG, "del = " << del << std::endl;
 
 					int load_type;
 					if(del)
 					{
-						std::cout << "dynamic" << std::endl;
+						printv(DEBUG, "dynamic\n");
 
 						load_type = 1;					
 						ar << BOOST_SERIALIZATION_NVP(load_type);
@@ -192,7 +192,7 @@ namespace gal {
 					}
 					else
 					{
-						std::cout << "static" << std::endl;
+						printv(DEBUG, "static\n");
 
 						load_type = 0;
 						ar << BOOST_SERIALIZATION_NVP(load_type);
@@ -245,7 +245,7 @@ namespace gal {
 				BOOST_SERIALIZATION_SPLIT_MEMBER();
 				static gal::itf::index_type const &			static_get_index(gal::stl::wrapper<T> const & wrap) {
 					if(wrap.ptr_->_M_index == -1) {
-						std::cout << "warning: gal::itf::shared object is uninitialized" << ::std::endl;
+						printv(CRITICAL, "warning: gal::itf::shared object is uninitialized\n");
 						throw 0;
 					}
 					return wrap.ptr_->i_;
