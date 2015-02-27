@@ -16,6 +16,7 @@
 
 #include <gal/itf/shared.hpp>
 #include <gal/stl/factory.hpp>
+#include <gal/stl/verbosity.hpp>
 #include <gal/dll/helper.hpp>
 
 namespace ba = boost::archive;
@@ -37,8 +38,10 @@ namespace gal {
 			}
 			unsigned int	version;
 		};
-		struct HashCode
+		class HashCode:
+			public gal::tmp::Verbosity<HashCode>
 		{
+		public:
 			HashCode(): hc(0) {}
 			HashCode(gal::itf::hash_type nhc): hc(nhc) {}
 
@@ -117,9 +120,13 @@ namespace gal {
 			};
 		};
 
-		template<typename T> class wrapper {
-			public:
-				struct nullptrException: std::exception
+		template<typename T>
+		class wrapper:
+			public gal::tmp::Verbosity< wrapper<T> >
+		{
+		public:
+			using gal::tmp::Verbosity< wrapper<T> >::printv;
+			struct nullptrException: std::exception
 			{
 				virtual const char *	what()
 				{
@@ -134,7 +141,7 @@ namespace gal {
 				wrapper(): 
 					factory_(factory<T>::default_factory_)
 			{
-				printv(DEBUG, "wrapper default ctor\n");
+				printv(gal::tmp::DEBUG, "wrapper default ctor\n");
 				assert(!factory_.expired());
 			}
 				/** @brief constructor
@@ -143,7 +150,7 @@ namespace gal {
 					ptr_(ptr),
 					factory_(factory<T>::default_factory_)
 			{
-				printv(DEBUG, "wrapper ctor 1\n");
+				printv(gal::tmp::DEBUG, "wrapper ctor 1\n");
 				assert(ptr_);
 			}
 
@@ -151,7 +158,7 @@ namespace gal {
 					ptr_(w.ptr_),
 					factory_(w.factory_)
 			{
-				printv(DEBUG, "wrapper copy ctor\n");
+				printv(gal::tmp::DEBUG, "wrapper copy ctor\n");
 				assert(ptr_);
 			}
 
@@ -159,14 +166,14 @@ namespace gal {
 					ptr_(std::move(w.ptr_)),
 					factory_(std::move(w.factory_))
 			{
-				printv(DEBUG, "wrapper move ctor\n");
+				printv(gal::tmp::DEBUG, "wrapper move ctor\n");
 				assert(ptr_);
 			}
 			public:
 				/** @brief Destructor */
 				virtual ~wrapper()
 				{
-					printv(DEBUG, __PRETTY_FUNCTION__ << std::endl;
+					printv(gal::tmp::DEBUG, "%s\n", __PRETTY_FUNCTION__);
 				}
 				/** @brief %Load */
 				template<class Archive> void		save(Archive & ar, unsigned int const & version) const
@@ -176,12 +183,12 @@ namespace gal {
 					// determine if created statically or by dll
 					auto del = std::get_deleter<gal::dll::deleter>(ptr_);
 
-					printv(DEBUG, "del = " << del << std::endl;
+					printv(gal::tmp::DEBUG, "del = %p\n", del);
 
 					int load_type;
 					if(del)
 					{
-						printv(DEBUG, "dynamic\n");
+						printv(gal::tmp::DEBUG, "dynamic\n");
 
 						load_type = 1;					
 						ar << BOOST_SERIALIZATION_NVP(load_type);
@@ -192,7 +199,7 @@ namespace gal {
 					}
 					else
 					{
-						printv(DEBUG, "static\n");
+						printv(gal::tmp::DEBUG, "static\n");
 
 						load_type = 0;
 						ar << BOOST_SERIALIZATION_NVP(load_type);
@@ -245,7 +252,7 @@ namespace gal {
 				BOOST_SERIALIZATION_SPLIT_MEMBER();
 				static gal::itf::index_type const &			static_get_index(gal::stl::wrapper<T> const & wrap) {
 					if(wrap.ptr_->_M_index == -1) {
-						printv(CRITICAL, "warning: gal::itf::shared object is uninitialized\n");
+						printv(gal::tmp::CRITICAL, "warning: gal::itf::shared object is uninitialized\n");
 						throw 0;
 					}
 					return wrap.ptr_->i_;

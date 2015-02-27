@@ -1,6 +1,7 @@
 #ifndef NEB_CORE_ITF_VERBOSITY_HPP
 #define NEB_CORE_ITF_VERBOSITY_HPP
 
+#include <map>
 
 namespace gal { namespace tmp {
 	/** log levels
@@ -26,7 +27,7 @@ namespace gal { namespace tmp {
 		template<typename... A>
 		void			printv(
 				int sev,
-				const char * format, A... a)
+				const char * format, A... a) const
 		{
 			if(sev >= _M_level) printf(format, a...);
 		}
@@ -47,14 +48,14 @@ namespace gal { namespace tmp {
 		static void	set(std::string str, int i)
 		{
 			auto it = _M_map.find(str);
-			if(it == _M_.end()) return;
+			if(it == _M_map.end()) return;
 
-			*it.second = i;
+			*(it->second) = i;
 		}
 		static std::map< std::string, int* >	_M_map;
 	};
 }}
 
-template<typename T> int gal::tmp::Verbosity<T>::_M_severity_level = 1;
+template<typename T> int gal::tmp::Verbosity<T>::_M_level = 1;
 
 #endif

@@ -14,13 +14,14 @@
 #endif
 
 #include <gal/stl/wrapper.hpp>
+#include <gal/stl/verbosity.hpp>
 
 namespace mi = boost::multi_index;
 
 namespace gal { namespace stl {
 	template <class T>
 	class map:
-		public gal::tmp::Verbosity<map>
+		public gal::tmp::Verbosity< map<T> >
 	{
 		public:
 			using gal::tmp::Verbosity<map>::printv;
@@ -84,7 +85,7 @@ namespace gal { namespace stl {
 						);
 
 				if(!ret.second) {					
-					std::cout << "not inserted i=" << i << std::endl;
+					printv(gal::tmp::DEBUG, "not inserted i=%i\n");
 					abort();
 				}
 
@@ -140,29 +141,27 @@ namespace gal { namespace stl {
 				return it->second.ptr_;
 			}
 			/** */
-			void					clear() {
-				std::cout << __PRETTY_FUNCTION__ << std::endl;
-
+			void					clear()
+			{
+				printv(gal::tmp::DEBUG, "%s\n", __PRETTY_FUNCTION__);
 				boost::lock_guard<boost::mutex> lk(mutex_);
-
 				// replaced by deleter objects
 				//for(auto it = container_.begin(); it != container_.end(); ++it) {
 				//	it->second.ptr_->release();
 				//}
-
 				container_.clear();
 			}
 			/** @brief begin iterator 0
 			*/
-			pointer					front() {
+			pointer					front()
+			{
 				auto it = begin();
-				if(it != end()) {
+				if(it != end())
 					return it->second.ptr_;
-				}
-
 				return pointer();
 			}
-			iterator				begin() {
+			iterator				begin()
+			{
 				return container_.begin();
 			}
 			/** @brief end iterator 0
