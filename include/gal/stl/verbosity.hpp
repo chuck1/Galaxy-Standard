@@ -28,9 +28,9 @@ namespace gal { namespace tmp {
 		{
 		}
 		template<typename... A>
-		void			printv(
+		static void		printv(
 				int sev,
-				const char * format, A... a) const
+				const char * format, A... a)
 		{
 			if(sev >= _M_level) printf(format, a...);
 		}
@@ -51,7 +51,9 @@ namespace gal { namespace tmp {
 		static void	set(std::string str, int i)
 		{
 			auto it = _M_map.find(str);
-			if(it == _M_map.end()) return;
+			if(it == _M_map.end()) {
+				abort();
+			}
 
 			*(it->second) = i;
 		}
