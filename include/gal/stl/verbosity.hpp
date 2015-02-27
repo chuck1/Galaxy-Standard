@@ -3,17 +3,20 @@
 
 #include <map>
 
+#define printv_func(level) printv(level, "%s\n", __PRETTY_FUNCTION__)
+
+enum
+{
+	DEBUG,
+	INFO,
+	WARNING,
+	ERROR,
+	CRITICAL
+};
+
 namespace gal { namespace tmp {
 	/** log levels
 	 */
-	enum LogLevel
-	{
-		DEBUG,
-		INFO,
-		WARNING,
-		ERROR,
-		CRITICAL
-	};
 	/*
 	 * the CRTP is used to disambiguate multiple inheritances of this class
 	 */

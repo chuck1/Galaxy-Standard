@@ -85,7 +85,7 @@ namespace gal { namespace stl {
 						);
 
 				if(!ret.second) {					
-					printv(gal::tmp::DEBUG, "not inserted i=%i\n");
+					printv(DEBUG, "not inserted i=%i\n");
 					abort();
 				}
 
@@ -143,7 +143,7 @@ namespace gal { namespace stl {
 			/** */
 			void					clear()
 			{
-				printv(gal::tmp::DEBUG, "%s\n", __PRETTY_FUNCTION__);
+				printv(DEBUG, "%s\n", __PRETTY_FUNCTION__);
 				boost::lock_guard<boost::mutex> lk(mutex_);
 				// replaced by deleter objects
 				//for(auto it = container_.begin(); it != container_.end(); ++it) {
