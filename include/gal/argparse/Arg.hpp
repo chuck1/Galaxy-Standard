@@ -22,23 +22,11 @@ namespace gal { namespace argparse {
 
 	struct Arg_tag: Arg
 	{
-		Arg_tag(Tag t): tag_(t) {}
+		Arg_tag(Tag t);
 		// -a --apple
 		Tag	tag_;
-		virtual std::string	name()
-		{
-			if(tag_.short_.empty())
-				return tag_.long_;
-			else
-				return tag_.short_;
-		}
-		virtual void		print()
-		{
-			std::cout << "'" << name() << "'" << std::endl;
-			for(auto s: values_) {
-				std::cout << "\t" << s << std::endl;
-			}
-		}
+		virtual std::string	name();
+		virtual void		print();
 	};
 
 	struct Arg_positional: Arg

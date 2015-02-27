@@ -4,7 +4,6 @@
 gal::argparse::Args		gal::argparse::Parser::parse(
 		int ac, char ** av, char const * format)
 {
-
 	Args ret;
 
 	auto words = split(ac, av);

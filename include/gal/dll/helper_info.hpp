@@ -9,7 +9,7 @@
 #include <string>
 
 #include <gal/itf/typedef.hpp>
-
+#include <gal/stl/verbosity.hpp>
 #include <gal/dll/helper_info.hpp>
 
 #include <boost/serialization/nvp.hpp>
@@ -18,9 +18,11 @@ namespace gal { namespace dll {
 
 	//template<typename H> struct deleter;
 
-	struct helper_info
+	struct helper_info:
+		public gal::tmp::Verbosity<gal::dll::helper_info>
 	{
 		public:
+			using gal::tmp::Verbosity<gal::dll::helper_info>::printv;
 			helper_info();
 			/** @brief constructor
 			* 

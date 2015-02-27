@@ -17,7 +17,6 @@
 #include <boost/serialization/nvp.hpp>
 
 namespace gal { namespace dll {
-
 	/*
 	 * used by deleter to keep helper alive
 	 */
@@ -69,11 +68,14 @@ namespace gal { namespace dll {
 	/*
 	 * B is the base type for the funcmap
 	 */
-	template<class B_> class helper:
+	template<class B_>
+	class helper:
+		public gal::tmp::Verbosity< gal::dll::helper< B_ > >,
 		public helper_base,
 		private gal::stl::funcmap<B_>
 	{
 		public:
+			using gal::tmp::Verbosity< gal::dll::helper< B_ > >::printv;
 			typedef B_ B;
 			typedef std::enable_shared_from_this< helper_base > estf;
 		private:

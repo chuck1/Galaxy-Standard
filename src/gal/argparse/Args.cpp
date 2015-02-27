@@ -8,9 +8,11 @@ typedef gal::argparse::Args THIS;
 
 void			THIS::help()
 {
+	printf("help\n");
 }
 void			THIS::print()
 {
+	printf("print\n");
 	for(auto p: arg_map_) {
 		p.second->print();
 	}
