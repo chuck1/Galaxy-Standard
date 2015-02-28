@@ -3,6 +3,8 @@
 
 #include <map>
 
+#include <glm/glm.hpp>
+
 #define printv_func(level) printv(level, "%s\n", __PRETTY_FUNCTION__)
 
 enum
@@ -33,6 +35,30 @@ namespace gal { namespace tmp {
 				const char * format, A... a)
 		{
 			if(sev >= _M_level) printf(format, a...);
+		}
+		static void		printv(
+				int sev,
+				glm::mat4 m)
+		{
+			if(sev >= _M_level) {
+				printf("%8f%8f%8f%8f\n%8f%8f%8f%8f\n%8f%8f%8f%8f\n%8f%8f%8f%8f\n",
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0],
+						m[0][0]);
+			}
 		}
 	public:
 		static int		_M_level;
