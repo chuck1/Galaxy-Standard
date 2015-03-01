@@ -12,4 +12,32 @@ void		NS::print(glm::mat4 const & m)
 						m[2][0],m[2][1],m[2][2],m[2][3],
 						m[3][0],m[3][1],m[3][2],m[3][3]);
 }
+void		NS::print(glm::vec3 const & v)
+{
+				printf("%16f%16f%16f\n",
+						v[0],
+						v[1],
+						v[2]);
+}
+void		NS::print(glm::vec4 const & v)
+{
+				printf("%16f%16f%16f%16f\n",
+						v[0],
+						v[1],
+						v[2],
+						v[3]);
+}
+void		NS::print(glm::quat const & v)
+{
+				printf("%16f%16f%16f%16f\n",
+						v[0],
+						v[1],
+						v[2],
+						v[3]);
+}
+void		NS::print(gal::math::pose const & v)
+{
+	NS::print(v.pos_);
+	NS::print(v.rot_);
+}
 
