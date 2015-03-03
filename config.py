@@ -33,3 +33,7 @@ l.libs.append("dl")
 
 l.make()
 
+
+include("test")
+
+
