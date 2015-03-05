@@ -65,14 +65,14 @@ namespace gal { namespace stl {
 			}
 			void					insert(pointer const & t) {
 				boost::lock_guard<boost::mutex> lk(mutex_);
-
+				
 				auto c = t.use_count(); 
-
+				
 				assert(t);
-
+				
 				// make sure index is initialized
 				auto i = gal::itf::shared::static_get_index(t);
-
+				
 				if(i == -1) {
 					//shared_ptr<gal::itf::shared> sh(t);
 					t->gal::itf::shared::init_shared(_M_shared_parent);
@@ -105,7 +105,8 @@ namespace gal { namespace stl {
 				assert(t.use_count() == (c + 1));
 
 			}
-			void			for_each(std::function<void(pointer)> const & f) {
+			void			for_each(std::function<void(pointer)> const & f)
+			{
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
 				for(auto it = container_.begin(); it != container_.cend(); ++it) {
@@ -144,7 +145,8 @@ namespace gal { namespace stl {
 
 				return std::shared_ptr<T>();
 			}
-			std::shared_ptr<T>			find(gal::itf::index_type i) {
+			std::shared_ptr<T>			find(gal::itf::index_type i)
+			{
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
 				auto it = container_.find(i);

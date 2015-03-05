@@ -29,22 +29,14 @@ namespace gal {
 			virtual public gal::itf::__release
 		{
 			public:
+				typedef gal::itf::registry R;
 				friend class gal::itf::registry;
-				/** */
-				hash_type				to_hash_code(std::string const & str);
-				/** */
-				std::string				to_string(hash_type const & hash);
-				/** @brief Register new type index.
-				 *
-				 * a type must be registered before the conversion functions will work.
-				 */
-				void						register_type(std::type_index new_index);
-				std::shared_ptr<gal::itf::registry>		get_registry();
+				R*					get_registry();
 				/** @brief static get index
 				 *
 				 * for boost multi_index indexing
 				 */
-				static index_type const &			static_get_index(std::shared_ptr<gal::itf::shared> ptr);
+				static index_type const &		static_get_index(std::shared_ptr<gal::itf::shared> ptr);
 			public:
 				/// static member was expleriencing in mutliple ctor calls which was reseting registry::next_ to 0
 				// switch to using a non-static registry via foundation app
@@ -56,33 +48,33 @@ namespace gal {
 				/** @brief destructor */
 				virtual ~shared();
 				/** @brief init */
-				virtual void					init_shared(gal::itf::shared * const & parent);
-				virtual void					release() = 0;
+				virtual void				init_shared(gal::itf::shared * const & parent);
+				virtual void				release() = 0;
 				/** @brief hash code */
-				hash_type					hash_code() const;
+				hash_type				hash_code() const;
 				/** */
-				std::string					name() const;
+				std::string				name() const;
 				/** */
-				template<class A> void				serialize(A & ar, unsigned int const v)
+				template<class A> void			serialize(A & ar, unsigned int const v)
 				{
 					ar & BOOST_SERIALIZATION_NVP(_M_index);
 					ar & BOOST_SERIALIZATION_NVP(_M_name);
 				}
-				index_type					get_index() const;
+				index_type				get_index() const;
 			private:
-				index_type					_M_index;
+				index_type				_M_index;
 			protected:
 				/**
 				 * used to find the gal::itf::regisry and register this
 				 */
-				gal::itf::shared *				_M_shared_parent;
+				gal::itf::shared *			_M_shared_parent;
 			public:
-				std::string					_M_name;
+				std::string				_M_name;
 				/** @brief general mutex
 				 *
 				 * for thread-safe erasure from gal::stl::map
 				 */
-				boost::recursive_mutex		mutex_;
+				boost::recursive_mutex			mutex_;
 		};
 	}
 }

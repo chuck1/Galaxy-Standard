@@ -12,9 +12,9 @@ gal::itf::shared::~shared()
 {
 	//std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 }
-std::shared_ptr<gal::itf::registry>		THIS::get_registry()
+gal::itf::registry*				THIS::get_registry()
 {
-	auto r = std::dynamic_pointer_cast<gal::itf::registry>(shared_from_this());
+	auto r = dynamic_cast<gal::itf::registry*>(this);
 
 	if(r) return r;
 
@@ -72,61 +72,6 @@ gal::itf::index_type				THIS::get_index() const
 
 
 
-gal::itf::hash_type			gal::itf::shared::to_hash_code(std::string const & str)
-{
-	auto reg = get_registry();
-
-	/// @TODO WTF
-	/*
-	auto it = reg->map_string_hash_.find(str);
-	if(it == reg->map_string_hash_.cend())
-	{
-		std::cout << std::setw(64) << str << std::endl;
-
-		for(auto p : reg->map_string_hash_)
-		{
-			std::cout << std::setw(64) << p.first << std::setw(64) << p.second << std::endl;
-		}
-		throw 0;
-	}
-	return it->second;*/
-	return hash_type();
-}
-std::string				gal::itf::shared::to_string(gal::itf::hash_type const & hash)
-{
-	auto reg = get_registry();
-
-	/// @TODO WTF
-	/*
-	auto it = reg->map_hash_string_.find(hash);
-	if(it == reg->map_hash_string_.cend())
-	{
-		std::cout << std::setw(128) << hash << std::endl;
-		for(auto p : reg->map_string_hash_)
-		{
-			std::cout << std::setw(64) << p.first << std::setw(64) << p.second << std::endl;
-		}
-		throw 0;
-	}
-	return it->second;
-	*/
-	return std::string();
-}
-void					gal::itf::shared::register_type(std::type_index new_index)
-{
-	//std::cout << __PRETTY_FUNCTION__ << std::endl;
-
-	auto reg = get_registry();
-	
-	/// @TODO WTF
-	/*
-	reg->map_hash_string_[new_index.hash_code()] = new_index.name();
-	reg->map_string_hash_[new_index.name()] = new_index.hash_code();
-	*/
-
-	//std::cout << new_index.name() << std::endl;
-	//std::cout << new_index.hash_code() << std::endl;
-}
 gal::itf::index_type const &		gal::itf::shared::static_get_index(std::shared_ptr<gal::itf::shared> ptr)
 {
 	assert(ptr);
