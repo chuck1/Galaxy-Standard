@@ -63,11 +63,14 @@ namespace gal { namespace stl {
 
 				// make sure index is initialized
 				auto i = gal::itf::shared::static_get_index(t);
+
 				if(i == -1) {
 					//shared_ptr<gal::itf::shared> sh(t);
 					t->gal::itf::shared::__init();
+					i = t->get_index();
+					printv(INFO, "t->get_index() = %i\n", i);
 				}
-
+				
 				//gal::stl::wrapper<T> m(t);
 
 				//assert(t.use_count() == (c + 1));
@@ -75,17 +78,18 @@ namespace gal { namespace stl {
 				//std::cout << "t = " << t.get() << std::endl;
 				//std::cout << "t->_M_index = " << t->_M_index << std::endl;
 
+
 				//container_.insert(value_type(i,m));
 
 				auto ret = container_.insert(
 						value_type(
-							t->_M_index,
+							i,
 							wrapper_type(t)
 							)
 						);
 
 				if(!ret.second) {					
-					printv(DEBUG, "not inserted i=%i\n");
+					printv(CRITICAL, "not inserted i = %i\n", i);
 					abort();
 				}
 

@@ -4,12 +4,18 @@
 
 gal::itf::registry::registry(): next_(0)
 {
+	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 }
 void                                            gal::itf::registry::reg(std::shared_ptr<gal::itf::shared> s)
 {
+	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 	//std::cout << __PRETTY_FUNCTION__ << " s=" << s.get() << std::endl;
 
-	if(s->_M_index == -1) s->_M_index = next_++;
+	if(s->_M_index == -1) {
+		printf("assign index %i\n", next_);
+
+		s->_M_index = next_++;
+	}
 
 	map_[s->_M_index] = s;
 }

@@ -11,22 +11,22 @@
 #include <gal/std/decl.hpp>
 #include <gal/itf/typedef.hpp>
 
-namespace sp = std;
-
-namespace gal {
-	namespace itf {
-		class registry {
+namespace gal { namespace itf {
+		class registry
+		{
 			public:
 				registry();
 				void								reg(std::shared_ptr< gal::itf::shared > s);
 				std::shared_ptr<shared>						get(gal::itf::index_type i);
+
+				std::map< hash_type, std::string >				map_hash_string_;
+				std::map< std::string, hash_type >				map_string_hash_;
 			private:
-				::std::map< index_type, std::weak_ptr< gal::itf::shared > >	map_;
+				std::map< index_type, std::weak_ptr< gal::itf::shared > >	map_;
 				gal::itf::index_type						next_;
 
 		};
-	}
-}
+}}
 
 #endif
 
