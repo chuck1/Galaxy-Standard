@@ -13,6 +13,7 @@
 #include <boost/serialization/map.hpp>
 #endif
 
+#include <gal/itf/shared.hpp>
 #include <gal/stl/wrapper.hpp>
 #include <gal/stl/verbosity.hpp>
 
@@ -21,7 +22,8 @@ namespace mi = boost::multi_index;
 namespace gal { namespace stl {
 	template <class T>
 	class map:
-		public gal::tmp::Verbosity< map<T> >
+		public gal::tmp::Verbosity< map<T> >,
+		virtual public gal::itf::shared
 	{
 		public:
 			using gal::tmp::Verbosity<map>::printv;
@@ -49,6 +51,13 @@ namespace gal { namespace stl {
 			{
 				assert(container_.empty());
 			}
+			void					init(gal::itf::shared * const & parent)
+			{
+				init_shared(parent);
+			}
+			void					release()
+			{
+			}
 			template<class Archive> void		serialize(Archive & ar, unsigned int const & version) {
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
@@ -66,7 +75,7 @@ namespace gal { namespace stl {
 
 				if(i == -1) {
 					//shared_ptr<gal::itf::shared> sh(t);
-					t->gal::itf::shared::__init();
+					t->gal::itf::shared::init_shared(_M_shared_parent);
 					i = t->get_index();
 					printv(INFO, "t->get_index() = %i\n", i);
 				}

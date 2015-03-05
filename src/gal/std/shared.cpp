@@ -24,10 +24,12 @@ std::shared_ptr<gal::itf::registry>		THIS::get_registry()
 
 	return p->get_registry();
 }
-void    				        gal::itf::shared::__init()
+void    				        gal::itf::shared::init_shared(gal::itf::shared * const & parent)
 {
 	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 
+	_M_shared_parent = parent;
+		
 	// find registry
 
 	auto reg = get_registry();	

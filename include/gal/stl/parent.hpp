@@ -5,9 +5,9 @@
 #include <gal/itf/shared.hpp>
 #include <gal/stl/wrapper.hpp>
 
-namespace gal {
-	namespace stl {
-		template<class T> class parent: virtual public gal::itf::shared {
+namespace gal { namespace stl {
+		template<class T>
+		class parent: virtual public gal::itf::shared {
 			public:
 				typedef gal::stl::map< T >		map_type;
 				parent() {

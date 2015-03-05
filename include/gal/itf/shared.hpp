@@ -23,7 +23,6 @@ namespace gal {
 		 * Avoid multiple enabled_shared_from_this bases.
 		 * Provide common base for working with factory and map.
 		 * Supply type info.
-		 *
 		 */
 		class shared:
 			virtual public std::enable_shared_from_this<shared>,
@@ -57,7 +56,7 @@ namespace gal {
 				/** @brief destructor */
 				virtual ~shared();
 				/** @brief init */
-				virtual void					__init();
+				virtual void					init_shared(gal::itf::shared * const & parent);
 				virtual void					release() = 0;
 				/** @brief hash code */
 				hash_type					hash_code() const;
