@@ -47,6 +47,8 @@ namespace gal {
 
 			template<class Archive> void	load(Archive & ar, unsigned int const & version)
 			{
+				/// @TODO fix this
+				/*
 				if(version == 0)
 				{
 					std::string name;
@@ -60,9 +62,12 @@ namespace gal {
 					ar >> hc;
 				}
 				else throw InvalidVersion(version);
+				*/
 			}
 			template<class Archive> void	save(Archive & ar, unsigned int const & version) const
 			{
+				/// @TODO fix this
+				/*
 				if(version == 0)
 				{
 					std::string name = gal::itf::shared::to_string(hc);
@@ -74,6 +79,7 @@ namespace gal {
 					ar << hc;
 				}
 				else throw InvalidVersion(version);
+				*/
 			}
 			void		load(
 					ba::xml_iarchive & ar,
@@ -81,17 +87,17 @@ namespace gal {
 			{
 				std::string name;
 
-				ar >> boost::serialization::make_nvp("name", name);
+				//ar >> boost::serialization::make_nvp("name", name);
 
-				hc = gal::itf::shared::to_hash_code(name);
+				//hc = gal::itf::shared::to_hash_code(name);
 			}
 			void		save(
 					ba::xml_oarchive & ar,
 					unsigned int const & version) const
 			{
-				std::string name = gal::itf::shared::to_string(hc);
+				//std::string name = gal::itf::shared::to_string(hc);
 
-				ar << boost::serialization::make_nvp("name", name);
+				//ar << boost::serialization::make_nvp("name", name);
 			}
 			void		load(
 					ba::binary_iarchive & ar,
