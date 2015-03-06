@@ -25,7 +25,7 @@ namespace gal {
 		 * Supply type info.
 		 */
 		class shared:
-			virtual public std::enable_shared_from_this<shared>,
+			public std::enable_shared_from_this<gal::itf::shared>,
 			virtual public gal::itf::__release
 		{
 			public:

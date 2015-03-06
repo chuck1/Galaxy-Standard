@@ -24,7 +24,7 @@ gal::itf::registry*				THIS::get_registry()
 
 	return p->get_registry();
 }
-void    				        gal::itf::shared::init_shared(gal::itf::shared * const & parent)
+void    				        THIS::init_shared(THIS * const & parent)
 {
 	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 
@@ -40,10 +40,10 @@ void    				        gal::itf::shared::init_shared(gal::itf::shared * const & par
 
 	assert(_M_index != -1);
 }
-void						gal::itf::shared::release()
+void						THIS::release()
 {
 }
-gal::itf::hash_type				gal::itf::shared::hash_code() const
+gal::itf::hash_type				THIS::hash_code() const
 {
 	//std::cout << __PRETTY_FUNCTION__ << std::endl;
 
@@ -54,7 +54,7 @@ gal::itf::hash_type				gal::itf::shared::hash_code() const
 
 	return type.hash_code();
 }
-std::string					gal::itf::shared::name() const
+std::string					THIS::name() const
 {
 	//std::cout << __PRETTY_FUNCTION__ << std::endl;
 
@@ -69,21 +69,10 @@ gal::itf::index_type				THIS::get_index() const
 {
 	return _M_index;
 }
-
-
-
-gal::itf::index_type const &		gal::itf::shared::static_get_index(std::shared_ptr<gal::itf::shared> ptr)
+gal::itf::index_type const &			THIS::static_get_index(std::shared_ptr<THIS> ptr)
 {
 	assert(ptr);
 	return ptr->_M_index;
 }
 
-
-
-/*
-extern gal::itf::registry				gal::itf::shared::registry_;
-
-std::map< gal::itf::hash_type, std::string >		gal::itf::shared::map_hash_string_;
-std::map< std::string, gal::itf::hash_type >		gal::itf::shared::map_string_hash_;
-*/
 

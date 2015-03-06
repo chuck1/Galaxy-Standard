@@ -20,9 +20,10 @@ namespace gal { namespace stl {
 			}
 			void			init(gal::itf::shared * const & parent)
 			{
-				MAP* mp = new MAP();
-				map_.reset(mp);
-				map_->init(this);
+				if(!map_) {
+					map_.reset(new MAP);
+					map_->init(this);
+				}
 			}
 			void			insert(S s)
 			{

@@ -10,11 +10,15 @@ namespace gal {
 		//template<class T, typename... INDICES> class map;
 		template<class T> class map;
 		template<typename T> class funcmap;
-
+		
 		template<typename T> class factory;
 		//class factory;
-
+		
 		template<typename T> class Initializer;
+	}
+	namespace dll
+	{
+		template<typename T> class helper;
 	}
 }
 
