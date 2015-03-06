@@ -66,6 +66,11 @@ namespace gal { namespace stl {
 				assert(map_);
 				return map_->end();
 			}
+			unsigned int		size()
+			{
+				assert(map_);
+				return map_->size();
+			}
 			bool			empty()
 			{
 				assert(map_);

@@ -179,6 +179,10 @@ namespace gal { namespace stl {
 			{
 				return container_.begin();
 			}
+			unsigned int				size()
+			{
+				return container_.size();
+			}
 			/** @brief end iterator 0
 			*/
 			iterator				end() {
