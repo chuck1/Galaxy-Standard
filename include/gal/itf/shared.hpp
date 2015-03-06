@@ -16,6 +16,8 @@
 #include <gal/std/decl.hpp>
 #include <gal/itf/typedef.hpp>
 
+#include <gal/shared.hpp>
+
 namespace gal {
 	namespace itf {
 		/** @brief %shared.
@@ -25,7 +27,7 @@ namespace gal {
 		 * Supply type info.
 		 */
 		class shared:
-			public std::enable_shared_from_this<gal::itf::shared>,
+			virtual public gal::enable_shared_from_this<gal::itf::shared>,
 			virtual public gal::itf::__release
 		{
 			public:
