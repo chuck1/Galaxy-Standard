@@ -14,11 +14,16 @@ namespace gal {
 	class enable_shared_from_this:
 		virtual public gal::shared
 	{
+	private:
+		typedef std::enable_shared_from_this<gal::shared> ESFT;
 	public:
-		virtual ~enable_shared_from_this() {}
+		virtual ~enable_shared_from_this()
+		{
+		}
 		std::shared_ptr<T>	shared_from_this()
 		{
-			return std::dynamic_pointer_cast<T>(std::enable_shared_from_this<gal::shared>::shared_from_this());
+			auto s = ESFT::shared_from_this();
+			return std::dynamic_pointer_cast<T>(s);
 		}
 	};
 }
