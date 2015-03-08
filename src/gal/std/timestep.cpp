@@ -6,13 +6,12 @@ gal::etc::timestep::timestep():
 	dt(0.0),
 	frame(0)
 {}
-void		gal::etc::timestep::step(double ntime) {
-
+void		gal::etc::timestep::step(double ntime)
+{
+	last = time;
 	time = ntime;
 	dt = time - last;
-	last = time;
 	frame++;
-
 }
 
 

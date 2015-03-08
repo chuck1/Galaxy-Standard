@@ -51,7 +51,8 @@ namespace gal { namespace tmp {
 	/**
 	 * store a register of strings and level pointers for use with config file
 	 */
-	class VerbosityRegister
+	class VerbosityRegister:
+		public gal::tmp::Verbosity<gal::tmp::VerbosityRegister>
 	{
 	public:
 		template<typename T>
@@ -63,7 +64,10 @@ namespace gal { namespace tmp {
 		{
 			auto it = _M_map.find(str);
 			if(it == _M_map.end()) {
-				abort();
+				printv(DEBUG, "no entry: %s\n",
+						str.c_str());
+				//abort();
+				return;
 			}
 
 			*(it->second) = i;
