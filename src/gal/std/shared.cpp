@@ -26,7 +26,7 @@ gal::itf::registry*				THIS::get_registry()
 }
 void    				        THIS::init_shared(THIS * const & parent)
 {
-	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
+	//printv_func(DEBUG);
 
 	_M_shared_parent = parent;
 		
@@ -36,7 +36,7 @@ void    				        THIS::init_shared(THIS * const & parent)
 
 	reg->reg(shared_from_this());
 
-	printf("_M_index = %i\n", _M_index);
+	//printv(DEBUG, "_M_index = %i\n", _M_index);
 
 	assert(_M_index != -1);
 }
