@@ -76,6 +76,6 @@ namespace gal { namespace tmp {
 	};
 }}
 
-template<typename T> int gal::tmp::Verbosity<T>::_M_level = 1;
+template<typename T> int gal::tmp::Verbosity<T>::_M_level = 0;
 
 #endif
