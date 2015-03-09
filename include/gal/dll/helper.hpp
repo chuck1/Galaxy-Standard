@@ -189,6 +189,8 @@ namespace gal { namespace dll {
 			template<typename D, typename... ARGS>
 			std::shared_ptr<D>	make_shared(ARGS... args)
 			{
+				printv_func(DEBUG);
+
 				auto hc = typeid(D).hash_code();
 
 				auto f = gal::stl::funcmap<B>::template find<ARGS...>(hc);

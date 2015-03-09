@@ -1,6 +1,7 @@
 #ifndef GAL_TMP_ESFT_HPP
 #define GAL_TMP_ESFT_HPP
 
+#include <cassert>
 #include <memory>
 
 namespace gal {
