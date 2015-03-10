@@ -66,7 +66,7 @@ namespace gal { namespace stl {
 			void					insert(pointer const & t) {
 				boost::lock_guard<boost::mutex> lk(mutex_);
 				
-				auto c = t.use_count(); 
+				long int c = t.use_count(); 
 				
 				assert(t);
 				
@@ -102,7 +102,10 @@ namespace gal { namespace stl {
 					abort();
 				}
 
-				assert(t.use_count() == (c + 1));
+				if(t.use_count() != (c + 1)) {
+					printf("%li %li\n", c, t.use_count());
+					abort();
+				}
 
 			}
 			void			for_each(std::function<void(pointer)> const & f)
