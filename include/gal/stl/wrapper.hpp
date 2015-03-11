@@ -115,11 +115,13 @@ namespace gal { namespace stl {
 					load_type = 0;
 					ar << BOOST_SERIALIZATION_NVP(load_type);
 
-					HashCode hc(ptr_->hash_code());
+					gal::itf::hash_type h = ptr_->hash_code();
 
-					printv(INFO, "hashcode = %i\n", hc);
+					//HashCode hc();
 
-					ar << boost::serialization::make_nvp("hashcode", hc);
+					printv(INFO, "hashcode = %i\n", h);
+
+					ar << boost::serialization::make_nvp("hashcode", h);
 				}
 
 
@@ -134,40 +136,48 @@ namespace gal { namespace stl {
 
 				if(load_type == 1) // dll
 				{
-					printv(INFO, "dynamic object\n");
-					
-					gal::dll::helper_info hi;
-					ar >> boost::serialization::make_nvp("helper", hi);
-
-					// must add to helper_info: search path(s) for .so files
-					// search path(s) will be passed to this by calling code
-
-					// get the factory
-					auto fs = factory_.lock();
-					assert(fs);
-
-					// allocate the object
-					ptr_ = fs->template alloc<gal::dll::helper_info&>(hi.base_hc, hi);
+					load_1(ar, version);
 				}
 				else
 				{
 					printv(INFO, "static object\n");
 
-					HashCode hc;
-					ar >> boost::serialization::make_nvp("hashcode", hc);
+					//HashCode hc;
 
-					printv(INFO, "hash_code = %i\n", hc.hc);
+					gal::itf::hash_type h;
+
+					ar >> boost::serialization::make_nvp("hashcode", h);
+
+					printv(INFO, "hashcode = %i\n", h);
 
 					// get the factory
 					auto fs = factory_.lock();
 					assert(fs);
 
 					// allocate the object
-					ptr_ = fs->template alloc<>(hc.hc);
+					ptr_ = fs->template alloc<>(h);
 				}
 				ptr_->init_shared(_M_shared_parent);
 				// read objcet data
 				ar >> boost::serialization::make_nvp("object", *ptr_);
+			}
+			template<class Archive>
+			void			load_1(Archive & ar, unsigned int const & version)
+			{
+				printv(INFO, "dynamic object\n");
+				
+				gal::dll::helper_info hi;
+				ar >> boost::serialization::make_nvp("helper", hi);
+
+				// must add to helper_info: search path(s) for .so files
+				// search path(s) will be passed to this by calling code
+
+				// get the factory
+				auto fs = factory_.lock();
+				assert(fs);
+
+				// allocate the object
+				ptr_ = fs->template alloc<gal::dll::helper_info&>(hi.base_hc, hi);
 			}
 			BOOST_SERIALIZATION_SPLIT_MEMBER();
 			static gal::itf::index_type const &			static_get_index(gal::stl::wrapper<T, S_> const & wrap)
