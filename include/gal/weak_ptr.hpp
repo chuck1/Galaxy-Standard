@@ -60,6 +60,11 @@ namespace gal {
 		{
 			return _M_ptr;
 		}
+		template<typename T1>
+		operator std::weak_ptr<T1>()
+		{
+			return std::static_pointer_cast<T1>(_M_ptr.lock());
+		}
 		operator bool() const
 		{
 			return (!_M_ptr.expired());
