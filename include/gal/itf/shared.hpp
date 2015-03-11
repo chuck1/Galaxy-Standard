@@ -16,7 +16,7 @@
 #include <gal/std/decl.hpp>
 #include <gal/itf/typedef.hpp>
 
-#include <gal/shared.hpp>
+#include <gal/type_info.hpp>
 
 namespace gal {
 	namespace itf {
@@ -27,10 +27,12 @@ namespace gal {
 		 * Supply type info.
 		 */
 		class shared:
+			virtual public gal::type_info<gal::itf::shared>,
 			virtual public gal::enable_shared_from_this<gal::itf::shared>,
 			virtual public gal::itf::__release
 		{
 			public:
+				using gal::enable_shared_from_this<gal::itf::shared>::shared_from_this;
 				typedef gal::itf::registry R;
 				friend class gal::itf::registry;
 				R*					get_registry();
@@ -52,10 +54,6 @@ namespace gal {
 				/** @brief init */
 				virtual void				init_shared(gal::itf::shared * const & parent);
 				virtual void				release() = 0;
-				/** @brief hash code */
-				hash_type				hash_code() const;
-				/** */
-				std::string				name() const;
 				/** */
 				template<class A> void			serialize(A & ar, unsigned int const v)
 				{

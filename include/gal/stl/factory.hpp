@@ -11,8 +11,7 @@
 
 namespace sp = std;
 
-namespace gal {
-	namespace stl {
+namespace gal { namespace stl {
 		/** @brief factory.
 		 *
 		 * Store and use allocator functions
@@ -30,25 +29,24 @@ namespace gal {
 			typedef std::shared_ptr<T>	shared;
 			typedef gal::stl::funcmap<T>	fm;
 			/** */
-			template<typename... Args> shared					alloc(gal::itf::hash_type hash_code, Args&&... args) {
+			template<typename... Args>
+			shared				alloc(gal::itf::hash_type hash_code, Args&&... args)
+			{
 				//auto f = find<Args...>(hash_code);
 				//auto f = gal::stl::funcmap<T>::find<Args...>(hash_code);
+				
+				// get allocator function from funcmap using hashcode
 				auto f = fm::template find<Args...>(hash_code);
 
 				return (f->f_)(::std::forward<Args>(args)...);
 			}
-
 		public:
-			static std::shared_ptr< factory<T> >					default_factory_;
+			static std::shared_ptr< factory<T> >				default_factory_;
 		};
 
-		template<typename T> std::shared_ptr< factory<T> >		factory<T>::default_factory_ = std::shared_ptr< factory<T> >(new factory<T>());
-	}
-}
+		template<typename T> std::shared_ptr< factory<T> > factory<T>::default_factory_ = std::shared_ptr< factory<T> >(new factory<T>());
+}}
 
 #endif
-
-
-
 
 

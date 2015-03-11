@@ -6,13 +6,14 @@
 #include <gal/stl/wrapper.hpp>
 
 namespace gal { namespace stl {
-		template<class T>
+		template< typename T, typename S_ = std::shared_ptr<T> >
 		class parent:
 			virtual public gal::itf::shared
 		{
 		public:
-			typedef std::shared_ptr<T>		S;
-			typedef gal::stl::map<T>		MAP;
+			//typedef std::shared_ptr<T>		S;
+			typedef S_				S;
+			typedef gal::stl::map<T, S_>		MAP;
 			typedef std::shared_ptr<MAP>		MAP_SHARED;
 			typedef typename MAP::iterator		ITER;
 			parent()
@@ -25,10 +26,10 @@ namespace gal { namespace stl {
 					map_->init(this);
 				}
 			}
-			void			insert(S s)
+			void			insert(S && s)
 			{
 				assert(map_);
-				map_->insert(s);
+				map_->insert(std::move(s));
 			}
 			S			get(gal::itf::index_type i)
 			{

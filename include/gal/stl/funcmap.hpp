@@ -21,22 +21,28 @@ namespace gal { namespace stl {
 	class funcmap
 	{
 		private:
-			typedef std::shared_ptr<T> shared_type;
-			/** */
 			struct __base_function
 			{
 				virtual ~__base_function() {}
+				virtual char const *	signature() = 0;
 			};
-			/** */
+
+			typedef std::shared_ptr<T> shared_type;
+			typedef std::map< long int, std::shared_ptr<__base_function> > map_type;
+			
 			template<class... A>
 			struct __function: __base_function
 			{
-				/** */
-				__function(::std::function< shared_type(A...) > f): f_(f) {}
-				/** */
+				__function(std::function< shared_type(A...) > f):
+					f_(f)
+				{
+				}
+				virtual char const *	signature()
+				{
+					return __PRETTY_FUNCTION__;
+				}
 				std::function< shared_type(A...) >		f_;
 			};
-			typedef std::map< long int, std::shared_ptr<__base_function> > map_type;
 			/**
 			 * exception
 			 */
@@ -88,6 +94,13 @@ namespace gal { namespace stl {
 					throw 0;
 				}
 			}
+			void						list()
+			{
+				printf("funcmap entries:\n");
+				for(auto p : map_) {
+					printf("%16li %s\n", p.first, p.second->signature());
+				}
+			}
 			/** */
 			template<typename... Args>
 			std::shared_ptr< __function< Args... > >	find(
@@ -102,8 +115,11 @@ namespace gal { namespace stl {
 					printf("signature not found in funcmap\n");
 					pass1(printf("%s\n", typeid(Args).name())...);
 					std::cout
-						<< "T = " << typeid(T).name() << std::endl
+						<< "T    = " << typeid(T).name() << std::endl
 						<< "hash = " << hash_code << std::endl;
+					
+					list();
+
 					throw invalid_key();
 				}
 				
@@ -118,6 +134,8 @@ namespace gal { namespace stl {
 						<< "func = " << typeid(func_t).name() << std::endl
 						<< "T    = " << typeid(T).name() << std::endl
 						<< "hash = " << hash_code << std::endl;
+
+					list();
 
 					throw invalid_args();
 				}

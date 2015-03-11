@@ -4,6 +4,8 @@
 #include <memory>
 #include <exception>
 
+#include <gal/unique_ptr.hpp>
+
 namespace gal {
 	template<typename T>
 	class weak_ptr
@@ -17,8 +19,9 @@ namespace gal {
 				return "null pointer exception";
 			}
 		};
-		typedef std::shared_ptr<T> S;
-		typedef gal::weak_ptr<T> W;
+		typedef std::shared_ptr<T>	S;
+		typedef gal::unique_ptr<T>	U;
+		typedef gal::weak_ptr<T>	W;
 		weak_ptr()
 		{
 		}
@@ -26,13 +29,21 @@ namespace gal {
 			_M_ptr(std::move(w._M_ptr))
 		{
 		}
+		weak_ptr(W const & w):
+			_M_ptr(w._M_ptr)
+		{
+		}
 		weak_ptr(S const & s):
 			_M_ptr(s)
 		{
 		}
-		W&	operator=(S const & s)
+		weak_ptr(U const & u):
+			_M_ptr(u._M_ptr)
 		{
-			_M_ptr = s;
+		}
+		W&	operator=(U const & u)
+		{
+			_M_ptr = u._M_ptr;
 			return *this;
 		}
 		T*	operator->()
@@ -45,14 +56,16 @@ namespace gal {
 			}
 			return 0;
 		}
+		operator std::weak_ptr<T>()
+		{
+			return _M_ptr;
+		}
+		operator bool() const
+		{
+			return (!_M_ptr.expired());
+		}
 	private:
-		weak_ptr(W const & w)
-		{
-		}
-		W&	operator=(W const & w)
-		{
-			return *this;
-		}
+		W&	operator=(W const & w) = default;
 	private:
 		std::weak_ptr<T>	_M_ptr;
 	};

@@ -2,12 +2,15 @@
 
 int main()
 {
-	std::shared_ptr<int> s(new int);
 
+	typedef gal::unique_ptr<int> U;
 	typedef gal::weak_ptr<int> W;
 
+	U u0(new int);
+
 	W w0;
-	W w1(s);
+	W w1(u0);
+	W w2 = u0;
 	
 	int* i = w0.operator->();
 }

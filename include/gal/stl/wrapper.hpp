@@ -23,15 +23,15 @@
 namespace ba = boost::archive;
 
 namespace gal { namespace stl {
-	template<typename T>
+	template< typename T, typename S_ = std::shared_ptr<T> >
 	class wrapper:
-		public gal::tmp::Verbosity< wrapper<T> >,
+		public gal::tmp::Verbosity< wrapper<T, S_> >,
 		virtual public gal::itf::shared
 	{
 		public:
-			using gal::tmp::Verbosity< wrapper<T> >::printv;
+			using gal::tmp::Verbosity< wrapper<T, S_> >::printv;
 			typedef std::weak_ptr< factory<T> >			factory_weak;
-			typedef std::shared_ptr<T>				shared;
+			typedef S_					S;
 			struct LoadType
 			{
 				enum
@@ -56,21 +56,21 @@ namespace gal { namespace stl {
 		}
 			/** @brief constructor
 			*/
-			wrapper(shared ptr):
-				ptr_(ptr),
+			wrapper(S && ptr):
+				ptr_(std::move(ptr)),
 				factory_(factory<T>::default_factory_)
 		{
 			printv(DEBUG, "wrapper ctor 1\n");
 			assert(ptr_);
 		}
-			wrapper(wrapper<T> const & w):
+			wrapper(wrapper<T, S_> const & w):
 				ptr_(w.ptr_),
 				factory_(w.factory_)
 		{
 			printv(DEBUG, "wrapper copy ctor\n");
 			assert(ptr_);
 		}
-			wrapper(wrapper<T>&& w):
+			wrapper(wrapper<T, S_>&& w):
 				ptr_(std::move(w.ptr_)),
 				factory_(std::move(w.factory_))
 		{
@@ -99,7 +99,7 @@ namespace gal { namespace stl {
 				int load_type;
 				if(del)
 				{
-					printv(DEBUG, "dynamic\n");
+					printv(INFO, "dynamic\n");
 
 					load_type = 1;					
 					ar << BOOST_SERIALIZATION_NVP(load_type);
@@ -110,12 +110,15 @@ namespace gal { namespace stl {
 				}
 				else
 				{
-					printv(DEBUG, "static\n");
+					printv(INFO, "static\n");
 
 					load_type = 0;
 					ar << BOOST_SERIALIZATION_NVP(load_type);
 
 					HashCode hc(ptr_->hash_code());
+
+					printv(INFO, "hashcode = %i\n", hc);
+
 					ar << boost::serialization::make_nvp("hashcode", hc);
 				}
 
@@ -124,11 +127,15 @@ namespace gal { namespace stl {
 			}
 			template<class Archive> void		load(Archive & ar, unsigned int const & version)
 			{
+				printv_func(DEBUG);
+
 				int load_type;
 				ar >> BOOST_SERIALIZATION_NVP(load_type);
 
 				if(load_type == 1) // dll
 				{
+					printv(INFO, "dynamic object\n");
+					
 					gal::dll::helper_info hi;
 					ar >> boost::serialization::make_nvp("helper", hi);
 
@@ -144,9 +151,12 @@ namespace gal { namespace stl {
 				}
 				else
 				{
+					printv(INFO, "static object\n");
 
 					HashCode hc;
 					ar >> boost::serialization::make_nvp("hashcode", hc);
+
+					printv(INFO, "hash_code = %i\n", hc.hc);
 
 					// get the factory
 					auto fs = factory_.lock();
@@ -159,26 +169,23 @@ namespace gal { namespace stl {
 				// read objcet data
 				ar >> boost::serialization::make_nvp("object", *ptr_);
 			}
-
-			/** */
 			BOOST_SERIALIZATION_SPLIT_MEMBER();
-			static gal::itf::index_type const &			static_get_index(gal::stl::wrapper<T> const & wrap) {
+			static gal::itf::index_type const &			static_get_index(gal::stl::wrapper<T, S_> const & wrap)
+			{
 				if(wrap.ptr_->_M_index == -1) {
 					printv(CRITICAL, "warning: gal::itf::shared object is uninitialized\n");
 					throw 0;
 				}
 				return wrap.ptr_->i_;
 			}
-
 		public:
 			/** @brief Pointer */
-			shared				ptr_;
+			S				ptr_;
 			factory_weak			factory_;
 	};
+}}
 
-
-}
-}
+//template< typename T, typename S > int gal::tmp::Verbosity< gal::stl::wrapper<T, S> >::_M_level = DEBUG;
 
 #endif
 

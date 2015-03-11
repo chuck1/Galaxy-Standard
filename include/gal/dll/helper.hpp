@@ -24,50 +24,6 @@ namespace gal { namespace dll {
 		public std::enable_shared_from_this< helper_base >
 	{
 	};
-
-	/*
-	template<typename D>
-	class deleter1
-	{
-	public:
-		deleter1(std::shared_ptr<gal::dll::helper_base> hb, void (*pdestroy)(D*)):
-			_M_helper(hb),
-			_M_pdestroy(pdestroy)
-		{
-		}
-		virtual ~deleter1()
-		{
-		}
-		deleter1(deleter1<D>&& d):
-			_M_helper(std::move(d._M_helper)),
-			_M_pdestroy(std::move(d._M_pdestroy))
-		{
-		}
-		deleter1(deleter1<D> const & d):
-			_M_helper(d._M_helper),
-			_M_pdestroy(d._M_pdestroy)
-		{
-		}
-		void		operator()(gal::itf::shared* p)
-		{
-			p->release();
-			assert(_M_pdestroy);
-			D* d = dynamic_cast<D*>(p);
-			assert(d);
-			_M_pdestroy(d);
-		}
-	private:
-		*
-		 * keep the helper alive (the the so open) at least until all objects are destroyed
-		 *
-		std::shared_ptr< gal::dll::helper_base >	_M_helper;
-		void						(*_M_pdestroy)(D*);
-	};
-	*/
-
-	/*
-	 * B is the base type for the funcmap
-	 */
 	template<class B_>
 	class helper:
 		public gal::tmp::Verbosity< gal::dll::helper< B_ > >,

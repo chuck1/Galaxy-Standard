@@ -43,28 +43,6 @@ void    				        THIS::init_shared(THIS * const & parent)
 void						THIS::release()
 {
 }
-gal::itf::hash_type				THIS::hash_code() const
-{
-	//std::cout << __PRETTY_FUNCTION__ << std::endl;
-
-	std::type_index type(typeid(*this));
-
-	//std::cout << type.name() << std::endl;
-	//std::cout << type.hash_code() << std::endl;
-
-	return type.hash_code();
-}
-std::string					THIS::name() const
-{
-	//std::cout << __PRETTY_FUNCTION__ << std::endl;
-
-	std::type_index type(typeid(*this));
-
-	//std::cout << type.name() << std::endl;
-	//std::cout << type.hash_code() << std::endl;
-
-	return type.name();
-}
 gal::itf::index_type				THIS::get_index() const
 {
 	return _M_index;

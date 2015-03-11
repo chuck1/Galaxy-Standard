@@ -20,9 +20,9 @@
 namespace mi = boost::multi_index;
 
 namespace gal { namespace stl {
-	template <class T>
+	template <typename T, class S_ = std::shared_ptr<T> >
 	class map:
-		public gal::tmp::Verbosity< map<T> >,
+		public gal::tmp::Verbosity< map<T, S_> >,
 		virtual public gal::itf::shared
 	{
 		public:
@@ -30,16 +30,15 @@ namespace gal { namespace stl {
 			struct item_not_found: std::exception {
 			};
 			typedef std::shared_ptr< gal::stl::factory<T> >			factory_shared_type;
-			typedef std::shared_ptr<T>					pointer;
-			typedef gal::stl::wrapper<T>					wrapper_type;
 
+			//typedef std::shared_ptr<T>					S;
+			typedef S_							S;
 
+			typedef gal::stl::wrapper<T, S_>				wrapper_type;
 			typedef std::map<gal::itf::index_type, wrapper_type>		container_type;
 			typedef typename container_type::value_type			value_type;
 			typedef typename container_type::iterator			iterator;
-
 			enum { CONTINUE, BREAK };
-
 			/** @brief Constructor */
 			map() {}
 			map(factory_shared_type factory): factory_(factory) {}
@@ -51,64 +50,51 @@ namespace gal { namespace stl {
 			{
 				assert(container_.empty());
 			}
-			void					init(gal::itf::shared * const & parent)
+			void				init(gal::itf::shared * const & parent)
 			{
 				init_shared(parent);
 			}
-			void					release()
+			void				release()
 			{
 			}
-			template<class Archive> void		serialize(Archive & ar, unsigned int const & version) {
+			template<class Archive>
+			void				serialize(Archive & ar, unsigned int const & version) {
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
 				ar & boost::serialization::make_nvp("container",container_);
 			}
-			void					insert(pointer const & t) {
+			void				insert(S && s)
+			{
 				boost::lock_guard<boost::mutex> lk(mutex_);
 				
-				long int c = t.use_count(); 
+				//std::weak_ptr<T> w(s);
 				
-				assert(t);
+				assert(s);
 				
 				// make sure index is initialized
-				auto i = gal::itf::shared::static_get_index(t);
+				//auto i = gal::itf::shared::static_get_index(s);
+				auto i = s->get_index();
 				
 				if(i == -1) {
 					//shared_ptr<gal::itf::shared> sh(t);
-					t->gal::itf::shared::init_shared(_M_shared_parent);
-					i = t->get_index();
+					s->gal::itf::shared::init_shared(_M_shared_parent);
+					i = s->get_index();
 					printv(INFO, "t->get_index() = %i\n", i);
 				}
-				
-				//gal::stl::wrapper<T> m(t);
-
-				//assert(t.use_count() == (c + 1));
-
-				//std::cout << "t = " << t.get() << std::endl;
-				//std::cout << "t->_M_index = " << t->_M_index << std::endl;
-
-
-				//container_.insert(value_type(i,m));
 
 				auto ret = container_.insert(
 						value_type(
 							i,
-							wrapper_type(t)
-							)
-						);
+							wrapper_type(std::move(s))));
 
 				if(!ret.second) {					
 					printv(CRITICAL, "not inserted i = %i\n", i);
 					abort();
 				}
-
-				if(t.use_count() != (c + 1)) {
-					printf("%li %li\n", c, t.use_count());
-					abort();
-				}
-
+				
+				//return w;
 			}
-			void			for_each(std::function<void(pointer)> const & f)
+			void			for_each(std::function<void(S const &)> const & f)
 			{
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
@@ -118,7 +104,7 @@ namespace gal { namespace stl {
 					f(p);
 				}
 			}
-			void			for_each_int(::std::function<int(pointer)> const & f) {
+			void			for_each_int(::std::function<int(S const &)> const & f) {
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
 				int ret;
@@ -171,28 +157,30 @@ namespace gal { namespace stl {
 			}
 			/** @brief begin iterator 0
 			*/
-			pointer					front()
+			S				front()
 			{
 				auto it = begin();
 				if(it != end())
 					return it->second.ptr_;
-				return pointer();
+				return S();
 			}
-			iterator				begin()
+			iterator			begin()
 			{
 				return container_.begin();
 			}
-			unsigned int				size()
+			unsigned int			size()
 			{
 				return container_.size();
 			}
 			/** @brief end iterator 0
 			*/
-			iterator				end() {
+			iterator			end()
+			{
 				return container_.end();
 			}
 			/** */
-			void					erase(gal::itf::index_type i) {
+			void				erase(gal::itf::index_type i)
+			{
 
 				while(1) {	
 					boost::lock_guard<boost::mutex> lk(mutex_);
