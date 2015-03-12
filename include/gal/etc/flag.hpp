@@ -16,8 +16,7 @@
 
 #include <map>
 
-namespace gal {
-	namespace etc {
+namespace gal { namespace etc {
 		template <typename enum_type> struct enum_map {
 			std::map< std::string, enum_type >		map_string_enum_;
 			std::map< enum_type, std::string >		map_enum_string_;
@@ -46,7 +45,7 @@ namespace gal {
 				}
 				return vec;
 			}
-			enum_type				toEnum(::std::vector< ::std::string > vec) {
+			enum_type		toEnum(std::vector<std::string> vec) {
 				enum_type e = 0;
 				for(auto it = vec.cbegin(); it != vec.cend(); ++it) {
 					e |= toEnum(*it);
@@ -54,33 +53,34 @@ namespace gal {
 				return e;
 			}
 		};
-	}
-}
+}}
 
 
 
 #define DEFINE_FLAG(name, values)\
-	struct name {\
-		public:\
-			typedef unsigned int		flag_type;\
-			enum E: flag_type\
-			{\
-				BOOST_PP_SEQ_FOR_EACH(DEFINE_ENUM_VALUE, , values)\
-			};\
-			name(): val_((E)0) {}\
-			name(E e): val_(e) {}\
-			name(unsigned int e): val_((E)e) {}\
-			\
-			void		set(flag_type fl)	{ val_ = (E)(val_ | fl); }\
-			void		unset(flag_type fl)	{ val_ = (E)(val_ & ~fl); }\
-			void		toggle(flag_type fl)	{ val_ = (E)(val_ ^ fl); }\
-			bool		all(flag_type fl)	{ return ( ( val_ & fl ) == fl ); }\
-			bool		any(flag_type fl)	{ return bool( val_ & fl ); }\
-			flag_type	mask(flag_type fl)	{ return bool( val_ & fl ); }\
-			operator flag_type()			{ return (flag_type)val_; }\
-			\
-			void		save(boost::archive::xml_oarchive & ar, unsigned int const & version) {\
-				std::vector< ::std::string > vec = maps_.maps_.toStringVec(val_);\
+struct name {\
+public:\
+	typedef unsigned long int	flag_type;\
+	enum E: flag_type\
+	{\
+		BOOST_PP_SEQ_FOR_EACH(DEFINE_ENUM_VALUE, , values)\
+	};\
+	name(): val_((E)0) {}\
+	name(E e): val_(e) {}\
+	name(unsigned int e): val_((E)e) {}\
+	\
+	void		set(flag_type fl)	{ val_ = (E)(val_ | fl); }\
+	void		unset(flag_type fl)	{ val_ = (E)(val_ & ~fl); }\
+	void		toggle(flag_type fl)	{ val_ = (E)(val_ ^ fl); }\
+	bool		all(flag_type fl)	{ return ( ( val_ & fl ) == fl ); }\
+	bool		any(flag_type fl)	{ return bool( val_ & fl ); }\
+	flag_type	mask(flag_type fl)	{ return bool( val_ & fl ); }\
+	operator flag_type()			{ return (flag_type)val_; }\
+	\
+	void		save(\
+		boost::archive::xml_oarchive & ar, unsigned int const & version)\
+	{\
+		std::vector< ::std::string > vec = maps_.maps_.toStringVec(val_);\
 				ar << boost::serialization::make_nvp("value",vec);\
 			}\
 			void				load(boost::archive::xml_iarchive & ar, unsigned int const & version) {\
