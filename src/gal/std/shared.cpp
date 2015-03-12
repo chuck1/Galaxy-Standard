@@ -52,5 +52,28 @@ gal::itf::index_type const &			THIS::static_get_index(std::shared_ptr<THIS> ptr)
 	assert(ptr);
 	return ptr->_M_index;
 }
+void			THIS::load(
+		boost::archive::polymorphic_iarchive & ar,
+		unsigned int const & version)
+{
+	ar & BOOST_SERIALIZATION_NVP(_M_index);
+	ar & BOOST_SERIALIZATION_NVP(_M_name);
+}
+void			THIS::save(
+		boost::archive::polymorphic_oarchive & ar,
+		unsigned int const & version) const
+{
+	ar & BOOST_SERIALIZATION_NVP(_M_index);
+	ar & BOOST_SERIALIZATION_NVP(_M_name);
+}
+
+
+
+
+
+
+
+
+
 
 

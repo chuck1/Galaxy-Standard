@@ -11,6 +11,9 @@
 
 #include <boost/thread.hpp>
 #include <boost/serialization/nvp.hpp>
+#include <boost/archive/polymorphic_iarchive.hpp>
+#include <boost/archive/polymorphic_oarchive.hpp>
+#include <boost/serialization/string.hpp>
 
 #include <gal/itf/release.hpp>
 #include <gal/std/decl.hpp>
@@ -55,11 +58,14 @@ namespace gal {
 				virtual void				init_shared(gal::itf::shared * const & parent);
 				virtual void				release() = 0;
 				/** */
-				template<class A> void			serialize(A & ar, unsigned int const v)
-				{
-					ar & BOOST_SERIALIZATION_NVP(_M_index);
-					ar & BOOST_SERIALIZATION_NVP(_M_name);
-				}
+				virtual void		load(
+						boost::archive::polymorphic_iarchive & ar,
+						unsigned int const & version);
+				virtual void		save(
+						boost::archive::polymorphic_oarchive & ar,
+						unsigned int const & version) const;
+				BOOST_SERIALIZATION_SPLIT_MEMBER();
+
 				index_type				get_index() const;
 			private:
 				index_type				_M_index;
