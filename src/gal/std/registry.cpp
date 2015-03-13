@@ -18,8 +18,8 @@ void                                            THIS::reg(std::shared_ptr<gal::i
 		s->_M_index = next_++;
 	}
 
-	auto it = map_.find(i);
-	if(it =! map_.cend()) {
+	auto it = map_.find(s->_M_index);
+	if(it != map_.cend()) {
 		printf("index already taken\n");
 		abort();
 	}

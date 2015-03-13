@@ -15,7 +15,8 @@ namespace gal { namespace stl {
 	public:
 		typedef T parent_t;
 		/**
-		 * exists so you don't have to call every construct for every class in a virtual class hierarchy
+		 * exists so you don't have to call every construct
+		 * for every class in a virtual class hierarchy
 		 */
 		child(): _M_parent(0)
 		{
@@ -27,7 +28,10 @@ namespace gal { namespace stl {
 		void		setParent(T * const & p)
 		{
 			assert(p);	
-			/** TODO need to explain why this was here, it needs to be removed or changed as some classes cannot be converted as is */
+			/** TODO need to explain why this was here,
+			 * it needs to be removed or changed as
+			 * some classes cannot be converted as is
+			 */
 			//assert(dynamic_cast<gal::stl::child<T>*>(p) != this);
 			
 			_M_parent = p;
