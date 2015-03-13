@@ -37,6 +37,8 @@ namespace gal { namespace itf {
 		using gal::enable_shared_from_this<gal::itf::shared>::shared_from_this;
 		typedef gal::itf::registry R;
 		friend class gal::itf::registry;
+		friend class boost::serialization::access;
+
 		R*				get_registry();
 		/** @brief static get index
 		 *
@@ -58,21 +60,21 @@ namespace gal { namespace itf {
 				gal::itf::shared * const & parent);
 		virtual void			release() = 0;
 		/** */
-		virtual void		load(
+	private:
+		void			load(
 				boost::archive::polymorphic_iarchive & ar,
 				unsigned int const & version);
-		virtual void		save(
+		void			save(
 				boost::archive::polymorphic_oarchive & ar,
 				unsigned int const & version) const;
 		BOOST_SERIALIZATION_SPLIT_MEMBER();
-
-		index_type			get_index() const;
-	private:
+	protected:
 		/*
 		 * index for finding this on this machine
 		 */
 		index_type			_M_index;
 	public:
+		index_type			get_index() const;
 		/*
 		 * index given to object by creation machine
 		 * if not -1, implies that this machine was not the creation

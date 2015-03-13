@@ -11,6 +11,7 @@ namespace gal { namespace stl {
 			virtual public gal::itf::shared
 		{
 		public:
+			friend class boost::serialization::access;
 			//typedef std::shared_ptr<T>		S;
 			typedef S_				S;
 			typedef gal::stl::map<T, S_>		MAP;
@@ -87,13 +88,14 @@ namespace gal { namespace stl {
 				assert(map_);
 				map_->for_each_int(f);
 			}
+		
+		private:
 			template<typename ARCHIVE>
 			void			serialize(ARCHIVE & ar, unsigned int const & version)
 			{
 				assert(map_);
 				ar & boost::serialization::make_nvp("map", *map_);
 			}
-		private:
 			void			thread_erase(gal::itf::index_type i)
 			{
 				map_->erase(i);
