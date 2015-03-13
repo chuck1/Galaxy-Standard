@@ -28,8 +28,10 @@ void    				        THIS::init_shared(THIS * const & parent)
 {
 	//printv_func(DEBUG);
 
+	assert(parent);
+
 	_M_shared_parent = parent;
-		
+
 	// find registry
 
 	auto reg = get_registry();	

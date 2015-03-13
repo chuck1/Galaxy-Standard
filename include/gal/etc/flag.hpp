@@ -78,7 +78,7 @@ public:\
 	bool		any(flag_type fl)	{ return bool( val_ & fl ); }\
 	flag_type	mask(flag_type fl)	{ return bool( val_ & fl ); }\
 	operator flag_type()			{ return (flag_type)val_; }\
-	std::string		toString()\
+	std::string		toString() const\
 	{\
 		return maps_.maps_.toString(val_);\
 	}\
@@ -125,7 +125,7 @@ public:\
 	{\
 		return (T)val_;\
 	}\
-	std::string		toString()\
+	std::string		toString() const\
 	{\
 		return maps_.maps_.toString(val_);\
 	}\
