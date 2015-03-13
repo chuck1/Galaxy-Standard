@@ -18,6 +18,12 @@ void                                            THIS::reg(std::shared_ptr<gal::i
 		s->_M_index = next_++;
 	}
 
+	auto it = map_.find(i);
+	if(it =! map_.cend()) {
+		printf("index already taken\n");
+		abort();
+	}
+
 	map_[s->_M_index] = s;
 }
 std::shared_ptr<gal::itf::shared>		THIS::get(gal::itf::index_type i)
