@@ -22,10 +22,7 @@ namespace gal { namespace stl {
 			}
 			void			init(gal::itf::shared * const & parent)
 			{
-				if(!map_) {
-					map_.reset(new MAP);
-					map_->init(this);
-				}
+				assert_map();
 			}
 			void			insert(S && s)
 			{
@@ -90,10 +87,17 @@ namespace gal { namespace stl {
 			}
 		
 		private:
+			void			assert_map()
+			{
+				if(!map_) {
+					map_.reset(new MAP);
+					map_->init(this);
+				}
+			}
 			template<typename ARCHIVE>
 			void			serialize(ARCHIVE & ar, unsigned int const & version)
 			{
-				assert(map_);
+				assert_map();
 				ar & boost::serialization::make_nvp("map", *map_);
 			}
 			void			thread_erase(gal::itf::index_type i)
