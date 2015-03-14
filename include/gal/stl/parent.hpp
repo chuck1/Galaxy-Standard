@@ -47,8 +47,8 @@ namespace gal { namespace stl {
 			}
 			void			clear()
 			{
-				assert(map_);
-				map_->clear();
+				if(map_) //assert(map_);
+					map_->clear();
 			}
 			S			front()
 			{
@@ -72,8 +72,10 @@ namespace gal { namespace stl {
 			}
 			bool			empty()
 			{
-				assert(map_);
-				return map_->empty();
+				if(map_)
+					return map_->empty();
+
+				return true;
 			}
 			void			for_each(std::function<void(S)> const & f)
 			{
