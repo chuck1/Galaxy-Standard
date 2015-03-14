@@ -61,7 +61,7 @@ namespace gal { namespace stl {
 			void				serialize(Archive & ar, unsigned int const & version) {
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
-				ar & boost::serialization::make_nvp("container",container_);
+				ar & boost::serialization::make_nvp("container", container_);
 			}
 			void				insert(S && s)
 			{

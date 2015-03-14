@@ -157,6 +157,8 @@ namespace gal { namespace stl {
 					// allocate the object
 					ptr_ = fs->template alloc<>(h);
 				}
+				
+				assert(_M_shared_parent);
 				ptr_->init_shared(_M_shared_parent);
 				// read objcet data
 				ar >> boost::serialization::make_nvp("object", *ptr_);
