@@ -85,6 +85,8 @@ namespace gal { namespace itf {
 	protected:
 		/**
 		 * used to find the gal::itf::regisry and register this
+		 * does not need to be immediate parent
+		 * can be any ancestor or at least just not a child
 		 */
 		gal::itf::shared *		_M_shared_parent;
 	public:
