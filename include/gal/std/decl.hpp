@@ -9,7 +9,7 @@ namespace gal {
 	namespace stl {
 		//template<class T, typename... INDICES> class map;
 		template<typename T, class S> class map;
-		template<typename T> class funcmap;
+		template<typename T, template<typename T2> class S > class funcmap;
 		
 		template<typename T> class factory;
 		//class factory;
@@ -18,7 +18,7 @@ namespace gal {
 	}
 	namespace dll
 	{
-		template<typename T> class helper;
+		template<typename T, template<typename T2> class S > class helper;
 	}
 }
 

@@ -9,6 +9,7 @@
 
 #include <gal/itf/typedef.hpp>
 
+#include <gal/std/decl.hpp>
 #include <gal/dll/helper_info.hpp>
 #include <gal/dll/deleter.hpp>
 
@@ -24,25 +25,26 @@ namespace gal { namespace dll {
 		public std::enable_shared_from_this< helper_base >
 	{
 	};
-	template<class B_>
+	template<class B_, template<typename T> class S_ >
 	class helper:
-		public gal::tmp::Verbosity< gal::dll::helper< B_ > >,
+		public gal::tmp::Verbosity< gal::dll::helper< B_, S_ > >,
 		public helper_base,
 		private gal::stl::funcmap<B_>
 	{
 		public:
-			using gal::tmp::Verbosity< gal::dll::helper< B_ > >::printv;
+			using gal::tmp::Verbosity< gal::dll::helper< B_, S_ > >::printv;
 			typedef B_ B;
+			template<typename T> using S = S_<T>;
 			typedef std::enable_shared_from_this< helper_base > estf;
 		private:
-			helper(helper<B> const & h) {}
+			helper(helper<B,S> const & h) {}
 		public:
 			helper(std::string f):
 				handle_(0),
 				filename_(f)
 			{
 			}
-			helper(helper<B>&& h):
+			helper(helper<B,S>&& h):
 				/*hi_(h.hi_),*/
 				handle_(std::move(h.handle_))
 				//create_(std::move(h.create_)),
@@ -97,17 +99,17 @@ namespace gal { namespace dll {
 				gal::dll::deleter del(estf::shared_from_this(), func_delete, hi);
 
 				// capture by value
-				auto lamb = [=] (ARGS... args) -> std::shared_ptr<B>
+				auto lamb = [=] (ARGS... args) -> S<B>
 				{
 					assert(pcreate);
 					D* d = pcreate(args...);
 					
-					std::shared_ptr<D> t(d,del);
+					S<D> t(d,del);
 					
 					return t;
 				};
 			
-				std::function< std::shared_ptr<B>(ARGS...) > f(lamb);
+				std::function< S<B>(ARGS...) > f(lamb);
 
 				gal::stl::funcmap<B>::template add<D>(f);
 			}
@@ -143,7 +145,7 @@ namespace gal { namespace dll {
 			//friend class gal::dll::deleter;
 
 			template<typename D, typename... ARGS>
-			std::shared_ptr<D>	make_shared(ARGS... args)
+			S<D>	make_shared(ARGS... args)
 			{
 				printv_func(DEBUG);
 
@@ -153,7 +155,7 @@ namespace gal { namespace dll {
 				
 				assert(f->f_);
 
-				std::shared_ptr<B> b = f->f_(args...);
+				S<B> b = f->f_(args...);
 
 				auto d = std::dynamic_pointer_cast<D>(b);
 				assert(d);
@@ -161,9 +163,9 @@ namespace gal { namespace dll {
 				return d;
 			}
 			/*
-			std::shared_ptr<T>	make_shared(CTOR_ARGS... c)
+			td::shared_ptr<T>	make_shared(CTOR_ARGS... c)
 			{
-				std::shared_ptr<T> t(
+				td::shared_ptr<T> t(
 						create(c...),
 						gal::dll::deleter(estf::shared_from_this(), hi_)
 						);

@@ -156,10 +156,7 @@ namespace gal { namespace stl {
 			// read object data
 			//ar >> bs::make_nvp("object", *ptr_);
 
-			boost::shared_ptr<T> b;
-			ar >> bs::make_nvp("object", b);
-
-			ptr_ = b;
+			ar >> bs::make_nvp("object", ptr_);
 		}
 		template<class Archive>
 		void			load_0(

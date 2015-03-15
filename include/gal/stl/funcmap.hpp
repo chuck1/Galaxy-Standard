@@ -17,7 +17,7 @@ namespace gal { namespace stl {
 	 *
 	 * uses std::map to store functions, key is the hash code of the type being constructed
 	 */
-	template<typename T>
+	template<typename T, template<typename T2> class S_ = std::shared_ptr>
 	class funcmap
 	{
 		private:
@@ -27,8 +27,8 @@ namespace gal { namespace stl {
 				virtual char const *	signature() = 0;
 			};
 
-			typedef std::shared_ptr<T> shared_type;
-			typedef std::map< long int, std::shared_ptr<__base_function> > map_type;
+			typedef S_<T> shared_type;
+			typedef std::map< long int, S_<__base_function> > map_type;
 			
 			template<class... A>
 			struct __function: __base_function
