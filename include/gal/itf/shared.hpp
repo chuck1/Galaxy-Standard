@@ -15,6 +15,7 @@
 #include <boost/archive/polymorphic_oarchive.hpp>
 #include <boost/serialization/string.hpp>
 
+#include <gal/stl/verbosity.hpp>
 #include <gal/itf/release.hpp>
 #include <gal/std/decl.hpp>
 #include <gal/itf/typedef.hpp>
@@ -29,6 +30,7 @@ namespace gal { namespace itf {
 	 * Supply type info.
 	 */
 	class shared:
+		public gal::tmp::Verbosity<gal::itf::shared>,
 		virtual public gal::type_info<gal::itf::shared>,
 		virtual public gal::enable_shared_from_this<gal::itf::shared>,
 		virtual public gal::itf::__release

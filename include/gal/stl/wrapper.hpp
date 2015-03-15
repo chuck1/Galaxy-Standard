@@ -6,6 +6,7 @@
 
 //#include <boost/function.hpp>
 #include <boost/serialization/split_member.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/nvp.hpp>
 #include <boost/archive/xml_iarchive.hpp>
 #include <boost/archive/xml_oarchive.hpp>
@@ -26,7 +27,7 @@ namespace ba = boost::archive;
 namespace bs = boost::serialization;
 
 namespace gal { namespace stl {
-	template< typename T, typename S_ = std::shared_ptr<T> >
+	template< typename T, typename S_ = boost::shared_ptr<T> >
 	class wrapper:
 		public gal::tmp::Verbosity< wrapper<T, S_> >,
 		virtual public gal::itf::shared
@@ -152,9 +153,13 @@ namespace gal { namespace stl {
 				ptr_->init_shared(ar1.get_shared_parent());
 			}
 			
+			// read object data
+			//ar >> bs::make_nvp("object", *ptr_);
 
-			// read objcet data
-			ar >> bs::make_nvp("object", *ptr_);
+			boost::shared_ptr<T> b;
+			ar >> bs::make_nvp("object", b);
+
+			ptr_ = b;
 		}
 		template<class Archive>
 		void			load_0(

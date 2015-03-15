@@ -8,13 +8,19 @@ gal::itf::shared::shared():
 	_M_index_creation(-1),
 	_M_shared_parent(0)
 {
+	printv_func(DEBUG);
+
 }
 gal::itf::shared::~shared()
 {
+	printv_func(DEBUG);
+
 	//std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 }
 gal::itf::registry*		THIS::get_registry()
 {
+	printv_func(DEBUG);
+
 	auto r = dynamic_cast<gal::itf::registry*>(this);
 
 	if(r) return r;
@@ -27,6 +33,8 @@ gal::itf::registry*		THIS::get_registry()
 }
 void    		        THIS::init_shared(THIS * const & parent)
 {
+	printv_func(DEBUG);
+
 	//printv_func(DEBUG);
 
 	assert(parent);
@@ -45,9 +53,13 @@ void    		        THIS::init_shared(THIS * const & parent)
 }
 void				THIS::release()
 {
+	printv_func(DEBUG);
+
 }
 gal::itf::index_type		THIS::get_index() const
 {
+	printv_func(DEBUG);
+
 	return _M_index;
 }
 gal::itf::index_type const &	THIS::static_get_index(std::shared_ptr<THIS> ptr)
@@ -59,6 +71,8 @@ void			THIS::load(
 		boost::archive::polymorphic_iarchive & ar,
 		unsigned int const & version)
 {
+	printv_func(DEBUG);
+
 	ar & BOOST_SERIALIZATION_NVP(_M_index_creation);
 	ar & BOOST_SERIALIZATION_NVP(_M_name);
 }
@@ -66,6 +80,8 @@ void			THIS::save(
 		boost::archive::polymorphic_oarchive & ar,
 		unsigned int const & version) const
 {
+	printv_func(DEBUG);
+
 	ar & BOOST_SERIALIZATION_NVP(_M_index);
 	ar & BOOST_SERIALIZATION_NVP(_M_name);
 }
