@@ -3,17 +3,19 @@
 
 typedef gal::itf::registry THIS;
 
+#define P 0
+
 THIS::registry(): next_(0)
 {
-	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
+	if(P) std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 }
 void                                            THIS::reg(std::shared_ptr<gal::itf::shared> s)
 {
-	std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
+	if(P) std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
 	//std::cout << __PRETTY_FUNCTION__ << " s=" << s.get() << std::endl;
 
 	if(s->_M_index == -1) {
-		printf("assign index %i\n", next_);
+		if(P) printf("assign index %i\n", next_);
 
 		s->_M_index = next_++;
 	}

@@ -38,6 +38,7 @@ namespace gal { namespace stl {
 			typedef std::map<gal::itf::index_type, wrapper_type>		container_type;
 			typedef typename container_type::value_type			value_type;
 			typedef typename container_type::iterator			iterator;
+			typedef std::function<bool(S&)>					FILTER_FUNC;
 			enum { CONTINUE, BREAK };
 			/** @brief Constructor */
 			map() {}
@@ -104,7 +105,7 @@ namespace gal { namespace stl {
 					f(p);
 				}
 			}
-			void			for_each_int(::std::function<int(S const &)> const & f) {
+			void			for_each_int(std::function<int(S const &)> const & f) {
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
 				int ret;
@@ -121,7 +122,7 @@ namespace gal { namespace stl {
 				}
 			}
 			/** */
-			std::shared_ptr<T>			find(std::string name)
+			S			find(std::string name)
 			{
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
@@ -134,7 +135,7 @@ namespace gal { namespace stl {
 
 				return std::shared_ptr<T>();
 			}
-			std::shared_ptr<T>			find(gal::itf::index_type i)
+			S			find(gal::itf::index_type i)
 			{
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
@@ -145,7 +146,7 @@ namespace gal { namespace stl {
 				return it->second.ptr_;
 			}
 			/** */
-			void					clear()
+			void			clear()
 			{
 				printv(DEBUG, "%s\n", __PRETTY_FUNCTION__);
 				boost::lock_guard<boost::mutex> lk(mutex_);
@@ -157,29 +158,38 @@ namespace gal { namespace stl {
 			}
 			/** @brief begin iterator 0
 			*/
-			S				front()
+			S			front(FILTER_FUNC func = FILTER_FUNC())
 			{
-				auto it = begin();
-				if(it != end())
-					return it->second.ptr_;
+				if(func) {
+					for(auto it = container_.begin(); it != container_.cend(); ++it) {
+						S& s = it->second.ptr_;
+						assert(s);
+						if(func(s))
+							return s;
+					}
+				} else {
+					auto it = begin();
+					if(it != end())
+						return it->second.ptr_;
+				}
 				return S();
 			}
-			iterator			begin()
+			iterator		begin()
 			{
 				return container_.begin();
 			}
-			unsigned int			size()
+			unsigned int		size()
 			{
 				return container_.size();
 			}
 			/** @brief end iterator 0
 			*/
-			iterator			end()
+			iterator		end()
 			{
 				return container_.end();
 			}
 			/** */
-			void				erase(gal::itf::index_type i)
+			void			erase(gal::itf::index_type i)
 			{
 
 				while(1) {	

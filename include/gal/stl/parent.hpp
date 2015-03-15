@@ -17,6 +17,7 @@ namespace gal { namespace stl {
 			typedef gal::stl::map<T, S_>		MAP;
 			typedef std::shared_ptr<MAP>		MAP_SHARED;
 			typedef typename MAP::iterator		ITER;
+			typedef typename MAP::FILTER_FUNC	FILTER_FUNC;
 			parent()
 			{
 			}
@@ -50,10 +51,10 @@ namespace gal { namespace stl {
 				if(map_) //assert(map_);
 					map_->clear();
 			}
-			S			front()
+			S			front(FILTER_FUNC func = FILTER_FUNC())
 			{
 				assert(map_);
-				return map_->front();
+				return map_->front(func);
 			}
 			ITER			begin()
 			{
