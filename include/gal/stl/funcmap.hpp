@@ -71,7 +71,7 @@ namespace gal { namespace stl {
 
 				gal::itf::hash_type hash_code = typeid(D).hash_code();
 				
-				std::shared_ptr<__base_function> b(new func_t(f));
+				S_<__base_function> b(new func_t(f));
 				
 				//map_.emplace(hash_code, b);
 				std::pair<typename map_type::iterator, bool> p = map_.insert(std::make_pair(hash_code, b));
@@ -103,7 +103,7 @@ namespace gal { namespace stl {
 			}
 			/** */
 			template<typename... Args>
-			std::shared_ptr< __function< Args... > >	find(
+			S_< __function< Args... > >	find(
 					gal::itf::hash_type hash_code)
 			{
 				typedef __function< Args... > func_t;
@@ -123,7 +123,7 @@ namespace gal { namespace stl {
 					throw invalid_key();
 				}
 				
-				//::std::shared_ptr< __function<return_type, Args...> >
+				//::td::shared_ptr< __function<return_type, Args...> >
 				auto f = std::dynamic_pointer_cast< __function< Args... > >(it->second);
 				
 				if(!f)

@@ -1,6 +1,8 @@
 #ifndef GAL_DECL_HPP
 #define GAL_DECL_HPP
 
+#include <memory>
+
 namespace gal {
 	namespace itf {
 		class registry;
@@ -18,7 +20,7 @@ namespace gal {
 	}
 	namespace dll
 	{
-		template<typename T, template<typename T2> class S > class helper;
+		template<typename T, template<typename T2> class S = std::shared_ptr> class helper;
 	}
 }
 

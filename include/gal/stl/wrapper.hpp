@@ -27,7 +27,7 @@ namespace ba = boost::archive;
 namespace bs = boost::serialization;
 
 namespace gal { namespace stl {
-	template< typename T, typename S_ = boost::shared_ptr<T> >
+	template< typename T, typename S_ = std::shared_ptr<T> >
 	class wrapper:
 		public gal::tmp::Verbosity< wrapper<T, S_> >,
 		virtual public gal::itf::shared
@@ -154,9 +154,8 @@ namespace gal { namespace stl {
 			}
 			
 			// read object data
-			//ar >> bs::make_nvp("object", *ptr_);
-
-			ar >> bs::make_nvp("object", ptr_);
+			ar >> bs::make_nvp("object", *ptr_);
+			//ar >> bs::make_nvp("object", ptr_);
 		}
 		template<class Archive>
 		void			load_0(

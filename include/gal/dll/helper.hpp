@@ -7,6 +7,9 @@
 #include <cassert>
 #include <string>
 
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/serialization/nvp.hpp>
+
 #include <gal/itf/typedef.hpp>
 
 #include <gal/std/decl.hpp>
@@ -15,8 +18,6 @@
 
 #include <gal/stl/funcmap.hpp>
 
-#include <boost/serialization/nvp.hpp>
-
 namespace gal { namespace dll {
 	/*
 	 * used by deleter to keep helper alive
@@ -24,18 +25,20 @@ namespace gal { namespace dll {
 	class helper_base:
 		public std::enable_shared_from_this< helper_base >
 	{
+	public:
+		typedef std::enable_shared_from_this< helper_base > estf;
 	};
-	template<class B_, template<typename T> class S_ >
+	template< class B_, template<typename T> class S_ >
 	class helper:
 		public gal::tmp::Verbosity< gal::dll::helper< B_, S_ > >,
 		public helper_base,
-		private gal::stl::funcmap<B_>
+		private gal::stl::funcmap<B_, S_>
 	{
 		public:
 			using gal::tmp::Verbosity< gal::dll::helper< B_, S_ > >::printv;
 			typedef B_ B;
 			template<typename T> using S = S_<T>;
-			typedef std::enable_shared_from_this< helper_base > estf;
+			typedef gal::stl::funcmap<B_, S_> FM;
 		private:
 			helper(helper<B,S> const & h) {}
 		public:
@@ -111,7 +114,7 @@ namespace gal { namespace dll {
 			
 				std::function< S<B>(ARGS...) > f(lamb);
 
-				gal::stl::funcmap<B>::template add<D>(f);
+				FM::template add<D>(f);
 			}
 			void			open()
 			{
@@ -151,7 +154,7 @@ namespace gal { namespace dll {
 
 				auto hc = typeid(D).hash_code();
 
-				auto f = gal::stl::funcmap<B>::template find<ARGS...>(hc);
+				auto f = FM::template find<ARGS...>(hc);
 				
 				assert(f->f_);
 
