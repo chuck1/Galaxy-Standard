@@ -124,8 +124,8 @@ namespace gal { namespace stl {
 				ar << bs::make_nvp("hashcode", h);
 			}
 
-
-			ar << bs::make_nvp("object", *ptr_);
+			//ar << bs::make_nvp("object", *ptr_);
+			ptr_->v_save(ar);
 		}
 		template<class Archive>
 		void			load(
@@ -154,8 +154,9 @@ namespace gal { namespace stl {
 			}
 			
 			// read object data
-			ar >> bs::make_nvp("object", *ptr_);
+			//ar >> bs::make_nvp("object", *ptr_);
 			//ar >> bs::make_nvp("object", ptr_);
+			ptr_->v_load(ar);
 		}
 		template<class Archive>
 		void			load_0(
