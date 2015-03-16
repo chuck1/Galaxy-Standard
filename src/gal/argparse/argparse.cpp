@@ -4,9 +4,10 @@
 
 gal::argparse::Arg*		gal::argparse::make_arg(vec_str words)
 {
-	std::cout << "make_arg" << std::endl;
+	//printv(DEBUG, "make_arg");
+
 	for(auto w : words)
-		std::cout << "    '" << w << "'" << std::endl;
+		//printv(DEBUG, "    '%s'\n", w.c_str());
 
 	assert(!words.empty());
 
@@ -46,8 +47,9 @@ vec_str				gal::argparse::split(char * str)
 			head = c+1;
 		}
 	}
-	for(auto w : words)
-		std::cout << "'" << w << "'" << std::endl;
+	for(auto w : words) {
+		//printv(DEBUG, "'%s'", w.c_str());
+	}
 
 	return words;
 }

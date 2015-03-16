@@ -13,7 +13,8 @@ gal::argparse::Args		gal::argparse::Parser::parse(
 	{
 		if(words[i][0] == '-')
 		{
-			std::cout << "tag '" << words[i] << "'" << std::endl;
+			//printv(DEBUG, "tag '%s'\n", words[i].c_str());
+			
 			if(temp.empty()) temp.push_back(words[i]);
 			else {
 				Arg* a = make_arg(temp);
@@ -26,7 +27,7 @@ gal::argparse::Args		gal::argparse::Parser::parse(
 		}
 		else
 		{
-			std::cout << "value " << words[i] << std::endl;
+			//printv(DEBUG, "value %s\n", words[i].c_str());
 			temp.push_back(words[i]);
 		}
 	}

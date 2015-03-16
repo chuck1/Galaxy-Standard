@@ -8,10 +8,12 @@
 #include <iostream>
 #include <assert.h>
 
+#include <gal/stl/verbosity.hpp>
+
 typedef std::vector< std::string > vec_str;
 
 namespace gal { namespace argparse {
-	struct Tag
+	struct Tag: gal::tmp::Verbosity<Tag>
 	{
 		Tag(std::string w)
 		{

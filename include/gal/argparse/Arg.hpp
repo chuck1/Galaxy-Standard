@@ -13,7 +13,7 @@
 typedef std::vector< std::string > vec_str;
 
 namespace gal { namespace argparse {
-	struct Arg
+	struct Arg: gal::tmp::Verbosity<Arg>
 	{
 		virtual std::string	name() = 0;
 		virtual void		print() = 0;

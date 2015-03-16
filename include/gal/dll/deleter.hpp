@@ -21,7 +21,7 @@ namespace gal { namespace dll {
 
 	class helper_base;
 
-	struct deleter
+	struct deleter: public gal::tmp::Verbosity<gal::dll::deleter>
 	{
 		public:
 			typedef std::function< void(gal::itf::shared*) > FUNC;

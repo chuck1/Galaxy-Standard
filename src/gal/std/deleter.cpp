@@ -46,7 +46,7 @@ gal::dll::deleter::deleter(deleter&& d):
 }
 void			gal::dll::deleter::operator()(gal::itf::shared* p)
 {
-	printf("%s\n", __PRETTY_FUNCTION__);
+	printv_func(DEBUG);
 
 	assert(p);
 

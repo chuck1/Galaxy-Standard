@@ -13,10 +13,10 @@ std::string	gal::argparse::Arg_tag::name()
 }
 void		gal::argparse::Arg_tag::print()
 {
-	printf("name: '%s'\n", name().c_str());
-	printf("values:\n");
-	for(auto s: values_) {
-		std::cout << "\t" << s << std::endl;
-	}
+	printf(/*DEBUG, */"name: '%s'\n", name().c_str());
+	printf(/*DEBUG, */"values:\n");
+	for(auto s: values_)
+		printf("\t%s\n", s.c_str());
+	
 }
 

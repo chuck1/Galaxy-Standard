@@ -82,7 +82,7 @@ namespace gal { namespace stl {
 					//shared_ptr<gal::itf::shared> sh(t);
 					s->gal::itf::shared::init_shared(_M_shared_parent);
 					i = s->get_index();
-					printv(INFO, "t->get_index() = %i\n", i);
+					printv(DEBUG, "t->get_index() = %i\n", i);
 				}
 
 				auto ret = container_.insert(
