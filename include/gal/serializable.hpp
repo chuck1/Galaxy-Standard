@@ -1,6 +1,9 @@
 #ifndef GAL_SERIALIZABLE_HPP
 #define GAL_SERIALIZABLE_HPP
 
+#include <boost/archive/polymorphic_iarchive.hpp>
+#include <boost/archive/polymorphic_oarchive.hpp>
+
 // gal/itf/shared.hpp
 
 namespace gal {
