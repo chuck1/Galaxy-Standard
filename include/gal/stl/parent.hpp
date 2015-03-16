@@ -58,6 +58,11 @@ namespace gal { namespace stl {
 			assert(map_);
 			return map_->front(func);
 		}
+		S			random()
+		{
+			assert(map_);
+			return map_->random();
+		}
 		ITER			begin()
 		{
 			assert(map_);

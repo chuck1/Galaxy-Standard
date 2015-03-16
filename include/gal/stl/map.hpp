@@ -6,6 +6,7 @@
 #include <functional>
 #include <exception>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <boost/thread.hpp>
 
@@ -38,6 +39,7 @@ namespace gal { namespace stl {
 			typedef std::map<gal::itf::index_type, wrapper_type>		container_type;
 			typedef typename container_type::value_type			value_type;
 			typedef typename container_type::iterator			iterator;
+			typedef typename container_type::const_iterator			IC;
 			typedef std::function<bool(S&)>					FILTER_FUNC;
 			enum { CONTINUE, BREAK };
 			/** @brief Constructor */
@@ -174,21 +176,40 @@ namespace gal { namespace stl {
 				}
 				return S();
 			}
+			S			random() const
+			{
+				if(empty()) return S();
+				
+				unsigned int i = rand() % size();
+
+				auto it = cbegin();
+				
+				std::advance(it, i);
+
+				assert(it != cend());
+
+				return it->second.ptr_;
+			}
+			IC			cbegin() const
+			{
+				return container_.cbegin();
+			}
+			IC			cend() const
+			{
+				return container_.cend();
+			}
 			iterator		begin()
 			{
 				return container_.begin();
 			}
-			unsigned int		size()
-			{
-				return container_.size();
-			}
-			/** @brief end iterator 0
-			*/
 			iterator		end()
 			{
 				return container_.end();
 			}
-			/** */
+			unsigned int		size() const
+			{
+				return container_.size();
+			}
 			void			erase(gal::itf::index_type i)
 			{
 
