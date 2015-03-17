@@ -21,18 +21,32 @@
 namespace mi = boost::multi_index;
 
 namespace gal { namespace stl {
-	template <typename T, class S_ = std::shared_ptr<T> >
+	template <typename T_, class S_ = std::shared_ptr<T_> >
 	class map:
-		public gal::tmp::Verbosity< map<T, S_> >,
+		public gal::tmp::Verbosity< map<T_, S_> >,
 		virtual public gal::itf::shared
 	{
 		public:
 			using gal::tmp::Verbosity<map>::printv;
 			struct item_not_found: std::exception {
+				item_not_found(gal::itf::index_type ni):
+					i(ni)
+				{
+					sprintf(buffer, "item not found: %i: %s\n", i, __PRETTY_FUNCTION__);
+				}
+				virtual const char * what() const noexcept
+				{
+					char * ret = new char[128];
+					strcpy(ret, buffer);
+					return ret;
+				}
+				char buffer[128];
+				gal::itf::index_type i;
 			};
-			typedef std::shared_ptr< gal::stl::factory<T> >			factory_shared_type;
+			typedef std::shared_ptr< gal::stl::factory<T_> >		factory_shared_type;
 
 			//typedef std::shared_ptr<T>					S;
+			typedef T_							T;
 			typedef S_							S;
 
 			typedef gal::stl::wrapper<T, S_>				wrapper_type;
@@ -97,17 +111,55 @@ namespace gal { namespace stl {
 				
 				//return w;
 			}
-			void			for_each(std::function<void(S const &)> const & f)
+			void			for_each(std::function<void(T &)> const & f)
 			{
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
 				for(auto it = container_.begin(); it != container_.cend(); ++it) {
 					auto p = it->second.ptr_;
 					assert(p);
+					f(*p);
+				}
+			}
+
+
+			void			for_each(std::function<void(S const &)> const & f)
+			{
+				boost::lock_guard<boost::mutex> lk(mutex_);
+
+				for(auto it = container_.begin(); it != container_.cend(); ++it) {
+					S const & p = it->second.ptr_;
+					assert(p);
+					f(p);
+				}
+			}
+			void			for_each(std::function<void(S &)> const & f)
+			{
+				boost::lock_guard<boost::mutex> lk(mutex_);
+
+				for(auto it = container_.begin(); it != container_.cend(); ++it) {
+					S & p = it->second.ptr_;
+					assert(p);
 					f(p);
 				}
 			}
 			void			for_each_int(std::function<int(S const &)> const & f) {
+				boost::lock_guard<boost::mutex> lk(mutex_);
+
+				int ret;
+
+				for(auto it = container_.begin(); it != container_.cend(); ++it) {
+					auto p = it->second.ptr_;
+					assert(p);
+					ret = f(p);
+					if(ret == CONTINUE) {
+						continue;
+					} else {
+						break;
+					}
+				}
+			}
+			void			for_each_int(std::function<int(S &)> const & f) {
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
 				int ret;
@@ -143,7 +195,7 @@ namespace gal { namespace stl {
 
 				auto it = container_.find(i);
 
-				if(it == container_.end()) throw 0;
+				if(it == container_.end()) throw item_not_found(i);
 
 				return it->second.ptr_;
 			}

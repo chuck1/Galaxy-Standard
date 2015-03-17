@@ -27,6 +27,15 @@ namespace gal { namespace stl {
 		{
 			assert_map();
 		}
+		void			register_all(gal::itf::registry * const & r)
+		{
+			assert_map();
+			auto l = [&](S & s)
+			{
+				s->register_all(r);
+			};
+			map_->for_each(l);
+		}
 		void			insert(S && s)
 		{
 			assert(map_);
@@ -85,12 +94,18 @@ namespace gal { namespace stl {
 
 			return true;
 		}
-		void			for_each(std::function<void(S)> const & f)
+		void			for_each(std::function<void(S &)> const & f)
 		{
 			assert_map();
 			map_->for_each(f);
 		}
-		void			for_each_int(std::function<int(S)> const & f)
+/*		void			for_each(std::function<void(S const &)> const & f)
+		{
+			assert_map();
+			map_->for_each(f);
+		}
+		*/
+		void			for_each_int(std::function<int(S &)> const & f)
 		{
 			assert_map();
 			map_->for_each_int(f);

@@ -3,10 +3,16 @@
 
 #include <memory>
 
+#include <gal/itf/typedef.hpp>
+
 namespace gal {
 	namespace itf {
-		class registry;
 		class shared;
+		class shared00;
+		//template<
+		//	gal::itf::index_type(gal::itf::shared00::*)() const,
+		//	void(gal::itf::shared00::*)(gal::itf::index_type)>
+		class registry;
 	}
 	namespace stl {
 		//template<class T, typename... INDICES> class map;

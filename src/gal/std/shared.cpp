@@ -3,20 +3,6 @@
 
 typedef gal::itf::shared THIS;
 
-gal::itf::shared::shared():
-	_M_index(-1),
-	_M_index_creation(-1),
-	_M_shared_parent(0)
-{
-	printv_func(DEBUG);
-
-}
-gal::itf::shared::~shared()
-{
-	printv_func(DEBUG);
-
-	//std::cout << __PRETTY_FUNCTION__ << " " << this << std::endl;
-}
 gal::itf::registry*		THIS::get_registry()
 {
 	printv_func(DEBUG);
@@ -56,17 +42,11 @@ void				THIS::release()
 	printv_func(DEBUG);
 
 }
-gal::itf::index_type		THIS::get_index() const
-{
-	printv_func(DEBUG);
-
-	return _M_index;
-}
-gal::itf::index_type const &	THIS::static_get_index(std::shared_ptr<THIS> ptr)
+/*gal::itf::index_type const &	THIS::static_get_index(std::shared_ptr<THIS> ptr)
 {
 	assert(ptr);
 	return ptr->_M_index;
-}
+}*/
 void			THIS::load(
 		boost::archive::polymorphic_iarchive & ar,
 		unsigned int const & version)

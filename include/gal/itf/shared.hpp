@@ -20,7 +20,11 @@
 #include <gal/std/decl.hpp>
 #include <gal/itf/typedef.hpp>
 
+#include <gal/itf/registry.hpp>
+#include <gal/itf/shared00.hpp>
+
 #include <gal/type_info.hpp>
+
 
 namespace gal { namespace itf {
 	/** @brief %shared.
@@ -31,11 +35,13 @@ namespace gal { namespace itf {
 	 */
 	class shared:
 		public gal::tmp::Verbosity<gal::itf::shared>,
+		virtual public gal::itf::shared00,
 		virtual public gal::type_info<gal::itf::shared>,
 		virtual public gal::enable_shared_from_this<gal::itf::shared>,
 		virtual public gal::itf::__release
 	{
 	public:
+		using gal::tmp::Verbosity<gal::itf::shared>::printv;
 		using gal::enable_shared_from_this<gal::itf::shared>::shared_from_this;
 		typedef gal::itf::registry R;
 		friend class gal::itf::registry;
@@ -46,8 +52,8 @@ namespace gal { namespace itf {
 		 *
 		 * for boost multi_index indexing
 		 */
-		static index_type const &	static_get_index(
-				std::shared_ptr<gal::itf::shared> ptr);
+		//static index_type const &	static_get_index(
+		//		std::shared_ptr<gal::itf::shared> ptr);
 	public:
 		/// static member was resulting in mutliple ctor calls
 		// which was reseting registry::next_ to 0
@@ -56,8 +62,8 @@ namespace gal { namespace itf {
 
 		/// @TODO fix this
 	public:
-		shared();
-		virtual ~shared();
+		//shared();
+		//virtual ~shared();
 		virtual void			init_shared(
 				gal::itf::shared * const & parent);
 		virtual void			release() = 0;
@@ -70,27 +76,6 @@ namespace gal { namespace itf {
 				boost::archive::polymorphic_oarchive & ar,
 				unsigned int const & version) const;
 		BOOST_SERIALIZATION_SPLIT_MEMBER();
-	protected:
-		/*
-		 * index for finding this on this machine
-		 */
-		index_type			_M_index;
-	public:
-		index_type			get_index() const;
-		/*
-		 * index given to object by creation machine
-		 * if not -1, implies that this machine was not the creation
-		 * machine and therefore this object was loaded from an
-		 * archive
-		 */
-		index_type			_M_index_creation;
-	protected:
-		/**
-		 * used to find the gal::itf::regisry and register this
-		 * does not need to be immediate parent
-		 * can be any ancestor or at least just not a child
-		 */
-		gal::itf::shared *		_M_shared_parent;
 	public:
 		std::string			_M_name;
 		/** @brief general mutex
