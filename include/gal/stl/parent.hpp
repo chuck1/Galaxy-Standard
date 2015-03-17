@@ -75,7 +75,7 @@ namespace gal { namespace stl {
 		}
 		unsigned int		size()
 		{
-			assert(map_);
+			assert_map();
 			return map_->size();
 		}
 		bool			empty()
@@ -87,12 +87,12 @@ namespace gal { namespace stl {
 		}
 		void			for_each(std::function<void(S)> const & f)
 		{
-			assert(map_);
+			assert_map();
 			map_->for_each(f);
 		}
 		void			for_each_int(std::function<int(S)> const & f)
 		{
-			assert(map_);
+			assert_map();
 			map_->for_each_int(f);
 		}
 	
@@ -105,9 +105,11 @@ namespace gal { namespace stl {
 			}
 		}
 		template<typename ARCHIVE>
-		void			serialize(ARCHIVE & ar, unsigned int const & version)
+		void			serialize(
+				ARCHIVE & ar,
+				unsigned int const & version)
 		{
-			printv_func(INFO);
+			printv_func(DEBUG);
 			assert_map();
 			ar & boost::serialization::make_nvp("map", *map_);
 		}

@@ -101,7 +101,7 @@ namespace gal { namespace stl {
 			int load_type;
 			if(del)
 			{
-				printv(INFO, "dynamic\n");
+				printv(DEBUG, "dynamic\n");
 
 				load_type = 1;					
 				ar << BOOST_SERIALIZATION_NVP(load_type);
@@ -112,14 +112,14 @@ namespace gal { namespace stl {
 			}
 			else
 			{
-				printv(INFO, "static\n");
+				printv(DEBUG, "static\n");
 
 				load_type = 0;
 				ar << BOOST_SERIALIZATION_NVP(load_type);
 
 				gal::itf::hash_type h = ptr_->hash_code();
 
-				printv(INFO, "hashcode = %i\n", h);
+				printv(DEBUG, "hashcode = %i\n", h);
 
 				ar << bs::make_nvp("hashcode", h);
 			}
@@ -163,7 +163,7 @@ namespace gal { namespace stl {
 				Archive & ar,
 				unsigned int const & version)
 		{
-			printv(INFO, "static object\n");
+			printv(DEBUG, "static object\n");
 
 			gal::itf::hash_type h;
 
@@ -183,7 +183,7 @@ namespace gal { namespace stl {
 				Archive & ar,
 				unsigned int const & version)
 		{
-			printv(INFO, "dynamic object\n");
+			printv(DEBUG, "dynamic object\n");
 			
 			gal::dll::helper_info hi;
 			ar >> bs::make_nvp("helper", hi);

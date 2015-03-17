@@ -33,15 +33,17 @@ namespace gal { namespace stl {
 			template<class... A>
 			struct __function: __base_function
 			{
-				__function(std::function< shared_type(A...) > f):
-					f_(f)
+				__function(std::function< shared_type(A...) > f, const char * s):
+					f_(f),
+					_M_signature(s)
 				{
 				}
 				virtual char const *	signature()
 				{
-					return __PRETTY_FUNCTION__;
+					return _M_signature;
 				}
 				std::function< shared_type(A...) >		f_;
+				const char *					_M_signature;
 			};
 			/**
 			 * exception
@@ -71,7 +73,7 @@ namespace gal { namespace stl {
 
 				gal::itf::hash_type hash_code = typeid(D).hash_code();
 				
-				S_<__base_function> b(new func_t(f));
+				S_<__base_function> b(new func_t(f, __PRETTY_FUNCTION__));
 				
 				//map_.emplace(hash_code, b);
 				std::pair<typename map_type::iterator, bool> p = map_.insert(std::make_pair(hash_code, b));
