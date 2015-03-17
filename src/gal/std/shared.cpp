@@ -54,6 +54,9 @@ void			THIS::load(
 	printv_func(DEBUG);
 
 	ar & BOOST_SERIALIZATION_NVP(_M_index_creation);
+
+	assert(_M_index_creation);
+
 	ar & BOOST_SERIALIZATION_NVP(_M_name);
 }
 void			THIS::save(
