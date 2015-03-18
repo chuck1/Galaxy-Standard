@@ -1,6 +1,8 @@
 #ifndef NEBULA_UTIL_HELPER_HH
 #define NEBULA_UTIL_HELPER_HH
 
+namespace gal {
+
 template <int...>
 struct seq {};
 
@@ -21,6 +23,7 @@ void pass(T const &...) {}
 template <typename... T>
 void pass1(T&&...) {}
 
+}
 
 #endif
 
