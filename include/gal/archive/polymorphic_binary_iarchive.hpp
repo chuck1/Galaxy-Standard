@@ -24,10 +24,10 @@
 
 namespace gal { namespace archive {
 	class polymorphic_binary_iarchive:
-		public gal::archive::archive,
-		public boost::archive::detail::polymorphic_iarchive_route<boost::archive::naked_binary_iarchive>
+		virtual public gal::archive::archive,
+		virtual public boost::archive::detail::polymorphic_iarchive_route<boost::archive::naked_binary_iarchive>
 	{
-	public:
+		public:
 		polymorphic_binary_iarchive(std::istream & is, unsigned int flags = 0):
 			boost::archive::detail::polymorphic_iarchive_route<boost::archive::naked_binary_iarchive>(is, flags)
 		{
@@ -39,9 +39,11 @@ namespace gal { namespace archive {
 }}
 
 // required by export
+/*
 BOOST_SERIALIZATION_REGISTER_ARCHIVE(
 		gal::archive::polymorphic_binary_iarchive
 		)
+*/
 
 #endif // BOOST_ARCHIVE_POLYMORPHIC_TEXT_IARCHIVE_HPP
 

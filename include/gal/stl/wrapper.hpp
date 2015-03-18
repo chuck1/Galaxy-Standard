@@ -148,9 +148,9 @@ namespace gal { namespace stl {
 			if(_M_shared_parent) {
 				ptr_->init_shared(_M_shared_parent);
 			} else {
-				auto ar1 = dynamic_cast<
-					gal::archive::archive&>(ar);
-				ptr_->init_shared(ar1.get_shared_parent());
+				auto ar1 = dynamic_cast<gal::archive::archive*>(&ar);
+				assert(ar1);
+				ptr_->init_shared(ar1->get_shared_parent());
 			}
 			
 			// read object data
