@@ -16,6 +16,8 @@
 
 #include <map>
 
+#include <gal/EnumMap.hpp>
+
 #define DEFINE_FLAG(name, values)\
 struct name {\
 public:\
@@ -61,7 +63,7 @@ private:\
 			BOOST_PP_SEQ_FOR_EACH(DEFINE_MAP_STRING_ENUM_VALUE, , values)\
 			BOOST_PP_SEQ_FOR_EACH(DEFINE_MAP_ENUM_STRING_VALUE, , values)\
 		}\
-		gal::etc::enum_map<flag_type>		maps_;\
+		gal::EnumMap<flag_type>		maps_;\
 	};\
 	static Maps	maps_;\
 };\
