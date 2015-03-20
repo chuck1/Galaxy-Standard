@@ -202,7 +202,8 @@ namespace gal { namespace stl {
 					hi.base_hc, hi);
 		}
 		BOOST_SERIALIZATION_SPLIT_MEMBER();
-		static gal::itf::index_type const &			static_get_index(gal::stl::wrapper<T, S_> const & wrap)
+		/*
+		static gal::index const &			static_get_index(gal::stl::wrapper<T, S_> const & wrap)
 		{
 			if(wrap.ptr_->_M_index == -1) {
 				printv(CRITICAL, "warning: gal::itf::shared object is uninitialized\n");
@@ -210,6 +211,7 @@ namespace gal { namespace stl {
 			}
 			return wrap.ptr_->i_;
 		}
+		*/
 	public:
 		S				ptr_;
 		factory_weak			factory_;

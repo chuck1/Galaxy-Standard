@@ -38,8 +38,8 @@ int main()
 	typedef std::shared_ptr<M> S_M;
 
 	S_B b(new bar);
-	b->_M_p_get_index = &gal::itf::shared::get_index;
-	b->_M_p_set_index = &gal::itf::shared::set_index;
+	//b->_M_p_get_index = &gal::itf::shared::get_index;
+	//b->_M_p_set_index = &gal::itf::shared::set_index;
 
 	S_M pm(new M);
 	
@@ -57,11 +57,11 @@ int main()
 	m.cend();
 	m.random();
 	m.size();
-	m.erase(0);
+	m.erase(gal::index(0,0));
 	m.empty();
 
 	try {
-		m.find(0);
+		m.find(gal::index(0,0));
 	} catch(std::exception& e) {
 		printf("%s\n", e.what());
 	}

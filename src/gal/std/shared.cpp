@@ -1,22 +1,10 @@
+#include <boost/serialization/map.hpp>
+
 #include <gal/itf/registry.hpp>
 #include <gal/itf/shared.hpp>
 
 typedef gal::itf::shared THIS;
 
-gal::itf::registry*		THIS::get_registry()
-{
-	printv_func(DEBUG);
-
-	auto r = dynamic_cast<gal::itf::registry*>(this);
-
-	if(r) return r;
-
-	auto p = _M_shared_parent;
-
-	assert(p);
-
-	return p->get_registry();
-}
 void    		        THIS::init_shared(THIS * const & parent)
 {
 	printv_func(DEBUG);
@@ -35,7 +23,7 @@ void    		        THIS::init_shared(THIS * const & parent)
 
 	//printv(DEBUG, "_M_index = %i\n", _M_index);
 
-	assert(_M_index != -1);
+	//assert(_M_index != -1);
 }
 void				THIS::release()
 {
@@ -53,10 +41,7 @@ void			THIS::load(
 {
 	printv_func(DEBUG);
 
-	ar & BOOST_SERIALIZATION_NVP(_M_index_creation);
-
-	assert(_M_index_creation);
-
+	ar & BOOST_SERIALIZATION_NVP(_M_index_table);
 	ar & BOOST_SERIALIZATION_NVP(_M_name);
 }
 void			THIS::save(
@@ -65,7 +50,7 @@ void			THIS::save(
 {
 	printv_func(DEBUG);
 
-	ar & BOOST_SERIALIZATION_NVP(_M_index);
+	ar & BOOST_SERIALIZATION_NVP(_M_index_table);
 	ar & BOOST_SERIALIZATION_NVP(_M_name);
 }
 

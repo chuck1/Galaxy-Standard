@@ -1,21 +1,20 @@
-
-
-
 #include <gal/itf/registry00.hpp>
 
 typedef gal::itf::registry00 THIS;
 
-THIS::registry00(): next_(0)
+THIS::registry00():
+	_M_process_index(0),
+	_M_next(0)
 {
 	printv_func(DEBUG);
 }
-std::shared_ptr<gal::itf::shared00>		THIS::get(gal::itf::index_type i)
+std::shared_ptr<gal::itf::shared00>		THIS::get(gal::index i)
 {
 	printv_func(DEBUG);
 
-	auto it = map_.find(i);
+	auto it = _M_map.find(i);
 
-	if(it == map_.cend()) return std::shared_ptr<gal::itf::shared00>();
+	if(it == _M_map.cend()) return std::shared_ptr<gal::itf::shared00>();
 
 	return it->second.lock();
 }

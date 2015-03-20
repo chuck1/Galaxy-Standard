@@ -19,10 +19,13 @@ namespace gal { namespace itf {
 		typedef std::map< std::string, gal::itf::hash_type > MSH;
 
 		//typedef std::map< index_type, std::weak_ptr< gal::itf::shared > > M;
-		typedef std::map< index_type, std::weak_ptr< gal::itf::shared00 > > M;
+		typedef std::map<
+			gal::index,
+			std::weak_ptr< gal::itf::shared00 >,
+		       	gal::less_index> M;
 
 		registry00();
-		std::shared_ptr<gal::itf::shared00>	get(gal::itf::index_type i);
+		std::shared_ptr<gal::itf::shared00>	get(gal::index i);
 		hash_type				to_hash_code(std::string const & str);
 		std::string				to_string(hash_type const & hash);
 		/** @brief Register new type index.
@@ -33,9 +36,14 @@ namespace gal { namespace itf {
 	private:
 		MHS					map_hash_string_;
 		MSH					map_string_hash_;
+	public:
+		/*
+		 * default value is -1
+		 */
+		long int				_M_process_index;
 	protected:
-		M					map_;
-		gal::itf::index_type			next_;
+		M					_M_map;
+		long int				_M_next;
 	};
 }}
 

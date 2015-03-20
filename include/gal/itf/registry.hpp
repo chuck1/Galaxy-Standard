@@ -18,11 +18,9 @@ namespace gal { namespace itf {
 		public gal::itf::registry00
 	{
 	public:
-		typedef gal::itf::index_type(gal::itf::shared00::*GET_INDEX)() const; // = &gal::itf::shared00::get_index,
-		typedef void(gal::itf::shared00::*SET_INDEX)(gal::itf::index_type); // = &gal::itf::shared00::set_index>
+		typedef gal::index(gal::itf::shared00::*GET_INDEX)() const; // = &gal::itf::shared00::get_index,
+		typedef void(gal::itf::shared00::*SET_INDEX)(gal::index); // = &gal::itf::shared00::set_index>
 		
-		GET_INDEX	_M_p_get_index;
-		SET_INDEX	_M_p_set_index;
 
 		registry();
 		registry(GET_INDEX, SET_INDEX);
@@ -41,6 +39,9 @@ namespace gal { namespace itf {
 		
 			gal::stl::factory<B>::default_factory_->template add<D>(f);
 		}
+	private:
+		//GET_INDEX	_M_p_get_index;
+		//SET_INDEX	_M_p_set_index;
 
 	};
 }}

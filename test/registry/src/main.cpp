@@ -22,7 +22,8 @@ int main()
 	typedef gal::itf::registry R;
 	typedef std::shared_ptr<R> S_R;
 	
-	S_R r(new R(&gal::itf::shared::get_index, &gal::itf::shared::set_index));
+	//S_R r(new R(&gal::itf::shared::get_index, &gal::itf::shared::set_index));
+	S_R r(new R);
 	
 	typedef std::shared_ptr<foo> S_F;
 

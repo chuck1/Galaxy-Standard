@@ -29,7 +29,7 @@ namespace gal { namespace stl {
 		public:
 			using gal::tmp::Verbosity<map>::printv;
 			struct item_not_found: std::exception {
-				item_not_found(gal::itf::index_type ni):
+				item_not_found(gal::index ni):
 					i(ni)
 				{
 					sprintf(buffer, "item not found: %i: %s\n", i, __PRETTY_FUNCTION__);
@@ -41,7 +41,7 @@ namespace gal { namespace stl {
 					return ret;
 				}
 				char buffer[128];
-				gal::itf::index_type i;
+				gal::index i;
 			};
 			typedef std::shared_ptr< gal::stl::factory<T_> >		factory_shared_type;
 
@@ -50,7 +50,7 @@ namespace gal { namespace stl {
 			typedef S_							S;
 
 			typedef gal::stl::wrapper<T, S_>				wrapper_type;
-			typedef std::map<gal::itf::index_type, wrapper_type>		container_type;
+			typedef std::map<gal::index, wrapper_type, gal::less_index>	container_type;
 			typedef typename container_type::value_type			value_type;
 			typedef typename container_type::iterator			iterator;
 			typedef typename container_type::const_iterator			IC;
@@ -89,15 +89,19 @@ namespace gal { namespace stl {
 				assert(s);
 				
 				// make sure index is initialized
-				//auto i = gal::itf::shared::static_get_index(s);
-				auto i = s->get_index();
+				s->gal::itf::shared::init_shared(_M_shared_parent);
+			
+				// get this_process index
+				gal::index i = s->get_index();
 				
+				/*
 				if(i == -1) {
 					//shared_ptr<gal::itf::shared> sh(t);
-					s->gal::itf::shared::init_shared(_M_shared_parent);
+					
 					i = s->get_index();
 					printv(DEBUG, "t->get_index() = %i\n", i);
 				}
+				*/
 
 				auto ret = container_.insert(
 						value_type(
@@ -189,7 +193,7 @@ namespace gal { namespace stl {
 
 				return std::shared_ptr<T>();
 			}
-			S			find(gal::itf::index_type i)
+			S			find(gal::index i)
 			{
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
@@ -262,7 +266,7 @@ namespace gal { namespace stl {
 			{
 				return container_.size();
 			}
-			void			erase(gal::itf::index_type i)
+			void			erase(gal::index i)
 			{
 
 				while(1) {	

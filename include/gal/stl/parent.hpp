@@ -41,12 +41,12 @@ namespace gal { namespace stl {
 			assert(map_);
 			map_->insert(std::move(s));
 		}
-		S			get(gal::itf::index_type i)
+		S			get(gal::index i)
 		{
 			assert(map_);
 			return map_->find(i);
 		}
-		void			erase(gal::itf::index_type i)
+		void			erase(gal::index i)
 		{
 			auto me = std::dynamic_pointer_cast< gal::stl::parent< T > >(shared_from_this());
 			boost::thread t(boost::bind(
@@ -128,7 +128,7 @@ namespace gal { namespace stl {
 			assert_map();
 			ar & boost::serialization::make_nvp("map", *map_);
 		}
-		void			thread_erase(gal::itf::index_type i)
+		void			thread_erase(gal::index i)
 		{
 			map_->erase(i);
 		}

@@ -47,7 +47,6 @@ namespace gal { namespace itf {
 		friend class gal::itf::registry;
 		friend class boost::serialization::access;
 
-		R*				get_registry();
 		/** @brief static get index
 		 *
 		 * for boost multi_index indexing
