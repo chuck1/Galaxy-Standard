@@ -64,7 +64,9 @@ void			THIS::reg(std::shared_ptr<gal::itf::shared00> s)
 	PAIR p = _M_map.insert(M::value_type(i.second, s));
 
 	if(p.second == false) {
-		printv(CRITICAL, "index already taken\n");
+		printv(CRITICAL, "index already taken: %li %li\n",
+				i.second._M_p,
+				i.second._M_i);
 		abort();
 	}
 
