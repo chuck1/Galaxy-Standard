@@ -35,6 +35,9 @@ namespace gal { namespace itf {
 		virtual void			register_all(gal::itf::registry * const &);
 		gal::itf::registry *		get_registry();
 		gal::itf::registry const *	get_registry() const;
+		void				change_process_index(
+				long int old_pi,
+				long int new_pi);
 	public:
 		/**
 		 * used to find the gal::itf::regisry and register this
@@ -54,11 +57,11 @@ namespace gal { namespace itf {
 		 */
 		//gal::index			_M_index_creation;
 		/*
-		 * key: process index
-		 * value: index
+		 * key: process_index
+		 * value: object_index
 		 *
-		 * 'index' is the key in the regitry map
-		 * in process 'process index'
+		 * 'object_index' is the key in the registry map
+		 * in process 'process_index'
 		 */
 		std::map<long int, gal::index>	_M_index_table;
 	};

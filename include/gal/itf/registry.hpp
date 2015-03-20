@@ -18,10 +18,11 @@ namespace gal { namespace itf {
 		public gal::itf::registry00
 	{
 	public:
-		typedef gal::index(gal::itf::shared00::*GET_INDEX)() const; // = &gal::itf::shared00::get_index,
-		typedef void(gal::itf::shared00::*SET_INDEX)(gal::index); // = &gal::itf::shared00::set_index>
+		typedef gal::index(gal::itf::shared00::*GET_INDEX)() const;
+		// = &gal::itf::shared00::get_index,
+		typedef void(gal::itf::shared00::*SET_INDEX)(gal::index);
+		// = &gal::itf::shared00::set_index>
 		
-
 		registry();
 		registry(GET_INDEX, SET_INDEX);
 		void					reg(std::shared_ptr<gal::itf::shared00> s);
@@ -32,10 +33,14 @@ namespace gal { namespace itf {
 		
 			register_type(std::type_index(typeid(B)));
 			register_type(std::type_index(typeid(D)));
-		
-			std::function< std::shared_ptr<B>() > f(
-					[]() { return std::shared_ptr<D>(new D(), gal::stl::deleter<D>()); }
-					);
+	
+			auto l = [] () {
+				return std::shared_ptr<D>(
+						new D(),
+						gal::stl::deleter<D>());
+			};
+
+			std::function< std::shared_ptr<B>() > f(l);
 		
 			gal::stl::factory<B>::default_factory_->template add<D>(f);
 		}

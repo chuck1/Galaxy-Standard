@@ -5,6 +5,8 @@
 #include <map>
 #include <typeindex>
 
+// gal/itf/shared00.hpp
+// gal/itf/shared.hpp
 // gal/itf/registry.hpp
 #include <gal/itf/typedef.hpp>
 #include <gal/std/decl.hpp>
@@ -32,18 +34,19 @@ namespace gal { namespace itf {
 		 *
 		 * a type must be registered before the conversion functions will work.
 		 */
-		void					register_type(std::type_index new_index);
+		void			register_type(std::type_index new_index);
 	private:
-		MHS					map_hash_string_;
-		MSH					map_string_hash_;
+		MHS			map_hash_string_;
+		MSH			map_string_hash_;
 	public:
+		void			set_process_index(long int);
 		/*
 		 * default value is -1
 		 */
-		long int				_M_process_index;
+		long int		_M_process_index;
 	protected:
-		M					_M_map;
-		long int				_M_next;
+		M			_M_map;
+		long int		_M_next;
 	};
 }}
 

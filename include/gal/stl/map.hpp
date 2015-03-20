@@ -32,7 +32,7 @@ namespace gal { namespace stl {
 				item_not_found(gal::index ni):
 					i(ni)
 				{
-					sprintf(buffer, "item not found: %i: %s\n", i, __PRETTY_FUNCTION__);
+					sprintf(buffer, "item not found: %li %li: %s\n", i._M_p, i._M_i, __PRETTY_FUNCTION__);
 				}
 				virtual const char * what() const noexcept
 				{

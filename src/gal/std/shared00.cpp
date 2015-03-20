@@ -89,6 +89,25 @@ gal::itf::registry const *	THIS::get_registry() const
 
 	return p->get_registry();
 }
+void				THIS::change_process_index(
+		long int p_old,
+		long int p_new)
+{
+	std::vector< std::pair<long, gal::index> > v;
 
+	auto it = _M_index_table.begin();
+	while(it != _M_index_table.end()) {
+		if(it->first == p_old) {
+			v.emplace_back(p_new,
+					gal::index(p_new, it->second._M_i));
+			it = _M_index_table.erase(it);
+		} else {
+			it++;
+		}
+	}
+
+	_M_index_table.insert(v.begin(), v.end());
+
+}
 
 
