@@ -6,14 +6,16 @@
 #include <gal/itf/typedef.hpp>
 
 namespace gal {
-	namespace itf {
-		class shared;
-		class shared00;
-		//template<
-		//	gal::itf::index_type(gal::itf::shared00::*)() const,
-		//	void(gal::itf::shared00::*)(gal::itf::index_type)>
-		class registry;
-	}
+	class managed_object;
+	class managed_process;
+	class registry_object;
+	class registry_process;
+	template<typename, typename, typename>
+	class registry;
+
+	namespace error {
+		class no_index;
+	}	
 	namespace stl {
 		//template<class T, typename... INDICES> class map;
 		template<typename T, class S> class map;

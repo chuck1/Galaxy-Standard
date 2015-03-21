@@ -14,7 +14,7 @@
 #include <boost/serialization/map.hpp>
 #endif
 
-#include <gal/itf/shared.hpp>
+#include <gal/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
 #include <gal/stl/verbosity.hpp>
 
@@ -24,7 +24,7 @@ namespace gal { namespace stl {
 	template <typename T_, class S_ = std::shared_ptr<T_> >
 	class map:
 		public gal::tmp::Verbosity< map<T_, S_> >,
-		virtual public gal::itf::shared
+		virtual public gal::managed_object
 	{
 		public:
 			using gal::tmp::Verbosity<map>::printv;
@@ -67,7 +67,7 @@ namespace gal { namespace stl {
 			{
 				assert(container_.empty());
 			}
-			void				init(gal::itf::shared * const & parent)
+			void				init(gal::managed_object * const & parent)
 			{
 				init_shared(parent);
 			}
@@ -89,14 +89,14 @@ namespace gal { namespace stl {
 				assert(s);
 				
 				// make sure index is initialized
-				s->gal::itf::shared::init_shared(_M_shared_parent);
+				s->gal::managed_object::init_shared(_M_shared_parent);
 			
 				// get this_process index
 				gal::index i = s->get_index();
 				
 				/*
 				if(i == -1) {
-					//shared_ptr<gal::itf::shared> sh(t);
+					//shared_ptr<gal::managed_object> sh(t);
 					
 					i = s->get_index();
 					printv(DEBUG, "t->get_index() = %i\n", i);

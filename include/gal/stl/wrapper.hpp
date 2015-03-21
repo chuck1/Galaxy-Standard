@@ -16,7 +16,7 @@
 //#include <Nebula/App/BaseFactory.hh>
 
 #include <gal/stl/HashCode.hpp>
-#include <gal/itf/shared.hpp>
+#include <gal/managed_object.hpp>
 #include <gal/stl/factory.hpp>
 #include <gal/stl/verbosity.hpp>
 #include <gal/dll/helper.hpp>
@@ -30,7 +30,7 @@ namespace gal { namespace stl {
 	template< typename T, typename S_ = std::shared_ptr<T> >
 	class wrapper:
 		public gal::tmp::Verbosity< wrapper<T, S_> >,
-		virtual public gal::itf::shared
+		virtual public gal::managed_object
 	{
 	public:
 		using gal::tmp::Verbosity< wrapper<T, S_> >::printv;
@@ -206,7 +206,7 @@ namespace gal { namespace stl {
 		static gal::index const &			static_get_index(gal::stl::wrapper<T, S_> const & wrap)
 		{
 			if(wrap.ptr_->_M_index == -1) {
-				printv(CRITICAL, "warning: gal::itf::shared object is uninitialized\n");
+				printv(CRITICAL, "warning: gal::managed_object object is uninitialized\n");
 				throw 0;
 			}
 			return wrap.ptr_->i_;

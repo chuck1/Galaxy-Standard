@@ -7,9 +7,9 @@
 
 namespace ba = boost::archive;
 
-#include <gal/itf/shared.hpp>
+#include <gal/managed_object.hpp>
 
-struct A: virtual gal::itf::shared
+struct A: virtual gal::managed_object
 {
 	virtual ~A() {}
 	virtual void foo() = 0;
@@ -18,7 +18,7 @@ struct A: virtual gal::itf::shared
 	void serialize(AR & ar, unsigned int const &)
 	{
 		printf("%s\n", __PRETTY_FUNCTION__);
-		ar & boost::serialization::base_object<gal::itf::shared>(*this);
+		ar & boost::serialization::base_object<gal::managed_object>(*this);
 	}
 
 	virtual void	v_load(ba::polymorphic_iarchive & ar) = 0;

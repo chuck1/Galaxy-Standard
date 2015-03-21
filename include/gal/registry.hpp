@@ -1,13 +1,24 @@
 #ifndef GAL_REGISTRY_HPP
 #define GAL_REGISTRY_HPP
 
+#include <map>
+#include <memory>
+
+#include <gal/decl.hpp>
+#include <gal/stl/verbosity.hpp>
+
 #include <gal/object_index.hpp>
 
 namespace gal {
+	class registry_base:
+		public gal::tmp::Verbosity< gal::registry_base >
+	{
+	};
 	template<typename index_type_,
 		typename T_,
 		typename index_less_type_ = std::less<T_> >
-	class registry
+	class registry:
+		public gal::registry_base
 	{
 	public:
 		typedef std::map<
@@ -33,7 +44,7 @@ namespace gal {
 		{
 			printv_func(DEBUG);
 
-			//gal::itf::shared00* s0 = s.get();
+			//gal::managed_object* s0 = s.get();
 
 			//if(s->_M_index == -1) {
 
@@ -41,7 +52,7 @@ namespace gal {
 			try {	
 				//s->get_index(_M_process_index);
 				get_index(s);
-			} catch(gal::itf::no_index& e) {
+			} catch(gal::error::no_index& e) {
 				//s->set_index(gal::object_index(
 				//	_M_process_index,
 				//     	_M_next++));
@@ -87,13 +98,13 @@ namespace gal {
 				gal::less_index>	
 	{
 	public:
-		THIS::registry00():
-			_M_process_index(0),
-			_M_next(0)
+		object_registry()
+			//_M_process_index(0),
+			//_M_next(0)
 		{
 			printv_func(DEBUG);
 		}
-		std::shared_ptr<gal::itf::shared00>	get(gal::object_index i);
+		std::shared_ptr<gal::managed_object>	get(gal::object_index i);
 	public:
 		void			set_process_index(long int);
 		/*

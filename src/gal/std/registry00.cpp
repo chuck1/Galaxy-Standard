@@ -1,9 +1,9 @@
 #include <vector>
 
-#include <gal/itf/shared00.hpp>
-#include <gal/itf/shared.hpp>
+#include <gal/managed_object.hpp>
+#include <gal/managed_object.hpp>
 
-#include <gal/itf/registry00.hpp>
+#include <gal/registry.hpp>
 
 typedef gal::itf::registry00 THIS;
 
@@ -13,7 +13,7 @@ void		THIS::set_process_index(long int p_new)
 
 	long int p_old = _M_process_index;
 	
-	std::vector< std::pair<gal::index, std::weak_ptr<gal::itf::shared00>> > v;
+	std::vector< std::pair<gal::index, std::weak_ptr<gal::managed_object>> > v;
 
 	auto it = _M_map.begin();
 	while(it != _M_map.end()) {

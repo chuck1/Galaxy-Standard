@@ -1,11 +1,11 @@
 
 #include <gal/stl/map.hpp>
 
-class A: virtual public gal::itf::shared {
+class A: virtual public gal::managed_object {
 	public:
 		virtual ~A() {}
 };
-class B: virtual public gal::itf::shared {
+class B: virtual public gal::managed_object {
 	public:
 		virtual ~B() {}
 };

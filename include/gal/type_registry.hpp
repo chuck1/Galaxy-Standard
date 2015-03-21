@@ -5,9 +5,9 @@
 #include <map>
 #include <typeindex>
 
-// gal/itf/shared00.hpp
-// gal/itf/shared.hpp
-// gal/itf/registry.hpp
+// gal/managed_object.hpp
+// gal/managed_object.hpp
+// gal/registry.hpp
 #include <gal/itf/typedef.hpp>
 #include <gal/std/decl.hpp>
 

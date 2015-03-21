@@ -14,7 +14,7 @@
 
 //#include <Nebula/App/BaseFactory.hh>
 
-#include <gal/itf/shared.hpp>
+#include <gal/managed_object.hpp>
 #include <gal/stl/factory.hpp>
 #include <gal/stl/verbosity.hpp>
 #include <gal/dll/helper.hpp>
@@ -39,7 +39,7 @@ namespace gal { namespace stl {
 
 				   ar >> boost::serialization::make_nvp("name", name);
 
-				   hc = gal::itf::shared::to_hash_code(name);
+				   hc = gal::managed_object::to_hash_code(name);
 				   }
 				   else if(version == 1)
 				   {
@@ -54,7 +54,7 @@ namespace gal { namespace stl {
 				/*
 				   if(version == 0)
 				   {
-				   std::string name = gal::itf::shared::to_string(hc);
+				   std::string name = gal::managed_object::to_string(hc);
 
 				   ar << boost::serialization::make_nvp("name", name);
 				   }
@@ -73,13 +73,13 @@ namespace gal { namespace stl {
 
 				//ar >> boost::serialization::make_nvp("name", name);
 
-				//hc = gal::itf::shared::to_hash_code(name);
+				//hc = gal::managed_object::to_hash_code(name);
 			}
 			void		save(
 					ba::xml_oarchive & ar,
 					unsigned int const & version) const
 			{
-				//std::string name = gal::itf::shared::to_string(hc);
+				//std::string name = gal::managed_object::to_string(hc);
 
 				//ar << boost::serialization::make_nvp("name", name);
 			}

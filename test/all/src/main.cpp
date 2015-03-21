@@ -6,7 +6,7 @@ using namespace std;
 
 
 
-class foo: public gal::itf::shared {
+class foo: public gal::managed_object {
 	public:
 		virtual ~foo() {}
 };

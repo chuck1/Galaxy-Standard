@@ -4,13 +4,13 @@
 #include <cstdlib>
 #include <cassert>
 
-#include <gal/itf/shared.hpp>
+#include <gal/managed_object.hpp>
 
 namespace gal { namespace stl {
 
 	template<typename T>
 	class child:
-		virtual public gal::itf::shared
+		virtual public gal::managed_object
 	{
 	public:
 		typedef T parent_t;

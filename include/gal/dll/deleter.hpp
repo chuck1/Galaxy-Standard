@@ -24,13 +24,13 @@ namespace gal { namespace dll {
 	struct deleter: public gal::tmp::Verbosity<gal::dll::deleter>
 	{
 		public:
-			typedef std::function< void(gal::itf::shared*) > FUNC;
+			typedef std::function< void(gal::managed_object*) > FUNC;
 			deleter(std::shared_ptr<helper_base> h, FUNC f, helper_info hi);
 			virtual ~deleter();
 			deleter(deleter&& d);
 			deleter(deleter const & d);
 			helper_info const	getHelperInfo();
-			void			operator()(gal::itf::shared* p);
+			void			operator()(gal::managed_object* p);
 		private:
 			std::shared_ptr<helper_base>		_M_helper;
 			FUNC					_M_delete;

@@ -8,8 +8,8 @@ namespace gal { namespace archive {
 	{
 	public:
 		archive();
-		gal::itf::shared *	get_shared_parent();
-		gal::itf::shared *	_M_shared_parent;
+		gal::managed_object *	get_shared_parent();
+		gal::managed_object *	_M_shared_parent;
 	};
 }}
 

@@ -1,10 +1,10 @@
 
-#include <gal/itf/registry.hpp>
+#include <gal/registry.hpp>
 
-#include <gal/itf/shared.hpp>
-#include <gal/itf/shared00.hpp>
+#include <gal/managed_object.hpp>
+#include <gal/managed_object.hpp>
 
-typedef gal::itf::shared00 THIS;
+typedef gal::managed_object THIS;
 
 THIS::shared00():
 	_M_shared_parent(0)

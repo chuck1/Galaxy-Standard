@@ -6,11 +6,11 @@
 #include <gal/dll/helper.hpp>
 
 #include <gal/stl/map.hpp>
-#include <gal/itf/registry.hpp>
+#include <gal/registry.hpp>
 
 namespace ba = boost::archive;
 
-struct foo: gal::itf::shared
+struct foo: gal::managed_object
 {
 	virtual void	release()
 	{
@@ -22,7 +22,7 @@ int main()
 	typedef gal::itf::registry R;
 	typedef std::shared_ptr<R> S_R;
 	
-	//S_R r(new R(&gal::itf::shared::get_index, &gal::itf::shared::set_index));
+	//S_R r(new R(&gal::managed_object::get_index, &gal::managed_object::set_index));
 	S_R r(new R);
 	
 	typedef std::shared_ptr<foo> S_F;

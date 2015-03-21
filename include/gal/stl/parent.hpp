@@ -2,13 +2,13 @@
 #define GAL_STD_PARENT_HPP
 
 #include <gal/stl/map.hpp>
-#include <gal/itf/shared.hpp>
+#include <gal/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
 
 namespace gal { namespace stl {
 	template< typename T, typename S_ = std::shared_ptr<T> >
 	class parent:
-		virtual public gal::itf::shared,
+		virtual public gal::managed_object,
 		virtual public gal::tmp::Verbosity< gal::stl::parent<T,S_> >
 	{
 	public:
@@ -23,7 +23,7 @@ namespace gal { namespace stl {
 		parent()
 		{
 		}
-		void			init(gal::itf::shared * const & parent)
+		void			init(gal::managed_object * const & parent)
 		{
 			assert_map();
 		}

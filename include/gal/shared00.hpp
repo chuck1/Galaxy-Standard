@@ -6,8 +6,8 @@
 #include <gal/stl/verbosity.hpp>
 #include <gal/shared.hpp>
 #include <gal/object_index.hpp>
-// gal/itf/shared.hpp
-// gal/itf/registry.hpp
+// gal/managed_object.hpp
+// gal/registry.hpp
 
 namespace gal { namespace itf {
 	class no_index:
@@ -19,7 +19,7 @@ namespace gal { namespace itf {
 		}
 	};
 	class shared00:
-		public gal::tmp::Verbosity<gal::itf::shared00>,
+		public gal::tmp::Verbosity<gal::managed_object>,
 		virtual public gal::enable_shared_from_this<shared00>
 	{
 	public:
@@ -45,7 +45,7 @@ namespace gal { namespace itf {
 		 * does not need to be immediate parent
 		 * can be any ancestor or at least just not a child
 		 */
-		gal::itf::shared *		_M_shared_parent;
+		gal::managed_object *		_M_shared_parent;
 		/*
 		 * index for finding this on this machine
 		 */

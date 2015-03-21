@@ -12,7 +12,7 @@
 
 #include <gal/itf/typedef.hpp>
 
-#include <gal/std/decl.hpp>
+#include <gal/decl.hpp>
 #include <gal/dll/helper_info.hpp>
 #include <gal/dll/deleter.hpp>
 
@@ -87,7 +87,7 @@ namespace gal { namespace dll {
 				}
 	
 				// capture by value
-				auto lambda_delete = [=] (gal::itf::shared* p)
+				auto lambda_delete = [=] (gal::managed_object* p)
 				{
 					D* d = dynamic_cast<D*>(p);
 					assert(d);
@@ -95,7 +95,7 @@ namespace gal { namespace dll {
 					pdestroy(d);
 				};
 
-				std::function< void(gal::itf::shared*) > func_delete(lambda_delete);
+				std::function< void(gal::managed_object*) > func_delete(lambda_delete);
 
 				gal::dll::helper_info hi(filename_, o, typeid(D));
 
@@ -182,7 +182,7 @@ namespace gal { namespace dll {
 				if(!create_) abort();
 				return create_(c...);
 			}
-			virtual void	destroy(gal::itf::shared* p)
+			virtual void	destroy(gal::managed_object* p)
 			{
 				T* t = dynamic_cast<T*>(p);
 				destroy(t);

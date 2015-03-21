@@ -1,7 +1,7 @@
 #ifndef B_HPP
 #define B_HPP
 
-#include <gal/itf/shared.hpp>
+#include <gal/managed_object.hpp>
 
 #include <A.hpp>
 

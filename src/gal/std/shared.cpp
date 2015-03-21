@@ -1,9 +1,9 @@
 #include <boost/serialization/map.hpp>
 
-#include <gal/itf/registry.hpp>
-#include <gal/itf/shared.hpp>
+#include <gal/registry.hpp>
+#include <gal/managed_object.hpp>
 
-typedef gal::itf::shared THIS;
+typedef gal::managed_object THIS;
 
 void    		        THIS::init_shared(THIS * const & parent)
 {
