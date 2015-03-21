@@ -71,7 +71,7 @@ namespace gal { namespace stl {
 			{
 				typedef __function< Args... > func_t;
 
-				gal::itf::hash_type hash_code = typeid(D).hash_code();
+				gal::hash_type hash_code = typeid(D).hash_code();
 				
 				S_<__base_function> b(new func_t(f, __PRETTY_FUNCTION__));
 				
@@ -106,7 +106,7 @@ namespace gal { namespace stl {
 			/** */
 			template<typename... Args>
 			S_< __function< Args... > >	find(
-					gal::itf::hash_type hash_code)
+					gal::hash_type hash_code)
 			{
 				typedef __function< Args... > func_t;
 				

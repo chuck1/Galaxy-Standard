@@ -27,7 +27,7 @@ namespace gal { namespace stl {
 		{
 			assert_map();
 		}
-		void			register_all(gal::itf::registry * const & r)
+		void			register_all(gal::registry * const & r)
 		{
 			assert_map();
 			auto l = [&](S & s)

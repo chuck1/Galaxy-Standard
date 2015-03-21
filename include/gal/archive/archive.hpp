@@ -1,7 +1,7 @@
 #ifndef NEB_FND_ARCHIVE_ARCHIVE_HPP
 #define NEB_FND_ARCHIVE_ARCHIVE_HPP
 
-#include <gal/std/decl.hpp>
+#include <gal/decl.hpp>
 
 namespace gal { namespace archive {
 	class archive

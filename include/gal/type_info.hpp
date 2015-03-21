@@ -2,6 +2,7 @@
 #define GAL_TYPE_INFO_HPP
 
 #include <gal/shared.hpp>
+#include <gal/itf/typedef.hpp>
 
 namespace gal {
 	template<typename T>
@@ -10,7 +11,7 @@ namespace gal {
 	{
 	public:
 		using gal::enable_shared_from_this< gal::type_info<T> >::shared_from_this;
-		gal::itf::hash_type		hash_code() const
+		gal::hash_type		hash_code() const
 		{
 			//std::cout << __PRETTY_FUNCTION__ << std::endl;
 

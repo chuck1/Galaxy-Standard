@@ -1,8 +1,8 @@
-#include <ga/type_registry.hpp>
+#include <gal/type_registry.hpp>
 
 typedef gal::type_registry THIS;
 
-gal::itf::hash_type		THIS::to_hash_code(std::string const & str)
+gal::hash_type		THIS::to_hash_code(std::string const & str)
 {
 	printv_func(DEBUG);
 
@@ -19,7 +19,7 @@ gal::itf::hash_type		THIS::to_hash_code(std::string const & str)
 	}
 	return it->second;
 }
-std::string			THIS::to_string(gal::itf::hash_type const & hash)
+std::string			THIS::to_string(gal::hash_type const & hash)
 {
 	printv_func(DEBUG);
 	auto it = map_hash_string_.find(hash);

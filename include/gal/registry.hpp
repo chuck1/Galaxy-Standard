@@ -98,6 +98,8 @@ namespace gal {
 				gal::less_index>	
 	{
 	public:
+		using gal::tmp::Verbosity<gal::object_registry>::printv;
+
 		object_registry()
 			//_M_process_index(0),
 			//_M_next(0)

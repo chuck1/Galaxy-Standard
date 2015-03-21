@@ -48,7 +48,7 @@ namespace gal { namespace stl {
 			virtual ~FuncMap() {}
 			/** */
 			template<class... Args> void											add(
-					gal::itf::hash_type hash_code,
+					gal::hash_type hash_code,
 					::std::function< shared_type(Args...)> f)
 			{
 				::std::shared_ptr<__base_function> b(new __function< Args...>(f));
@@ -58,7 +58,7 @@ namespace gal { namespace stl {
 			}
 			/** */
 			template<class... Args> std::shared_ptr< __function< Args... > >		find(
-					gal::itf::hash_type hash_code)
+					gal::hash_type hash_code)
 			{
 				auto it = map_.find(hash_code);
 
@@ -87,7 +87,7 @@ namespace gal { namespace stl {
 	class factory2: public FuncMap {
 		public:
 			/** */
-			template<class... Args> std::shared_ptr<gal::managed_object>		alloc(gal::itf::hash_type hash_code, Args&&... args) {
+			template<class... Args> std::shared_ptr<gal::managed_object>		alloc(gal::hash_type hash_code, Args&&... args) {
 				auto f = find<Args...>(hash_code);
 
 				return (f->f_)(::std::forward<Args>(args)...);

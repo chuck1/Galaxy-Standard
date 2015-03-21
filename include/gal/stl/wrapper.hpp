@@ -117,7 +117,7 @@ namespace gal { namespace stl {
 				load_type = 0;
 				ar << BOOST_SERIALIZATION_NVP(load_type);
 
-				gal::itf::hash_type h = ptr_->hash_code();
+				gal::hash_type h = ptr_->hash_code();
 
 				printv(DEBUG, "hashcode = %i\n", h);
 
@@ -165,7 +165,7 @@ namespace gal { namespace stl {
 		{
 			printv(DEBUG, "static object\n");
 
-			gal::itf::hash_type h;
+			gal::hash_type h;
 
 			ar >> bs::make_nvp("hashcode", h);
 

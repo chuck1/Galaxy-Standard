@@ -5,21 +5,17 @@
 
 typedef gal::managed_object THIS;
 
-void    		        THIS::init_shared(THIS * const & parent)
+void    		        THIS::init(registry_type * r)
 {
 	printv_func(DEBUG);
 
-	//printv_func(DEBUG);
-
 	assert(parent);
 
-	_M_shared_parent = parent;
+	_M_registry_parent = r;
 
 	// find registry
 
-	auto reg = get_registry();	
-
-	reg->reg(shared_from_this());
+	r->reg(shared_from_this());
 
 	//printv(DEBUG, "_M_index = %i\n", _M_index);
 

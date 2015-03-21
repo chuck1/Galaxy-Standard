@@ -27,7 +27,7 @@ namespace gal { namespace stl {
 	{
 		public:
 			HashCode(): hc(0) {}
-			HashCode(gal::itf::hash_type nhc): hc(nhc) {}
+			HashCode(gal::hash_type nhc): hc(nhc) {}
 
 			template<class Archive> void	load(Archive & ar, unsigned int const & version)
 			{
@@ -98,7 +98,7 @@ namespace gal { namespace stl {
 
 			BOOST_SERIALIZATION_SPLIT_MEMBER();
 
-			gal::itf::hash_type	hc;
+			gal::hash_type	hc;
 	};
 }}
 

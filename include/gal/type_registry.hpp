@@ -9,14 +9,18 @@
 // gal/managed_object.hpp
 // gal/registry.hpp
 #include <gal/itf/typedef.hpp>
-#include <gal/std/decl.hpp>
+#include <gal/decl.hpp>
 
+#include <gal/stl/deleter.hpp>
 #include <gal/stl/verbosity.hpp>
 
 namespace gal {
-	class type_registry
+	class type_registry:
+		public gal::tmp::Verbosity<gal::type_registry>
 	{
 	public:
+		using gal::tmp::Verbosity<gal::type_registry>::printv;
+
 		typedef std::map< gal::hash_type, std::string > MHS;
 		typedef std::map< std::string, gal::hash_type > MSH;
 		hash_type		to_hash_code(std::string const & str);
@@ -51,4 +55,5 @@ namespace gal {
 	};
 }
 
+#endif
 

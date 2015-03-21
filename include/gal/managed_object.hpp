@@ -65,8 +65,17 @@ namespace gal {
 	public:
 		using gal::tmp::Verbosity<gal::managed_object>::printv;
 		using gal::enable_shared_from_this<gal::managed_object>::shared_from_this;
-		typedef gal::itf::registry R;
-		friend class gal::itf::registry;
+		
+		typedef gal::registry<
+			gal::object_index,
+			gal::managed_object,
+			gal::less_index> registry_type;
+
+		friend class gal::registry<
+			gal::object_index,
+			gal::managed_object,
+			gal::less_index>;
+
 		friend class boost::serialization::access;
 
 
@@ -79,8 +88,10 @@ namespace gal {
 			}
 		};
 
-		shared00();
-		virtual ~shared00();
+		virtual void			init(registry_type * parent);
+
+		managed_object();
+		virtual ~managed_object();
 		/*
 		 * get index for this process
 		 */
@@ -89,9 +100,9 @@ namespace gal {
 		//index_type			get_index_creation() const;
 		void				set_index(gal::object_index);
 		//void				set_index_creation(gal::object_index);
-		virtual void			register_all(gal::itf::registry * const &);
-		gal::itf::registry *		get_registry();
-		gal::itf::registry const *	get_registry() const;
+		virtual void			register_all(registry_type * const &);
+		registry_type *			get_registry();
+		registry_type const *		get_registry() const;
 		void				change_process_index(
 				long int old_pi,
 				long int new_pi);
@@ -101,7 +112,7 @@ namespace gal {
 		 * does not need to be immediate parent
 		 * can be any ancestor or at least just not a child
 		 */
-		gal::managed_object *		_M_shared_parent;
+		registry_type *		_M_registry_parent;
 
 		std::map<long, gal::object_index>	_M_index_table;
 
@@ -120,7 +131,7 @@ namespace gal {
 		/// static member was resulting in mutliple ctor calls
 		// which was reseting registry::next_ to 0
 		// switch to using a non-static registry via foundation app
-		//static gal::itf::registry				registry_;
+		//static gal::registry				registry_;
 
 		/// @TODO fix this
 
@@ -142,15 +153,12 @@ namespace gal {
 		/// static member was resulting in mutliple ctor calls
 		// which was reseting registry::next_ to 0
 		// switch to using a non-static registry via foundation app
-		//static gal::itf::registry				registry_;
+		//static gal::registry				registry_;
 
 		/// @TODO fix this
 	public:
 		//shared();
 		//virtual ~shared();
-		virtual void			init_shared(
-				gal::managed_object * const & parent);
-		virtual void			release() = 0;
 		/** */
 	private:
 		void			load(
@@ -168,7 +176,7 @@ namespace gal {
 		 */
 		boost::recursive_mutex		mutex_;
 	};
-}}
+}
 
 #endif
 

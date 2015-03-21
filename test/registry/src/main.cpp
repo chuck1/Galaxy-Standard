@@ -19,7 +19,7 @@ struct foo: gal::managed_object
 
 int main()
 {
-	typedef gal::itf::registry R;
+	typedef gal::registry R;
 	typedef std::shared_ptr<R> S_R;
 	
 	//S_R r(new R(&gal::managed_object::get_index, &gal::managed_object::set_index));

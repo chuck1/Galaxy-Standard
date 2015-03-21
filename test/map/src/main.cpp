@@ -12,7 +12,7 @@
 namespace ba = boost::archive;
 
 struct bar:
-	gal::itf::registry,
+	gal::registry,
 	gal::managed_object
 {
 	virtual void	release()

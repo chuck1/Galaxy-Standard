@@ -1,9 +1,9 @@
-#include <gal/registry.hpp>
+#include <gal/registry_object.hpp>
 #include <gal/managed_object.hpp>
 
-typedef gal::itf::registry THIS;
+typedef gal::registry_object THIS;
 
-THIS::registry()
+THIS::registry_object()
 	//_M_p_get_index(&gal::managed_object::get_index),
 	//_M_p_set_index(&gal::managed_object::set_index)
 {

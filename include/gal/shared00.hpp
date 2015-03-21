@@ -33,9 +33,9 @@ namespace gal { namespace itf {
 		//index_type			get_index_creation() const;
 		void				set_index(gal::object_index);
 		//void				set_index_creation(gal::object_index);
-		virtual void			register_all(gal::itf::registry * const &);
-		gal::itf::registry *		get_registry();
-		gal::itf::registry const *	get_registry() const;
+		virtual void			register_all(gal::registry * const &);
+		gal::registry *		get_registry();
+		gal::registry const *	get_registry() const;
 		void				change_process_index(
 				long int old_pi,
 				long int new_pi);

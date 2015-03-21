@@ -3,9 +3,9 @@
 #include <gal/managed_object.hpp>
 #include <gal/managed_object.hpp>
 
-#include <gal/registry.hpp>
+#include <gal/registry_object.hpp>
 
-typedef gal::itf::registry00 THIS;
+typedef gal::registry_object THIS;
 
 void		THIS::set_process_index(long int p_new)
 {
@@ -13,12 +13,12 @@ void		THIS::set_process_index(long int p_new)
 
 	long int p_old = _M_process_index;
 	
-	std::vector< std::pair<gal::index, std::weak_ptr<gal::managed_object>> > v;
+	std::vector< std::pair<gal::object_index, std::weak_ptr<gal::managed_object>> > v;
 
 	auto it = _M_map.begin();
 	while(it != _M_map.end()) {
 		if(it->first._M_p == p_old) {
-			v.emplace_back(gal::index(p_new, it->first._M_i),
+			v.emplace_back(gal::object_index(p_new, it->first._M_i),
 					it->second);
 			it = _M_map.erase(it);
 		} else {

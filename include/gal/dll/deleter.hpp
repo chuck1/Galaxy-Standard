@@ -13,24 +13,19 @@
 
 #include <boost/serialization/nvp.hpp>
 
-namespace gal { namespace itf {
-	class shared;
-}}
-
 namespace gal { namespace dll {
-
-	class helper_base;
-
-	struct deleter: public gal::tmp::Verbosity<gal::dll::deleter>
+	struct deleter:
+		public gal::tmp::Verbosity<gal::dll::deleter>
 	{
 		public:
-			typedef std::function< void(gal::managed_object*) > FUNC;
+			typedef std::function< void(gal::release *) > FUNC;
+
 			deleter(std::shared_ptr<helper_base> h, FUNC f, helper_info hi);
 			virtual ~deleter();
 			deleter(deleter&& d);
 			deleter(deleter const & d);
 			helper_info const	getHelperInfo();
-			void			operator()(gal::managed_object* p);
+			void			operator()(gal::release * p);
 		private:
 			std::shared_ptr<helper_base>		_M_helper;
 			FUNC					_M_delete;

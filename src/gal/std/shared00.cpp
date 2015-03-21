@@ -2,18 +2,17 @@
 #include <gal/registry.hpp>
 
 #include <gal/managed_object.hpp>
-#include <gal/managed_object.hpp>
 
 typedef gal::managed_object THIS;
 
-THIS::shared00():
-	_M_shared_parent(0)
+THIS::managed_object():
+	_M_registry_parent(0)
 	//_M_index(-1),
 	//_M_index_creation(-1)
 {
 	printv_func(DEBUG);
 }
-THIS::~shared00()
+THIS::~managed_object()
 {
 	printv_func(DEBUG);
 }
@@ -58,15 +57,15 @@ void				THIS::set_index(gal::index i)
 	printv_func(DEBUG);
 	_M_index_creation = i;
 }*/
-void				THIS::register_all(gal::itf::registry * const & r)
+void				THIS::register_all(gal::registry * const & r)
 {
 	r->reg(shared_from_this());
 }
-gal::itf::registry *		THIS::get_registry()
+gal::registry *		THIS::get_registry()
 {
 	printv_func(DEBUG);
 
-	auto r = dynamic_cast<gal::itf::registry *>(this);
+	auto r = dynamic_cast<gal::registry *>(this);
 
 	if(r) return r;
 
@@ -76,11 +75,11 @@ gal::itf::registry *		THIS::get_registry()
 
 	return p->get_registry();
 }
-gal::itf::registry const *	THIS::get_registry() const
+gal::registry const *	THIS::get_registry() const
 {
 	printv_func(DEBUG);
 
-	auto r = dynamic_cast<gal::itf::registry const *>(this);
+	auto r = dynamic_cast<gal::registry const *>(this);
 
 	if(r) return r;
 

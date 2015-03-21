@@ -30,7 +30,7 @@ namespace gal { namespace stl {
 			typedef gal::stl::funcmap<T>	fm;
 			/** */
 			template<typename... Args>
-			shared				alloc(gal::itf::hash_type hash_code, Args&&... args)
+			shared				alloc(gal::hash_type hash_code, Args&&... args)
 			{
 				//auto f = find<Args...>(hash_code);
 				//auto f = gal::stl::funcmap<T>::find<Args...>(hash_code);
