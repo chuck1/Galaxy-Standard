@@ -1,6 +1,10 @@
 
 #include <gal/registry.hpp>
 
+#include <gal/managed_process.hpp>
+#include <gal/registry_object.hpp>
+#include <gal/error/no_index.hpp>
+
 #include <gal/managed_object.hpp>
 
 typedef gal::managed_object THIS;
@@ -16,52 +20,52 @@ THIS::~managed_object()
 {
 	printv_func(DEBUG);
 }
-gal::index		THIS::get_index() const
+gal::object_index		THIS::get_index() const
 {
 	printv_func(DEBUG);
 	
 	auto r = get_registry();
 
-	return get_index(r->_M_process_index);
+	return get_index(r->_M_index);
 }
-gal::index		THIS::get_index(long int p) const
+gal::object_index		THIS::get_index(gal::process_index p) const
 {
 	printv_func(DEBUG);
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
 		printv(ERROR, "process index not found: %li\n", p);
-		throw gal::itf::no_index();
+		throw gal::error::no_index();
 	}
 	return it->second;
 }
 /*
-gal::index		THIS::get_index_creation() const
+gal::object_index		THIS::get_index_creation() const
 {
 	printv_func(DEBUG);
 
 	return _M_index_creation;
 }
 */
-void				THIS::set_index(gal::index i)
+void				THIS::set_index(gal::object_index i)
 {
 	printv_func(DEBUG);
 
-	std::pair<std::map<long int, gal::index>::iterator, bool> p = _M_index_table.insert(std::make_pair(i._M_p, i));
+	std::pair<map_type::iterator, bool> p = _M_index_table.insert(std::make_pair(i._M_p, i));
 
 	if(!p.second) {
 		abort();
 	}
 }
-/*void				THIS::set_index_creation(gal::index i)
+/*void				THIS::set_index_creation(gal::object_index i)
 {
 	printv_func(DEBUG);
 	_M_index_creation = i;
 }*/
-void				THIS::register_all(gal::registry * const & r)
+void				THIS::register_all(registry_type * r)
 {
 	r->reg(shared_from_this());
 }
-gal::registry *		THIS::get_registry()
+THIS::registry_type *		THIS::get_registry()
 {
 	printv_func(DEBUG);
 
@@ -96,7 +100,7 @@ void				THIS::change_process_index(
 	printv_func(DEBUG);
 
 
-	std::vector< std::pair<long, gal::index> > v;
+	std::vector< std::pair<long, gal::object_index> > v;
 
 	auto it = _M_index_table.begin();
 	while(it != _M_index_table.end()) {
@@ -105,7 +109,7 @@ void				THIS::change_process_index(
 				p_old, p_new, it->second._M_i);
 
 			v.emplace_back(p_new,
-					gal::index(p_new, it->second._M_i));
+					gal::object_index(p_new, it->second._M_i));
 			it = _M_index_table.erase(it);
 		} else {
 			it++;

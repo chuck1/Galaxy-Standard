@@ -1,6 +1,8 @@
 #include <boost/serialization/map.hpp>
 
-#include <gal/registry.hpp>
+#include <gal/registry_object.hpp>
+#include <gal/managed_process.hpp>
+
 #include <gal/managed_object.hpp>
 
 typedef gal::managed_object THIS;
@@ -9,7 +11,7 @@ void    		        THIS::init(registry_type * r)
 {
 	printv_func(DEBUG);
 
-	assert(parent);
+	assert(r);
 
 	_M_registry_parent = r;
 
@@ -21,16 +23,6 @@ void    		        THIS::init(registry_type * r)
 
 	//assert(_M_index != -1);
 }
-void				THIS::release()
-{
-	printv_func(DEBUG);
-
-}
-/*gal::itf::index_type const &	THIS::static_get_index(std::shared_ptr<THIS> ptr)
-{
-	assert(ptr);
-	return ptr->_M_index;
-}*/
 void			THIS::load(
 		boost::archive::polymorphic_iarchive & ar,
 		unsigned int const & version)

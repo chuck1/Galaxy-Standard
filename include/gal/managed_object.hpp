@@ -1,17 +1,6 @@
 #ifndef __GRU_SHARED_HPP__
 #define __GRU_SHARED_HPP__
 
-#include <boost/thread.hpp>
-#include <boost/serialization/nvp.hpp>
-#include <boost/archive/polymorphic_iarchive.hpp>
-#include <boost/archive/polymorphic_oarchive.hpp>
-#include <boost/serialization/string.hpp>
-
-#include <gal/decl.hpp>
-#include <gal/itf/typedef.hpp>
-#include <gal/stl/verbosity.hpp>
-#include <gal/shared.hpp>
-#include <gal/object_index.hpp>
 
 #include <memory>
 #include <map>
@@ -26,9 +15,8 @@
 
 #include <gal/registry.hpp>
 #include <gal/managed_object.hpp>
-
+#include <gal/process_index.hpp>
 #include <gal/type_info.hpp>
-
 
 
 #include <boost/thread.hpp>
@@ -38,13 +26,14 @@
 #include <boost/serialization/string.hpp>
 
 #include <gal/stl/verbosity.hpp>
-#include <gal/itf/release.hpp>
-#include <gal/itf/typedef.hpp>
-
-#include <gal/registry.hpp>
-#include <gal/managed_object.hpp>
-
-#include <gal/type_info.hpp>
+//#include <gal/itf/release.hpp>
+//#include <gal/itf/typedef.hpp>
+//#include <gal/decl.hpp>
+//#include <gal/itf/typedef.hpp>
+//#include <gal/stl/verbosity.hpp>
+#include <gal/shared.hpp>
+//#include <gal/object_index.hpp>
+//#include <gal/registry.hpp>
 
 // gal/managed_object.hpp
 // gal/registry.hpp
@@ -59,17 +48,19 @@ namespace gal {
 	class managed_object:
 		public gal::tmp::Verbosity<gal::managed_object>,
 		virtual public gal::enable_shared_from_this<gal::managed_object>
-		//virtual public gal::type_info<gal::managed_object>,
-		//virtual public gal::itf::__release
 	{
 	public:
 		using gal::tmp::Verbosity<gal::managed_object>::printv;
 		using gal::enable_shared_from_this<gal::managed_object>::shared_from_this;
 		
-		typedef gal::registry<
-			gal::object_index,
-			gal::managed_object,
-			gal::less_index> registry_type;
+		//typedef gal::registry<
+		//	gal::object_index,
+		//	gal::managed_object,
+		//	gal::less_index> registry_type;
+		//typedef gal::managed_process registry_type;
+		typedef gal::registry_object registry_type;
+
+		typedef std::map<gal::process_index, gal::object_index> map_type;
 
 		friend class gal::registry<
 			gal::object_index,
@@ -78,29 +69,18 @@ namespace gal {
 
 		friend class boost::serialization::access;
 
-
-		class no_index:
-			public std::exception
-		{
-			virtual const char * what() const noexcept
-			{
-				return "no index";
-			}
-		};
-
 		virtual void			init(registry_type * parent);
-
 		managed_object();
 		virtual ~managed_object();
 		/*
 		 * get index for this process
 		 */
 		gal::object_index		get_index() const;
-		gal::object_index		get_index(long int process_index) const;
+		gal::object_index		get_index(gal::process_index) const;
 		//index_type			get_index_creation() const;
 		void				set_index(gal::object_index);
 		//void				set_index_creation(gal::object_index);
-		virtual void			register_all(registry_type * const &);
+		virtual void			register_all(registry_type *);
 		registry_type *			get_registry();
 		registry_type const *		get_registry() const;
 		void				change_process_index(
@@ -114,11 +94,7 @@ namespace gal {
 		 */
 		registry_type *		_M_registry_parent;
 
-		std::map<long, gal::object_index>	_M_index_table;
-
-
-
-
+		map_type		_M_index_table;
 
 
 		/** @brief static get index

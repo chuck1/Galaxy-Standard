@@ -8,7 +8,7 @@
 #include <string>
 
 #include <gal/itf/typedef.hpp>
-
+#include <gal/decl.hpp>
 #include <gal/dll/helper_info.hpp>
 
 #include <boost/serialization/nvp.hpp>

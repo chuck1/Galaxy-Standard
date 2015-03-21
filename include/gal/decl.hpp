@@ -12,6 +12,8 @@ namespace gal {
 	class registry_process;
 	template<typename, typename, typename>
 	class registry;
+	
+	class release;
 
 	namespace error {
 		class no_index;
@@ -28,7 +30,9 @@ namespace gal {
 	}
 	namespace dll
 	{
-		template<typename T, template<typename T2> class S = std::shared_ptr> class helper;
+		class helper_base;
+		template<typename T, template<typename T2> class S = std::shared_ptr>
+		class helper;
 	}
 }
 

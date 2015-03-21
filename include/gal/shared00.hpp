@@ -10,14 +10,6 @@
 // gal/registry.hpp
 
 namespace gal { namespace itf {
-	class no_index:
-		public std::exception
-	{
-		virtual const char * what() const noexcept
-		{
-			return "no index";
-		}
-	};
 	class shared00:
 		public gal::tmp::Verbosity<gal::managed_object>,
 		virtual public gal::enable_shared_from_this<shared00>

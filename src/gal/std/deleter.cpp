@@ -1,12 +1,10 @@
 #include <iostream>
 
-
-#include <gal/managed_object.hpp>
-
-#include <gal/dll/deleter.hpp>
+#include <gal/release.hpp>
 
 #include <gal/dll/helper.hpp>
 
+#include <gal/dll/deleter.hpp>
 
 gal::dll::deleter::~deleter()
 {
@@ -14,7 +12,7 @@ gal::dll::deleter::~deleter()
 }
 gal::dll::deleter::deleter(
 		std::shared_ptr<helper_base> h,
-		std::function<void(gal::managed_object*)> f,
+		std::function<void(gal::release *)> f,
 		gal::dll::helper_info hi):
 	_M_helper(h),
 	_M_delete(f),
@@ -44,7 +42,7 @@ gal::dll::deleter::deleter(deleter&& d):
 	//std::cout << "name " << hi_.name << std::endl;
 	//std::cout << "hc   " << hi_.hc << std::endl;
 }
-void			gal::dll::deleter::operator()(gal::managed_object* p)
+void			gal::dll::deleter::operator()(gal::release * p)
 {
 	printv_func(DEBUG);
 

@@ -57,11 +57,11 @@ int main()
 	m.cend();
 	m.random();
 	m.size();
-	m.erase(gal::index(0,0));
+	m.erase(gal::object_index(0,0));
 	m.empty();
 
 	try {
-		m.find(gal::index(0,0));
+		m.find(gal::object_index(0,0));
 	} catch(std::exception& e) {
 		printf("%s\n", e.what());
 	}

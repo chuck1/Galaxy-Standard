@@ -203,7 +203,7 @@ namespace gal { namespace stl {
 		}
 		BOOST_SERIALIZATION_SPLIT_MEMBER();
 		/*
-		static gal::index const &			static_get_index(gal::stl::wrapper<T, S_> const & wrap)
+		static gal::object_index const &			static_get_index(gal::stl::wrapper<T, S_> const & wrap)
 		{
 			if(wrap.ptr_->_M_index == -1) {
 				printv(CRITICAL, "warning: gal::managed_object object is uninitialized\n");
