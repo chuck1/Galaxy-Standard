@@ -35,9 +35,7 @@ namespace gal {
 			return x._M_p < y._M_p;
 		}
 	};
-	namespace itf {
-		typedef unsigned int			hash_type;
-	}
+	typedef unsigned int			hash_type;
 }
 
 #endif

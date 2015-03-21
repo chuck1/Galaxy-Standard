@@ -30,6 +30,7 @@ gal::index		THIS::get_index(long int p) const
 	printv_func(DEBUG);
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
+		printv(ERROR, "process index not found: %li\n", p);
 		throw gal::itf::no_index();
 	}
 	return it->second;
@@ -93,11 +94,17 @@ void				THIS::change_process_index(
 		long int p_old,
 		long int p_new)
 {
+	printv_func(DEBUG);
+
+
 	std::vector< std::pair<long, gal::index> > v;
 
 	auto it = _M_index_table.begin();
 	while(it != _M_index_table.end()) {
 		if(it->first == p_old) {
+			printv(INFO, "change process index from %li to %li. object index: %li\n",
+				p_old, p_new, it->second._M_i);
+
 			v.emplace_back(p_new,
 					gal::index(p_new, it->second._M_i));
 			it = _M_index_table.erase(it);

@@ -68,6 +68,8 @@ void				THIS::register_type(std::type_index new_index)
 }
 void		THIS::set_process_index(long int p_new)
 {
+	printv_func(DEBUG);
+
 	long int p_old = _M_process_index;
 	
 	std::vector< std::pair<gal::index, std::weak_ptr<gal::itf::shared00>> > v;
