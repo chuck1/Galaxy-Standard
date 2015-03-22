@@ -145,12 +145,15 @@ namespace gal { namespace stl {
 				abort();
 			}
 			
-			if(_M_shared_parent) {
-				ptr_->init_shared(_M_shared_parent);
+			if(_M_registry_parent) {
+				//ptr_->init_shared(_M_registry_parent);
+				ptr_->gal::managed_object::init(_M_registry_parent);
 			} else {
 				auto ar1 = dynamic_cast<gal::archive::archive*>(&ar);
 				assert(ar1);
-				ptr_->init_shared(ar1->get_shared_parent());
+				//ptr_->init_shared(ar1->get_shared_parent());
+				//ptr_->gal::managed_object::init(ar1->get_shared_parent());
+				ptr_->gal::managed_object::init(ar1->get_registry());
 			}
 			
 			// read object data

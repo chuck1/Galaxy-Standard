@@ -7,7 +7,7 @@
 #include <cassert>
 #include <string>
 
-#include <gal/itf/typedef.hpp>
+#include <gal/typedef.hpp>
 #include <gal/decl.hpp>
 #include <gal/dll/helper_info.hpp>
 
@@ -18,14 +18,14 @@ namespace gal { namespace dll {
 		public gal::tmp::Verbosity<gal::dll::deleter>
 	{
 		public:
-			typedef std::function< void(gal::release *) > FUNC;
+			typedef std::function< void(gal::_release *) > FUNC;
 
 			deleter(std::shared_ptr<helper_base> h, FUNC f, helper_info hi);
 			virtual ~deleter();
 			deleter(deleter&& d);
 			deleter(deleter const & d);
 			helper_info const	getHelperInfo();
-			void			operator()(gal::release * p);
+			void			operator()(gal::_release * p);
 		private:
 			std::shared_ptr<helper_base>		_M_helper;
 			FUNC					_M_delete;

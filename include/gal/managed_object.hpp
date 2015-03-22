@@ -9,9 +9,9 @@
 
 
 #include <gal/stl/verbosity.hpp>
-#include <gal/itf/release.hpp>
+#include <gal/_release.hpp>
 #include <gal/decl.hpp>
-#include <gal/itf/typedef.hpp>
+#include <gal/typedef.hpp>
 
 #include <gal/registry.hpp>
 #include <gal/managed_object.hpp>
@@ -70,6 +70,7 @@ namespace gal {
 		friend class boost::serialization::access;
 
 		virtual void			init(registry_type * parent);
+		//virtual void			init(gal::managed_object * parent);
 		managed_object();
 		virtual ~managed_object();
 		/*
@@ -84,8 +85,8 @@ namespace gal {
 		registry_type *			get_registry();
 		registry_type const *		get_registry() const;
 		void				change_process_index(
-				long int old_pi,
-				long int new_pi);
+				gal::process_index p_old,
+				gal::process_index p_new);
 	public:
 		/**
 		 * used to find the gal::itf::regisry and register this

@@ -8,7 +8,7 @@
 #include <cassert>
 #include <string>
 
-#include <gal/itf/typedef.hpp>
+#include <gal/typedef.hpp>
 #include <gal/stl/verbosity.hpp>
 #include <gal/dll/helper_info.hpp>
 

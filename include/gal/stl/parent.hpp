@@ -23,11 +23,11 @@ namespace gal { namespace stl {
 		parent()
 		{
 		}
-		void			init(gal::managed_object * const & parent)
+		void			init(gal::managed_object * parent)
 		{
 			assert_map();
 		}
-		void			register_all(gal::registry * const & r)
+		void			register_all(gal::registry_object * r)
 		{
 			assert_map();
 			auto l = [&](S & s)
@@ -116,7 +116,7 @@ namespace gal { namespace stl {
 		{
 			if(!map_) {
 				map_.reset(new MAP);
-				map_->init(this);
+				map_->init(get_registry());
 			}
 		}
 		template<typename ARCHIVE>

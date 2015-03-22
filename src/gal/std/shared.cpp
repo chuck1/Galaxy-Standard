@@ -8,17 +8,31 @@
 typedef gal::managed_object THIS;
 
 void    		        THIS::init(registry_type * r)
+//void    		        THIS::init(gal::managed_object * p)
 {
 	printv_func(DEBUG);
 
 	assert(r);
+	
+	/*	
+	auto r = dynamic_cast<registry_type*>(p);
+	
+	if(!r) {
+		r = p->get_registry();
+		if(!r) {
+			throw 0;
+		}
+	}
+	*/
+	
 
-	_M_registry_parent = r;
-
+	
 	// find registry
-
+	
+	_M_registry_parent = r;
 	r->reg(shared_from_this());
 
+	
 	//printv(DEBUG, "_M_index = %i\n", _M_index);
 
 	//assert(_M_index != -1);

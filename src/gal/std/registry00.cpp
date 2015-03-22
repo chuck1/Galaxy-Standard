@@ -11,7 +11,7 @@ void		THIS::set_process_index(long int p_new)
 {
 	printv_func(DEBUG);
 
-	long int p_old = _M_process_index;
+	auto p_old = _M_index;
 	
 	std::vector< std::pair<gal::object_index, std::weak_ptr<gal::managed_object>> > v;
 

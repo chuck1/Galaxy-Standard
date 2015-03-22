@@ -15,6 +15,14 @@ namespace gal {
 			_M_i++;
 			return *this;
 		}
+		bool		operator==(process_index const & p) const
+		{
+			return _M_i == p._M_i;
+		}
+		bool		operator<(process_index const & p) const
+		{
+			return _M_i < p._M_i;
+		}
 		template<typename A>
 		void		serialize(A & a, unsigned int const & v)
 		{

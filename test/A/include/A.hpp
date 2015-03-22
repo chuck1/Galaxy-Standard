@@ -7,9 +7,13 @@
 
 namespace ba = boost::archive;
 
+#include <gal/_release.hpp>
 #include <gal/managed_object.hpp>
 
-struct A: virtual gal::managed_object
+struct A:
+	virtual gal::_release,
+	virtual gal::managed_object
+
 {
 	virtual ~A() {}
 	virtual void foo() = 0;

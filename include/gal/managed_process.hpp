@@ -5,6 +5,7 @@
 
 #include <gal/process_index.hpp>
 //#include <gal/registry_object.hpp>
+//#include <gal/registry_process.hpp>
 
 namespace gal {
 	class managed_process

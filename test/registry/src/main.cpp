@@ -6,7 +6,7 @@
 #include <gal/dll/helper.hpp>
 
 #include <gal/stl/map.hpp>
-#include <gal/registry.hpp>
+#include <gal/registry_object.hpp>
 
 namespace ba = boost::archive;
 
@@ -19,7 +19,7 @@ struct foo: gal::managed_object
 
 int main()
 {
-	typedef gal::registry R;
+	typedef gal::registry_object R;
 	typedef std::shared_ptr<R> S_R;
 	
 	//S_R r(new R(&gal::managed_object::get_index, &gal::managed_object::set_index));
@@ -34,7 +34,9 @@ int main()
 	r->reg(f0);
 	r->reg(f1);
 	r->reg(f2);
-	
-	r->get(0);
+
+	gal::object_index i0 = f0->get_index();
+
+	r->get(i0);
 }
 

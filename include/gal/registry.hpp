@@ -6,6 +6,7 @@
 
 #include <gal/decl.hpp>
 #include <gal/stl/verbosity.hpp>
+#include <gal/error/no_index.hpp>
 
 #include <gal/object_index.hpp>
 
@@ -30,19 +31,23 @@ namespace gal {
 		typedef index_type_ index_type;
 
 		registry(): _M_ready(false)
-		{}
+		{
+			printv_func(INFO);
+		}
 
 		virtual index_type	first() = 0;
 		virtual index_type	get_index(S) = 0;
 		virtual void		set_index(S, index_type) = 0;
+		virtual void		insert(S) = 0;
 
 		index_type_		next()
 		{
+			printv_func(INFO);
 			return _M_next++;
 		}
 		void			reg(S s)
 		{
-			printv_func(DEBUG);
+			printv_func(INFO);
 
 			//gal::managed_object* s0 = s.get();
 
@@ -59,28 +64,15 @@ namespace gal {
 				set_index(s, next());
 			}
 
-			typedef std::pair<typename map_type::iterator, bool> PAIR;
+			insert(s);
 
-			for(auto i : s->_M_index_table) {
-
-				PAIR p = _M_map.insert(map_type::value_type(
-							i.second, s));
-
-				if(p.second == false) {
-					printv(CRITICAL, "index already taken: %li %li\n",
-							i.second._M_p,
-							i.second._M_i);
-					abort();
-				}
-
-			}
 		}
 		S		get(index_type i)
 		{
 			printv_func(DEBUG);
 			auto it = _M_map.find(i);
 			if(it == _M_map.cend()) {
-				throw 0;
+				throw gal::error::item_not_found();
 			}
 			return it->second.lock();
 		}

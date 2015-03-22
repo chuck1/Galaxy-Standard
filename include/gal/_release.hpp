@@ -3,6 +3,8 @@
 
 #include <boost/signals2.hpp>
 
+// gal/decl.hpp
+
 /** @todo ways to implement hierarchy of calls to base members
  * (ex. when actor is released, we want to call derived member as well as several base class members)
  * 
@@ -21,16 +23,13 @@
  *          MULTIPLE INHERITANCE OF DIFFERENT TEMPLATE VERSIONS OF BASE CLASS
  */
 namespace gal {
-	namespace itf {
-		class __release {
-			public:
-				virtual ~__release() {}
-
-				virtual void				release();
-			public:
-				boost::signals2::signal<void()>		sig_release_;
-		};
-	}
+	class _release
+	{
+	public:
+		virtual ~_release();
+		virtual void				release();
+		boost::signals2::signal<void()>		sig_release_;
+	};
 }
 
 #endif

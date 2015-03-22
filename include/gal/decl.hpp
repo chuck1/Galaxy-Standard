@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <gal/itf/typedef.hpp>
+#include <gal/typedef.hpp>
 
 namespace gal {
 	class managed_object;
@@ -13,7 +13,7 @@ namespace gal {
 	template<typename, typename, typename>
 	class registry;
 	
-	class release;
+	class _release;
 
 	namespace error {
 		class no_index;

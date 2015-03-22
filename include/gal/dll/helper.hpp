@@ -10,7 +10,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/serialization/nvp.hpp>
 
-#include <gal/itf/typedef.hpp>
+#include <gal/typedef.hpp>
 
 #include <gal/decl.hpp>
 #include <gal/dll/helper_info.hpp>
@@ -26,7 +26,7 @@ namespace gal { namespace dll {
 		public std::enable_shared_from_this< helper_base >
 	{
 	public:
-		typedef std::enable_shared_from_this< helper_base > estf;
+		using std::enable_shared_from_this< helper_base >::shared_from_this;
 	};
 	template< class B_, template<typename T> class S_ >
 	class helper:
@@ -87,7 +87,7 @@ namespace gal { namespace dll {
 				}
 	
 				// capture by value
-				auto lambda_delete = [=] (gal::managed_object* p)
+				auto lambda_delete = [=] (gal::_release * p)
 				{
 					D* d = dynamic_cast<D*>(p);
 					assert(d);
@@ -95,11 +95,11 @@ namespace gal { namespace dll {
 					pdestroy(d);
 				};
 
-				std::function< void(gal::managed_object*) > func_delete(lambda_delete);
+				std::function< void(gal::_release *) > func_delete(lambda_delete);
 
 				gal::dll::helper_info hi(filename_, o, typeid(D));
 
-				gal::dll::deleter del(estf::shared_from_this(), func_delete, hi);
+				gal::dll::deleter del(shared_from_this(), func_delete, hi);
 
 				// capture by value
 				auto lamb = [=] (ARGS... args) -> S<B>

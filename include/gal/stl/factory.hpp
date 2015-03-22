@@ -4,12 +4,10 @@
 #include <map>
 #include <memory>
 
-#include <gal/std/decl.hpp>
+#include <gal/decl.hpp>
+#include <gal/typedef.hpp>
 #include <gal/stl/helper.hpp>
 #include <gal/stl/funcmap.hpp>
-#include <gal/itf/typedef.hpp>
-
-namespace sp = std;
 
 namespace gal { namespace stl {
 		/** @brief factory.

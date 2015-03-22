@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <gal/release.hpp>
+#include <gal/_release.hpp>
 
 #include <gal/dll/helper.hpp>
 
@@ -12,7 +12,7 @@ gal::dll::deleter::~deleter()
 }
 gal::dll::deleter::deleter(
 		std::shared_ptr<helper_base> h,
-		std::function<void(gal::release *)> f,
+		std::function<void(gal::_release *)> f,
 		gal::dll::helper_info hi):
 	_M_helper(h),
 	_M_delete(f),
@@ -42,7 +42,7 @@ gal::dll::deleter::deleter(deleter&& d):
 	//std::cout << "name " << hi_.name << std::endl;
 	//std::cout << "hc   " << hi_.hc << std::endl;
 }
-void			gal::dll::deleter::operator()(gal::release * p)
+void			gal::dll::deleter::operator()(gal::_release * p)
 {
 	printv_func(DEBUG);
 

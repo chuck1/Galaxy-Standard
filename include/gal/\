@@ -1,31 +1,31 @@
-#ifndef GAL_REGISTRY_OBJECT_HPP
-#define GAL_REGISTRY_OBJECT_HPP
+#ifndef GAL_REGISTRY_PROCESS_HPP
+#define GAL_REGISTRY_PROCESS_HPP
 
 #include <map>
 #include <memory>
 
 #include <gal/decl.hpp>
 #include <gal/stl/verbosity.hpp>
-#include <gal/object_index.hpp>
+#include <gal/process_index.hpp>
 
 #include <gal/registry.hpp>
 #include <gal/managed_process.hpp>
 
 namespace gal {
-	class registry_object:
-		public gal::tmp::Verbosity<gal::registry_object>,
+	class registry_process:
+		public gal::tmp::Verbosity<gal::registry_process>,
 		public gal::registry<
-				gal::object_index,
-				gal::managed_object,
-				gal::less_index>,
+				gal::process_index,
+				gal::managed_process,
+				gal::process_index_less>,
 		public gal::managed_process
 	{
 	public:
-		using gal::tmp::Verbosity<gal::registry_object>::printv;
+		using gal::tmp::Verbosity<gal::registry_process>::printv;
 
-		registry_object();
+		registry_process();
 
-		//S			get(gal::object_index i);
+		//S			get(gal::process_index i);
 		
 		virtual index_type	first();
 		virtual index_type	get_index(S);

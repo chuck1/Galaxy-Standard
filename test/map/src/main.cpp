@@ -5,15 +5,15 @@
 
 #include <gal/dll/helper.hpp>
 
-#include <gal/registry.hpp>
+#include <gal/registry_object.hpp>
 
 #include <gal/stl/map.hpp>
 
 namespace ba = boost::archive;
 
 struct bar:
-	gal::registry,
-	gal::managed_object
+	gal::registry_object
+	//gal::managed_object
 {
 	virtual void	release()
 	{

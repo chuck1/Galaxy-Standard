@@ -8,7 +8,7 @@
 // gal/managed_object.hpp
 // gal/managed_object.hpp
 // gal/registry.hpp
-#include <gal/itf/typedef.hpp>
+#include <gal/typedef.hpp>
 #include <gal/decl.hpp>
 
 #include <gal/stl/deleter.hpp>

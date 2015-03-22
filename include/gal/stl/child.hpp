@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cassert>
 
+#include <gal/registry_object.hpp>
 #include <gal/managed_object.hpp>
 
 namespace gal { namespace stl {
@@ -33,9 +34,18 @@ namespace gal { namespace stl {
 			 * some classes cannot be converted as is
 			 */
 			//assert(dynamic_cast<gal::stl::child<T>*>(p) != this);
+		
+			auto r = dynamic_cast<gal::managed_object::registry_type*>(p);
+			if(!r) {
+				r = p->get_registry();
+				if(!r) {
+					abort();
+				}
+			}
 			
+			gal::managed_object::init(r);
+
 			_M_parent = p;
-			_M_shared_parent = p;
 		}
 		T* const &	getParent() const
 		{

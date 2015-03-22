@@ -10,6 +10,14 @@ namespace gal { namespace error {
 			return "no index";
 		}
 	};
+	class item_not_found:
+		public std::exception
+	{
+		virtual const char * what() const noexcept
+		{
+			return "item not found";
+		}
+	};
 }}
 
 #endif

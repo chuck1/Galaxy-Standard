@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include <gal/decl.hpp>
-#include <gal/itf/typedef.hpp>
+#include <gal/typedef.hpp>
 #include <gal/stl/helper.hpp>
 
 namespace gal { namespace stl {

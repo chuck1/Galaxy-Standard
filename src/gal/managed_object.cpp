@@ -33,7 +33,7 @@ gal::object_index		THIS::get_index(gal::process_index p) const
 	printv_func(DEBUG);
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
-		printv(ERROR, "process index not found: %li\n", p);
+		//printv(ERROR, "process index not found: %li\n", p);
 		throw gal::error::no_index();
 	}
 	return it->second;
@@ -68,39 +68,27 @@ void				THIS::register_all(registry_type * r)
 THIS::registry_type *		THIS::get_registry()
 {
 	printv_func(DEBUG);
+	
+	assert(_M_registry_parent);
 
-	auto r = dynamic_cast<gal::registry *>(this);
-
-	if(r) return r;
-
-	auto p = _M_shared_parent;
-
-	assert(p);
-
-	return p->get_registry();
+	return _M_registry_parent;
 }
-gal::registry const *	THIS::get_registry() const
+THIS::registry_type const *	THIS::get_registry() const
 {
 	printv_func(DEBUG);
 
-	auto r = dynamic_cast<gal::registry const *>(this);
+	assert(_M_registry_parent);
 
-	if(r) return r;
+	return _M_registry_parent;
 
-	auto p = _M_shared_parent;
-
-	assert(p);
-
-	return p->get_registry();
 }
 void				THIS::change_process_index(
-		long int p_old,
-		long int p_new)
+		gal::process_index p_old,
+		gal::process_index p_new)
 {
 	printv_func(DEBUG);
 
-
-	std::vector< std::pair<long, gal::object_index> > v;
+	std::vector< std::pair<gal::process_index, gal::object_index> > v;
 
 	auto it = _M_index_table.begin();
 	while(it != _M_index_table.end()) {

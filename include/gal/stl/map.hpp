@@ -32,7 +32,7 @@ namespace gal { namespace stl {
 				item_not_found(gal::object_index ni):
 					i(ni)
 				{
-					sprintf(buffer, "item not found: %li %li: %s\n", i._M_p, i._M_i, __PRETTY_FUNCTION__);
+					sprintf(buffer, "item not found: %li %li: %s\n", i._M_p._M_i, i._M_i, __PRETTY_FUNCTION__);
 				}
 				virtual const char * what() const noexcept
 				{
@@ -67,9 +67,10 @@ namespace gal { namespace stl {
 			{
 				assert(container_.empty());
 			}
-			void				init(gal::managed_object * const & parent)
+			//void				init(gal::managed_object * parent)
+			void				init(gal::registry_object * parent)
 			{
-				init_shared(parent);
+				gal::managed_object::init(parent);
 			}
 			void				release()
 			{
@@ -89,7 +90,7 @@ namespace gal { namespace stl {
 				assert(s);
 				
 				// make sure index is initialized
-				s->gal::managed_object::init_shared(_M_shared_parent);
+				s->gal::managed_object::init(_M_registry_parent);
 			
 				// get this_process index
 				gal::object_index i = s->get_index();
