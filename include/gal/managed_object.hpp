@@ -73,14 +73,14 @@ namespace gal {
 		//virtual void			init(gal::managed_object * parent);
 		managed_object();
 		virtual ~managed_object();
-		/*
-		 * get index for this process
-		 */
+		
+		
+		/** get index for this process */
 		gal::object_index		get_index() const;
 		gal::object_index		get_index(gal::process_index) const;
-		//index_type			get_index_creation() const;
 		void				set_index(gal::object_index);
-		//void				set_index_creation(gal::object_index);
+
+
 		virtual void			register_all(registry_type *);
 		registry_type *			get_registry();
 		registry_type const *		get_registry() const;
@@ -98,45 +98,12 @@ namespace gal {
 		map_type		_M_index_table;
 
 
-		/** @brief static get index
-		 *
-		 * for boost multi_index indexing
-		 */
-		//static index_type const &	static_get_index(
-		//		std::shared_ptr<gal::managed_object> ptr);
-	public:
-		/// static member was resulting in mutliple ctor calls
-		// which was reseting registry::next_ to 0
-		// switch to using a non-static registry via foundation app
-		//static gal::registry				registry_;
-
-		/// @TODO fix this
 
 
 
 
 
 
-
-	public:
-
-		/** @brief static get index
-		 *
-		 * for boost multi_index indexing
-		 */
-		//static index_type const &	static_get_index(
-		//		std::shared_ptr<gal::managed_object> ptr);
-	public:
-		/// static member was resulting in mutliple ctor calls
-		// which was reseting registry::next_ to 0
-		// switch to using a non-static registry via foundation app
-		//static gal::registry				registry_;
-
-		/// @TODO fix this
-	public:
-		//shared();
-		//virtual ~shared();
-		/** */
 	private:
 		void			load(
 				boost::archive::polymorphic_iarchive & ar,

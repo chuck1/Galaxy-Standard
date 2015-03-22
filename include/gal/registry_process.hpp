@@ -23,17 +23,13 @@ namespace gal {
 	public:
 		using gal::tmp::Verbosity<gal::registry_process>::printv;
 
-		registry_process();
+		//registry_process();
 
-		//S			get(gal::process_index i);
-		
 		virtual index_type	first();
 		virtual index_type	get_index(S);
 		virtual void		set_index(S, index_type);
 		virtual void		insert(S);
 
-			
-		void			set_process_index(long);
 	};
 }
 

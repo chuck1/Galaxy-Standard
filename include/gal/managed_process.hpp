@@ -11,6 +11,9 @@ namespace gal {
 	class managed_process
 	{
 	public:
+		gal::process_index	get_index() const;
+		void			set_index(gal::process_index);
+		
 		gal::process_index	_M_index;
 	};
 }

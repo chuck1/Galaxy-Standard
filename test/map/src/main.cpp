@@ -6,6 +6,7 @@
 #include <gal/dll/helper.hpp>
 
 #include <gal/registry_object.hpp>
+#include <gal/registry_process.hpp>
 
 #include <gal/stl/map.hpp>
 
@@ -36,11 +37,16 @@ int main()
 
 	typedef std::shared_ptr<bar> S_B;
 	typedef std::shared_ptr<M> S_M;
-
+	
+	std::shared_ptr<gal::registry_process> rp(new gal::registry_process);
+	rp->init();
+	
 	S_B b(new bar);
-	//b->_M_p_get_index = &gal::managed_object::get_index;
-	//b->_M_p_set_index = &gal::managed_object::set_index;
 
+	rp->reg(b);
+
+	b->init();
+	
 	S_M pm(new M);
 	
 	M & m = *pm;

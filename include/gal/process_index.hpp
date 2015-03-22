@@ -10,7 +10,7 @@ namespace gal {
 		process_index(long i):
 			_M_i(i)
 		{}
-		process_index&	operator++()
+		process_index&	operator++(int)
 		{
 			_M_i++;
 			return *this;
@@ -28,7 +28,7 @@ namespace gal {
 		{
 			a & _M_i;
 		}
-		long int	_M_i;
+		long 		_M_i;
 	};
 	struct process_index_less
 	{

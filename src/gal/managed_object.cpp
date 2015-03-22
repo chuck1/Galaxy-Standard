@@ -31,6 +31,7 @@ gal::object_index		THIS::get_index() const
 gal::object_index		THIS::get_index(gal::process_index p) const
 {
 	printv_func(DEBUG);
+
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
 		//printv(ERROR, "process index not found: %li\n", p);
@@ -69,18 +70,39 @@ THIS::registry_type *		THIS::get_registry()
 {
 	printv_func(DEBUG);
 	
-	assert(_M_registry_parent);
+	if(_M_registry_parent) return _M_registry_parent;
+	
+	// this could be a registry
+	auto r = dynamic_cast<registry_type*>(this);
+	if(r) {
+		_M_registry_parent = r;
+		return r;
+	}
+	
+	printv(CRITICAL, "registry_parent is null and this is not a registry\n");
 
-	return _M_registry_parent;
+	abort();
+	
+	return 0;
 }
 THIS::registry_type const *	THIS::get_registry() const
 {
 	printv_func(DEBUG);
+	
+	if(_M_registry_parent) return _M_registry_parent;
+	
+	// this could be a registry
+	auto r = dynamic_cast<registry_type const * const>(this);
+	if(r) {
+		//_M_registry_parent = r;
+		return r;
+	}
+	
+	abort();
 
-	assert(_M_registry_parent);
-
-	return _M_registry_parent;
-
+	printv(CRITICAL, "registry_parent is null and this is not a registry\n");
+	
+	return 0;
 }
 void				THIS::change_process_index(
 		gal::process_index p_old,

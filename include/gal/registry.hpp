@@ -32,7 +32,12 @@ namespace gal {
 
 		registry(): _M_ready(false)
 		{
-			printv_func(INFO);
+			printv_func(DEBUG);
+		}
+		void			init()
+		{
+			_M_next = first();
+			_M_ready = true;
 		}
 
 		virtual index_type	first() = 0;
@@ -42,12 +47,16 @@ namespace gal {
 
 		index_type_		next()
 		{
-			printv_func(INFO);
+			printv_func(DEBUG);
 			return _M_next++;
 		}
 		void			reg(S s)
 		{
-			printv_func(INFO);
+			printv_func(DEBUG);
+
+			if(!_M_ready) {
+				abort();
+			}
 
 			//gal::managed_object* s0 = s.get();
 
@@ -82,7 +91,7 @@ namespace gal {
 		bool			_M_ready;
 	};
 
-	class object_registry:
+/*	class object_registry:
 		public gal::tmp::Verbosity<gal::object_registry>,
 		public registry<
 				gal::object_index,
@@ -101,11 +110,11 @@ namespace gal {
 		std::shared_ptr<gal::managed_object>	get(gal::object_index i);
 	public:
 		void			set_process_index(long int);
-		/*
+		*
 		 * default value is -1
-		 */
+		 *
 		long int		_M_process_index;
-	};
+	};*/
 }
 
 #endif
