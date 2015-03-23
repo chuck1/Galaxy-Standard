@@ -23,8 +23,15 @@ namespace gal {
 		}
 		std::shared_ptr<T>	shared_from_this()
 		{
-			auto s = ESFT::shared_from_this();
-			auto t = std::dynamic_pointer_cast<T>(s);
+			std::shared_ptr<gal::shared> s;
+			try {
+				s = ESFT::shared_from_this();
+			} catch(std::exception& e) {
+				printf("shared_from_this error:\n");
+				printf("%s\n", e.what());
+				abort();
+			}
+			std::shared_ptr<T> t = std::dynamic_pointer_cast<T>(s);
 			assert(t);
 			return t;
 		}

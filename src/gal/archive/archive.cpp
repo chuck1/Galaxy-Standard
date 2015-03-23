@@ -4,10 +4,10 @@
 
 typedef gal::archive::archive THIS;
 
-/*
+
 THIS::archive()
 {}
-*/
+
 /*
 gal::managed_object *	THIS::get_shared_parent()
 {
