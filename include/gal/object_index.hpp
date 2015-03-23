@@ -7,7 +7,7 @@ namespace gal {
 	struct object_index
 	{
 		object_index():
-			_M_i(0)
+			_M_i(-1)
 		{}
 		object_index(long int i):
 			_M_i(i)

@@ -17,7 +17,7 @@ namespace gal {
 		{
 			//std::cout << __PRETTY_FUNCTION__ << std::endl;
 
-			static const std::type_index type(typeid(*this));
+			/*static*/ const std::type_index type(typeid(*this));
 
 			//std::cout << type.name() << std::endl;
 			//std::cout << type.hash_code() << std::endl;
@@ -28,7 +28,7 @@ namespace gal {
 		{
 			//std::cout << __PRETTY_FUNCTION__ << std::endl;
 
-			static const std::type_index type(typeid(*this));
+			/*static*/ const std::type_index type(typeid(*this));
 
 			//std::cout << type.name() << std::endl;
 			//std::cout << type.hash_code() << std::endl;

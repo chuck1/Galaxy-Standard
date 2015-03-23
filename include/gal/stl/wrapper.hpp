@@ -27,13 +27,20 @@ namespace ba = boost::archive;
 namespace bs = boost::serialization;
 
 namespace gal { namespace stl {
+	class wrapper_base:
+		public gal::tmp::Verbosity< gal::stl::wrapper_base >
+	{
+	public:
+		using gal::tmp::Verbosity< gal::stl::wrapper_base >::printv;
+	};
 	template< typename T, typename S_ = std::shared_ptr<T> >
 	class wrapper:
-		public gal::tmp::Verbosity< wrapper<T, S_> >,
+		virtual public gal::stl::wrapper_base,
 		virtual public gal::managed_object
 	{
 	public:
-		using gal::tmp::Verbosity< wrapper<T, S_> >::printv;
+		using gal::stl::wrapper_base::printv;
+
 		typedef std::weak_ptr< factory<T> >	factory_weak;
 		typedef S_				S;
 		struct LoadType
@@ -118,7 +125,9 @@ namespace gal { namespace stl {
 				ar << BOOST_SERIALIZATION_NVP(load_type);
 
 				gal::hash_type h = ptr_->hash_code();
+				std::string n = ptr_->name();
 
+				printv(DEBUG, "name     = %s\n", n.c_str());
 				printv(DEBUG, "hashcode = %i\n", h);
 
 				ar << bs::make_nvp("hashcode", h);
