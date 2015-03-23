@@ -33,7 +33,7 @@ void			THIS::insert(S s)
 	typedef std::pair<typename map_type::iterator, bool> PAIR;
 	
 	if(s->_M_registry_parent != 0) {
-		printv(INFO, "registry_parent already set\n");
+		printv(DEBUG, "registry_parent already set\n");
 	}
 	
 	s->_M_registry_parent = this;
@@ -45,22 +45,22 @@ void			THIS::insert(S s)
 					i.second, s));
 
 		if(p.second == false) {
-			printv(CRITICAL, "key already taken: %li %li\n",
+			printv(DEBUG, "key already taken: %li %li\n",
 					i.second._M_p,
 					i.second._M_i);
 			
 			S s1 = _M_map[i.second].lock();
 			
-			printv(CRITICAL, "s = %p, s1 = %p\n", s.get(), s1.get());
+			printv(DEBUG, "s = %p, s1 = %p\n", s.get(), s1.get());
 
 			if(s.get() == s1.get()) {
-				printv(CRITICAL, "index already inserted\n");
+				printv(DEBUG, "index already inserted\n");
 			} else {
 				printv(CRITICAL, "duplicate index error\n");
 				abort();
 			}
 		} else {
-			printv(INFO, "index inserted: %li %li\n",
+			printv(DEBUG, "index inserted: %li %li\n",
 					i.second._M_p,
 					i.second._M_i);
 		}

@@ -38,9 +38,14 @@ std::string			THIS::to_string(gal::hash_type const & hash)
 void				THIS::register_type(std::type_index new_index)
 {
 	printv_func(DEBUG);
+	
+	auto h = new_index.hash_code();
+	auto n = new_index.name();
 
-	map_hash_string_[new_index.hash_code()] = new_index.name();
-	map_string_hash_[new_index.name()] = new_index.hash_code();
+	map_hash_string_[h] = n;
+	map_string_hash_[n] = h;
+	
+	printv(INFO, "%64s%16i\n", n, h);
 
 	//std::cout << new_index.name() << std::endl;
 	//std::cout << new_index.hash_code() << std::endl;

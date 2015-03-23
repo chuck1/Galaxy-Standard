@@ -115,7 +115,7 @@ void				THIS::change_process_index(
 	auto it = _M_index_table.begin();
 	while(it != _M_index_table.end()) {
 		if(it->first == p_old) {
-			printv(INFO, "change process index from %li to %li. object index: %li\n",
+			printv(DEBUG, "change process index from %li to %li. object index: %li\n",
 				p_old, p_new, it->second._M_i);
 
 			v.emplace_back(p_new,
