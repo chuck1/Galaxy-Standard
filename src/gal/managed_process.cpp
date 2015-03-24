@@ -6,7 +6,7 @@ typedef gal::managed_process THIS;
 gal::process_index	THIS::get_index() const
 {
 	if(_M_index == -1) {
-		throw gal::error::no_index();
+		//throw gal::error::no_index();
 	}
 	return _M_index;
 }

@@ -45,7 +45,7 @@ void				THIS::register_type(std::type_index new_index)
 	map_hash_string_[h] = n;
 	map_string_hash_[n] = h;
 	
-	printv(INFO, "%64s%16i\n", n, h);
+	printv(DEBUG, "%64s%16i\n", n, h);
 
 	//std::cout << new_index.name() << std::endl;
 	//std::cout << new_index.hash_code() << std::endl;

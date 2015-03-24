@@ -33,14 +33,15 @@ gal::object_index		THIS::get_index(gal::process_index p) const
 	printv_func(DEBUG);
 	
 	long i = p._M_i;
+
 	if(i == -1) {
-		printv(ERROR, "invalid process index\n");
-		throw 0;
+		//printv(ERROR, "invalid process index\n");
+		//throw 0;
 	}
 
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
-		printv(ERROR, "process index not found: %li\n", i);
+		printv(DEBUG, "process index not found: %li\n", i);
 		throw gal::error::no_index();
 	}
 	return it->second;

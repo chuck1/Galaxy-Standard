@@ -28,7 +28,7 @@ namespace gal {
 		template<typename B, typename D>
 		void			makeDefaultFunc()
 		{
-			printv_func(INFO);
+			printv_func(DEBUG);
 		
 			register_type(std::type_index(typeid(B)));
 			register_type(std::type_index(typeid(D)));
