@@ -60,9 +60,9 @@ gal::object_index		THIS::get_index(gal::process_index p) const
 
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
-		printv(WARNING, "process index not found: %li\n", i);
+		printv(DEBUG, "process index not found: %li\n", i);
 
-		printv(WARNING, "entries are:\n");
+		printv(DEBUG, "entries are:\n");
 		for(auto e : _M_index_table) {
 			printv(WARNING, "%li %li %li\n",
 					e.first._M_i,
@@ -87,7 +87,8 @@ void				THIS::set_index(gal::object_index i)
 {
 	printv_func(DEBUG);
 	
-	std::pair<map_type::iterator, bool> p = _M_index_table.insert(std::make_pair(i._M_p, i));
+	std::pair<map_type::iterator, bool> p =
+		_M_index_table.insert(std::make_pair(i._M_p, i));
 	
 	if(!p.second) {
 		printv(CRITICAL, "not inserted: %li %li\n", i._M_p, i._M_i);
@@ -145,15 +146,16 @@ void				THIS::change_process_index(
 		gal::process_index p_old,
 		gal::process_index p_new)
 {
-	printv_func(INFO);
+	printv_func(DEBUG);
 
 	std::vector< std::pair<gal::process_index, gal::object_index> > v;
 
 	auto it = _M_index_table.begin();
 	while(it != _M_index_table.end()) {
 		if(it->first == p_old) {
-			printv(INFO, "change process index from %li to %li. object index: %li\n",
-				p_old, p_new, it->second._M_i);
+			printv(DEBUG, "change process index from "
+					"%li to %li. object index: %li\n",
+					p_old, p_new, it->second._M_i);
 
 			v.emplace_back(p_new,
 					gal::object_index(p_new, it->second._M_i));

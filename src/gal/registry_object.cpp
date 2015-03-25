@@ -69,7 +69,7 @@ void			THIS::insert(S s)
 }
 void		THIS::set_index(gal::process_index p)
 {
-	printv_func(INFO);
+	printv_func(DEBUG);
 
 	set_process_index(p);
 
@@ -79,12 +79,15 @@ void		THIS::set_index(gal::process_index p)
 }
 void		THIS::set_process_index(gal::process_index p_new)
 {
-	printv_func(INFO);
-	printv(INFO, "_M_map.size(): %u p_old = %li p_new = %li\n", _M_map.size(), _M_index._M_i, p_new._M_i);
+	printv_func(DEBUG);
+	printv(DEBUG, "_M_map.size(): %u p_old = %li p_new = %li\n",
+			_M_map.size(), _M_index._M_i, p_new._M_i);
 
 	gal::process_index p_old = _M_index;
 	
-	std::vector< std::pair<gal::object_index, std::weak_ptr<gal::managed_object>> > v;
+	std::vector< std::pair<
+		gal::object_index,
+		std::weak_ptr<gal::managed_object>> > v;
 
 	auto it = _M_map.begin();
 	while(it != _M_map.end()) {
@@ -100,7 +103,7 @@ void		THIS::set_process_index(gal::process_index p_new)
 		}
 	}
 
-	printv(INFO, "v.size(): %u\n", v.size());
+	printv(DEBUG, "v.size(): %u\n", v.size());
 
 	auto it2 = v.begin();
 	while(it2 != v.end()) {

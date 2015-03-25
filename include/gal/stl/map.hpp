@@ -305,8 +305,12 @@ namespace gal { namespace stl {
 				gal::process_index p_old,
 				gal::process_index p_new)
 		{
-			printv_func(INFO);
-			printv(INFO, "_M_container.size(): %u p_old = %li p_new = %li\n", container_.size(), p_old._M_i, p_new._M_i);
+			printv_func(DEBUG);
+			printv(DEBUG, "_M_container.size(): %u "
+					"p_old = %li p_new = %li\n",
+					container_.size(),
+					p_old._M_i,
+					p_new._M_i);
 			
 			//typedef std::pair<gal::object_index, wrapper_type> P;
 			typedef std::pair<gal::object_index, S> P;
@@ -325,7 +329,6 @@ namespace gal { namespace stl {
 					/*
 					if(it->second.ptr_) {
 						P p(o1, std::move(it->second.ptr_));
-
 						v.push_back(std::move(p));
 					}
 					*/
@@ -337,21 +340,23 @@ namespace gal { namespace stl {
 					auto ret = container_.insert(
 						value_type(
 							o1,
-							wrapper_type(std::move(s))));
+							wrapper_type(
+								std::move(s))));
 
 					if(!ret.second) {
-						printv(CRITICAL, "not inserted i = %i\n", o);
+						printv(CRITICAL, "not inserted i"
+								" = %i\n", o);
 						abort();
 					}
 					assert(ret.first->second.ptr_);
-					printv(INFO, "object moved %i\n", o1);
+					printv(DEBUG, "object moved %i\n", o1);
 					goto lbl1;
 				} else {
 					it++;
 				}
 			}
 
-			printv(INFO, "v.size(): %u\n", v.size());
+			//printv(INFO, "v.size(): %u\n", v.size());
 
 			/*
 			   auto it2 = v.begin();
@@ -365,6 +370,7 @@ namespace gal { namespace stl {
 			   }
 			   */
 
+			/*
 			auto it2 = v.begin();
 			while(it2 != v.end()) {
 				assert(it2->second);
@@ -374,9 +380,11 @@ namespace gal { namespace stl {
 				auto ret = container_.insert(
 						value_type(
 							it2->first,
-							wrapper_type(std::move(s))));
+							wrapper_type(
+							std::move(s))));
 				assert(ret.second);
 			}
+			*/
 		}
 
 	private:
