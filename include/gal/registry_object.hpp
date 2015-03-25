@@ -31,9 +31,14 @@ namespace gal {
 		virtual index_type	get_index(S);
 		virtual void		set_index(S, index_type);
 		virtual void		insert(S);
-
+	
+		/**
+		 * overload gal::managed_process::set_index
+		 * call set_process_index
+		 */
+		virtual void		set_index(gal::process_index);
 			
-		void			set_process_index(long);
+		void			set_process_index(gal::process_index);
 	};
 }
 

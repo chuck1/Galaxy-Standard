@@ -7,25 +7,31 @@ typedef gal::registry_process THIS;
 
 THIS::index_type	THIS::first()
 {
-	printv_func(INFO);
+	printv_func(DEBUG);
 
 	return index_type(0);
 }
 THIS::index_type	THIS::get_index(S s)
 {
-	printv_func(INFO);
+	printv_func(DEBUG);
 
-	return s->get_index();
+	auto p = s->get_index();
+
+	if(p._M_i == -1) {
+		throw gal::error::no_index();
+	}
+	
+	return p;
 }
 void			THIS::set_index(S s, index_type i)
 {
-	printv_func(INFO);
+	printv_func(DEBUG);
 
 	s->set_index(i);
 }
 void			THIS::insert(S s)
 {
-	printv_func(INFO);
+	printv_func(DEBUG);
 
 	typedef std::pair<typename map_type::iterator, bool> PAIR;
 	

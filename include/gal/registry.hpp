@@ -72,7 +72,7 @@ namespace gal {
 				//     	_M_next++));
 				set_index(s, next());
 			}
-
+			
 			insert(s);
 
 		}

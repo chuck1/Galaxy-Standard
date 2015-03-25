@@ -16,5 +16,5 @@ extern "C" void A_destroy(A* a)
 	delete a;
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(B);
+//BOOST_CLASS_EXPORT_IMPLEMENT(B);
 

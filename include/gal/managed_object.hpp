@@ -26,6 +26,7 @@
 #include <boost/serialization/string.hpp>
 
 #include <gal/stl/verbosity.hpp>
+#include <gal/Flag.hpp>
 //#include <gal/itf/release.hpp>
 //#include <gal/itf/typedef.hpp>
 //#include <gal/decl.hpp>
@@ -52,7 +53,9 @@ namespace gal {
 	public:
 		using gal::tmp::Verbosity<gal::managed_object>::printv;
 		using gal::enable_shared_from_this<gal::managed_object>::shared_from_this;
-		
+
+		DEFINE_FLAG(flag, ((INITIALIZED)(1<<0)))
+
 		//typedef gal::registry<
 		//	gal::object_index,
 		//	gal::managed_object,
@@ -100,7 +103,7 @@ namespace gal {
 
 
 
-
+		
 
 
 
@@ -113,6 +116,7 @@ namespace gal {
 				unsigned int const & version) const;
 		BOOST_SERIALIZATION_SPLIT_MEMBER();
 	public:
+		flag				_M_flag;
 		std::string			_M_name;
 		/** @brief general mutex
 		 *

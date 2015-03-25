@@ -57,10 +57,11 @@ gal::object_index		THIS::get_index_creation() const
 void				THIS::set_index(gal::object_index i)
 {
 	printv_func(DEBUG);
-
+	
 	std::pair<map_type::iterator, bool> p = _M_index_table.insert(std::make_pair(i._M_p, i));
-
+	
 	if(!p.second) {
+		printv(CRITICAL, "not inserted: %li %li\n", i._M_p, i._M_i);
 		abort();
 	}
 }
@@ -136,5 +137,68 @@ void				THIS::change_process_index(
 	_M_index_table.insert(v.begin(), v.end());
 
 }
+
+
+#include <boost/serialization/map.hpp>
+
+#include <gal/registry_object.hpp>
+#include <gal/managed_process.hpp>
+
+#include <gal/managed_object.hpp>
+
+typedef gal::managed_object THIS;
+
+void    		        THIS::init(registry_type * r)
+//void    		        THIS::init(gal::managed_object * p)
+{
+	printv_func(DEBUG);
+
+	if(_M_flag.any(flag::INITIALIZED)) return;
+
+	assert(r);
+	
+	/*	
+	auto r = dynamic_cast<registry_type*>(p);
+	
+	if(!r) {
+		r = p->get_registry();
+		if(!r) {
+			throw 0;
+		}
+	}
+	*/
+	
+
+	
+	// find registry
+	
+	_M_registry_parent = r;
+	r->reg(shared_from_this());
+	
+	_M_flag.set(flag::INITIALIZED);
+	
+	//printv(DEBUG, "_M_index = %i\n", _M_index);
+
+	//assert(_M_index != -1);
+}
+void			THIS::load(
+		boost::archive::polymorphic_iarchive & ar,
+		unsigned int const & version)
+{
+	printv_func(DEBUG);
+
+	ar & BOOST_SERIALIZATION_NVP(_M_index_table);
+	ar & BOOST_SERIALIZATION_NVP(_M_name);
+}
+void			THIS::save(
+		boost::archive::polymorphic_oarchive & ar,
+		unsigned int const & version) const
+{
+	printv_func(DEBUG);
+
+	ar & BOOST_SERIALIZATION_NVP(_M_index_table);
+	ar & BOOST_SERIALIZATION_NVP(_M_name);
+}
+
 
 
