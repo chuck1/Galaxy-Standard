@@ -27,337 +27,348 @@ namespace gal { namespace stl {
 		public gal::tmp::Verbosity< map<T_, S_> >,
 		virtual public gal::managed_object
 	{
-		public:
-			using gal::tmp::Verbosity<map>::printv;
-			struct item_not_found: std::exception {
-				item_not_found(gal::object_index ni):
-					i(ni)
-				{
-					sprintf(buffer, "item not found: %li %li: %s", i._M_p._M_i, i._M_i, __PRETTY_FUNCTION__);
-				}
-				virtual const char * what() const noexcept
-				{
-					char * ret = new char[128];
-					strcpy(ret, buffer);
-					return ret;
-				}
-				char buffer[128];
-				gal::object_index i;
-			};
-			typedef std::shared_ptr< gal::stl::factory<T_> >		factory_shared_type;
-
-			//typedef std::shared_ptr<T>					S;
-			typedef T_							T;
-			typedef S_							S;
-
-			typedef gal::weak_ptr<T>					W;
-
-			typedef gal::stl::wrapper<T, S_>				wrapper_type;
-			typedef std::map<gal::object_index, wrapper_type, gal::less_index>	container_type;
-			typedef typename container_type::value_type			value_type;
-			typedef typename container_type::iterator			iterator;
-			typedef typename container_type::const_iterator			IC;
-			typedef std::function<bool(S&)>					FILTER_FUNC;
-			enum { CONTINUE, BREAK };
-			/** @brief Constructor */
-			map() {}
-			map(factory_shared_type factory): factory_(factory) {}
-			/** @brief destructor
-			 *
-			 * ensure proper shutdown
-			 */
-			~map()
+	public:
+		using gal::tmp::Verbosity<map>::printv;
+		struct item_not_found: std::exception {
+			item_not_found(gal::object_index ni):
+				i(ni)
 			{
-				assert(container_.empty());
+				sprintf(buffer, "item not found: %li %li: %s", i._M_p._M_i, i._M_i, __PRETTY_FUNCTION__);
 			}
-			//void				init(gal::managed_object * parent)
-			void				init(gal::registry_object * parent)
+			virtual const char * what() const noexcept
 			{
-				gal::managed_object::init(parent);
+				char * ret = new char[128];
+				strcpy(ret, buffer);
+				return ret;
 			}
-			void				release()
-			{
-			}
-			template<class Archive>
-			void				serialize(Archive & ar, unsigned int const & version) {
-				boost::lock_guard<boost::mutex> lk(mutex_);
+			char buffer[128];
+			gal::object_index i;
+		};
+		typedef std::shared_ptr< gal::stl::factory<T_> >		factory_shared_type;
 
-				ar & boost::serialization::make_nvp("container", container_);
-			}
-			void				insert(S && s)
-			{
-				boost::lock_guard<boost::mutex> lk(mutex_);
-				
-				//std::weak_ptr<T> w(s);
-				
-				assert(s);
-				
-				// make sure index is initialized
-				s->gal::managed_object::init(_M_registry_parent);
+		//typedef std::shared_ptr<T>					S;
+		typedef T_							T;
+		typedef S_							S;
+
+		typedef gal::weak_ptr<T>					W;
+
+		typedef gal::stl::wrapper<T, S_>				wrapper_type;
+		typedef std::map<gal::object_index, wrapper_type, gal::less_index>	container_type;
+		typedef typename container_type::value_type			value_type;
+		typedef typename container_type::iterator			iterator;
+		typedef typename container_type::const_iterator			IC;
+		typedef std::function<bool(S&)>					FILTER_FUNC;
+		enum { CONTINUE, BREAK };
+		/** @brief Constructor */
+		map() {}
+		map(factory_shared_type factory): factory_(factory) {}
+		/** @brief destructor
+		 *
+		 * ensure proper shutdown
+		 */
+		~map()
+		{
+			assert(container_.empty());
+		}
+		//void				init(gal::managed_object * parent)
+		void				init(gal::registry_object * parent)
+		{
+			gal::managed_object::init(parent);
+		}
+		void				release()
+		{
+		}
+		template<class Archive>
+		void				serialize(Archive & ar, unsigned int const & version) {
+			boost::lock_guard<boost::mutex> lk(mutex_);
+
+			ar & boost::serialization::make_nvp("container", container_);
+		}
+		void				insert(S && s)
+		{
+			boost::lock_guard<boost::mutex> lk(mutex_);
 			
-				// get this_process index
-				gal::object_index i = s->gal::managed_object::get_index();
+			//std::weak_ptr<T> w(s);
+			
+			assert(s);
+			
+			// make sure index is initialized
+			s->gal::managed_object::init(_M_registry_parent);
+		
+			// get this_process index
+			gal::object_index i = s->gal::managed_object::get_index();
+			
+			/*
+			if(i == -1) {
+				//shared_ptr<gal::managed_object> sh(t);
 				
-				/*
-				if(i == -1) {
-					//shared_ptr<gal::managed_object> sh(t);
-					
-					i = s->get_index();
-					printv(DEBUG, "t->get_index() = %i\n", i);
-				}
-				*/
-
-				auto ret = container_.insert(
-						value_type(
-							i,
-							wrapper_type(std::move(s))));
-
-				if(!ret.second) {					
-					printv(CRITICAL, "not inserted i = %i\n", i);
-					abort();
-				}
-				
-				//return w;
+				i = s->get_index();
+				printv(DEBUG, "t->get_index() = %i\n", i);
 			}
-			void			for_each(std::function<void(T &)> const & f)
+			*/
+
+			auto ret = container_.insert(
+					value_type(
+						i,
+						wrapper_type(std::move(s))));
+
+			if(!ret.second) {					
+				printv(CRITICAL, "not inserted i = %i\n", i);
+				abort();
+			}
+			
+			//return w;
+		}
+		void			for_each(std::function<void(T &)> const & f)
+		{
+			boost::lock_guard<boost::mutex> lk(mutex_);
+
+			for(auto it = container_.begin(); it != container_.cend(); ++it) {
+				S & p = it->second.ptr_;
+				assert(p);
+				f(*p);
+			}
+		}
+
+
+		void			for_each(std::function<void(S const &)> const & f)
+		{
+			boost::lock_guard<boost::mutex> lk(mutex_);
+
+			for(auto it = container_.begin(); it != container_.cend(); ++it) {
+				S const & p = it->second.ptr_;
+				assert(p);
+				f(p);
+			}
+		}
+		void			for_each(std::function<void(S &)> const & f)
+		{
+			boost::lock_guard<boost::mutex> lk(mutex_);
+
+			for(auto it = container_.begin(); it != container_.cend(); ++it) {
+				S & p = it->second.ptr_;
+				assert(p);
+				f(p);
+			}
+		}
+		void			for_each_int(std::function<int(S const &)> const & f) {
+			boost::lock_guard<boost::mutex> lk(mutex_);
+
+			int ret;
+
+			for(auto it = container_.begin(); it != container_.cend(); ++it) {
+				auto p = it->second.ptr_;
+				assert(p);
+				ret = f(p);
+				if(ret == CONTINUE) {
+					continue;
+				} else {
+					break;
+				}
+			}
+		}
+		void			for_each_int(std::function<int(S &)> const & f) {
+			boost::lock_guard<boost::mutex> lk(mutex_);
+
+			int ret;
+
+			for(auto it = container_.begin(); it != container_.cend(); ++it) {
+				S & p = it->second.ptr_;
+				assert(p);
+				ret = f(p);
+				if(ret == CONTINUE) {
+					continue;
+				} else {
+					break;
+				}
+			}
+		}
+		/** */
+		W			find(std::string name)
+		{
+			boost::lock_guard<boost::mutex> lk(mutex_);
+
+			for(auto it = container_.begin(); it != container_.cend(); ++it)
 			{
-				boost::lock_guard<boost::mutex> lk(mutex_);
+				S & p = it->second.ptr_;
+				assert(p);
+				if(p->_M_name == name) return p;
+			}
 
+			return std::shared_ptr<T>();
+		}
+		W			find(gal::object_index i)
+		{
+			boost::lock_guard<boost::mutex> lk(mutex_);
+
+			auto it = container_.find(i);
+
+			if(it == container_.end()) throw item_not_found(i);
+
+			return it->second.ptr_;
+		}
+		/** */
+		void			clear()
+		{
+			printv(DEBUG, "%s\n", __PRETTY_FUNCTION__);
+			boost::lock_guard<boost::mutex> lk(mutex_);
+			// replaced by deleter objects
+			//for(auto it = container_.begin(); it != container_.end(); ++it) {
+			//	it->second.ptr_->release();
+			//}
+			container_.clear();
+		}
+		/** @brief begin iterator 0
+		*/
+		W			front(FILTER_FUNC func = FILTER_FUNC())
+		{
+			if(func) {
 				for(auto it = container_.begin(); it != container_.cend(); ++it) {
-					S & p = it->second.ptr_;
-					assert(p);
-					f(*p);
+					S& s = it->second.ptr_;
+					assert(s);
+					if(func(s))
+						return s;
 				}
+			} else {
+				auto it = begin();
+				if(it != end())
+					return it->second.ptr_;
 			}
+			return S();
+		}
+		W			random() const
+		{
+			if(empty()) return S();
+			
+			unsigned int i = rand() % size();
 
+			auto it = cbegin();
+			
+			std::advance(it, i);
 
-			void			for_each(std::function<void(S const &)> const & f)
-			{
-				boost::lock_guard<boost::mutex> lk(mutex_);
+			assert(it != cend());
 
-				for(auto it = container_.begin(); it != container_.cend(); ++it) {
-					S const & p = it->second.ptr_;
-					assert(p);
-					f(p);
-				}
-			}
-			void			for_each(std::function<void(S &)> const & f)
-			{
-				boost::lock_guard<boost::mutex> lk(mutex_);
+			return it->second.ptr_;
+		}
+		IC			cbegin() const
+		{
+			return container_.cbegin();
+		}
+		IC			cend() const
+		{
+			return container_.cend();
+		}
+		iterator		begin()
+		{
+			return container_.begin();
+		}
+		iterator		end()
+		{
+			return container_.end();
+		}
+		unsigned int		size() const
+		{
+			return container_.size();
+		}
+		void			erase(gal::object_index i)
+		{
 
-				for(auto it = container_.begin(); it != container_.cend(); ++it) {
-					S & p = it->second.ptr_;
-					assert(p);
-					f(p);
-				}
-			}
-			void			for_each_int(std::function<int(S const &)> const & f) {
-				boost::lock_guard<boost::mutex> lk(mutex_);
-
-				int ret;
-
-				for(auto it = container_.begin(); it != container_.cend(); ++it) {
-					auto p = it->second.ptr_;
-					assert(p);
-					ret = f(p);
-					if(ret == CONTINUE) {
-						continue;
-					} else {
-						break;
-					}
-				}
-			}
-			void			for_each_int(std::function<int(S &)> const & f) {
-				boost::lock_guard<boost::mutex> lk(mutex_);
-
-				int ret;
-
-				for(auto it = container_.begin(); it != container_.cend(); ++it) {
-					S & p = it->second.ptr_;
-					assert(p);
-					ret = f(p);
-					if(ret == CONTINUE) {
-						continue;
-					} else {
-						break;
-					}
-				}
-			}
-			/** */
-			W			find(std::string name)
-			{
-				boost::lock_guard<boost::mutex> lk(mutex_);
-
-				for(auto it = container_.begin(); it != container_.cend(); ++it)
-				{
-					S & p = it->second.ptr_;
-					assert(p);
-					if(p->_M_name == name) return p;
-				}
-
-				return std::shared_ptr<T>();
-			}
-			W			find(gal::object_index i)
-			{
+			while(1) {	
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
 				auto it = container_.find(i);
 
-				if(it == container_.end()) throw item_not_found(i);
+				if(it == container_.cend()) return;//throw item_not_found();
 
-				return it->second.ptr_;
+				S & p = it->second.ptr_;
+
+				assert(p);
+
+				// so deadlock can't occur:
+				// if object is already locked, release map then try again
+				if(!p->mutex_.try_lock()) continue;
+
+				p->release();
+
+				p->mutex_.unlock();
+
+				container_.erase(it);
+
+				return;
 			}
-			/** */
-			void			clear()
-			{
-				printv(DEBUG, "%s\n", __PRETTY_FUNCTION__);
-				boost::lock_guard<boost::mutex> lk(mutex_);
-				// replaced by deleter objects
-				//for(auto it = container_.begin(); it != container_.end(); ++it) {
-				//	it->second.ptr_->release();
-				//}
-				container_.clear();
-			}
-			/** @brief begin iterator 0
-			*/
-			W			front(FILTER_FUNC func = FILTER_FUNC())
-			{
-				if(func) {
-					for(auto it = container_.begin(); it != container_.cend(); ++it) {
-						S& s = it->second.ptr_;
-						assert(s);
-						if(func(s))
-							return s;
-					}
-				} else {
-					auto it = begin();
-					if(it != end())
-						return it->second.ptr_;
-				}
-				return S();
-			}
-			W			random() const
-			{
-				if(empty()) return S();
-				
-				unsigned int i = rand() % size();
-
-				auto it = cbegin();
-				
-				std::advance(it, i);
-
-				assert(it != cend());
-
-				return it->second.ptr_;
-			}
-			IC			cbegin() const
-			{
-				return container_.cbegin();
-			}
-			IC			cend() const
-			{
-				return container_.cend();
-			}
-			iterator		begin()
-			{
-				return container_.begin();
-			}
-			iterator		end()
-			{
-				return container_.end();
-			}
-			unsigned int		size() const
-			{
-				return container_.size();
-			}
-			void			erase(gal::object_index i)
-			{
-
-				while(1) {	
-					boost::lock_guard<boost::mutex> lk(mutex_);
-
-					auto it = container_.find(i);
-
-					if(it == container_.cend()) return;//throw item_not_found();
-
-					S & p = it->second.ptr_;
-
-					assert(p);
-
-					// so deadlock can't occur:
-					// if object is already locked, release map then try again
-					if(!p->mutex_.try_lock()) continue;
-
-					p->release();
-
-					p->mutex_.unlock();
-
-					container_.erase(it);
-
-					return;
-				}
-			}
-			bool				empty() const
-			{
-				return container_.empty();
-			}
-			virtual void			change_process_index(
-					gal::process_index p_old,
-					gal::process_index p_new)
-			{
-				printv_func(INFO);
-				printv(INFO, "_M_container.size(): %u p_old = %li p_new = %li\n", container_.size(), p_old._M_i, p_new._M_i);
-				
-				typedef std::pair<gal::object_index, wrapper_type> P;
-				std::vector<P> v;
-				
-				auto it = container_.begin();
-				while(it != container_.end()) {
-					gal::object_index o = it->first;
+		}
+		bool				empty() const
+		{
+			return container_.empty();
+		}
+		virtual void			change_process_index(
+				gal::process_index p_old,
+				gal::process_index p_new)
+		{
+			printv_func(INFO);
+			printv(INFO, "_M_container.size(): %u p_old = %li p_new = %li\n", container_.size(), p_old._M_i, p_new._M_i);
 			
-					if(o._M_p == p_old) {
-						gal::object_index o1(p_new, o._M_i);
-						
-						P p(o1, std::move(it->second));
+			//typedef std::pair<gal::object_index, wrapper_type> P;
+			typedef std::pair<gal::object_index, S> P;
+			std::vector<P> v;
+			
+			auto it = container_.begin();
+			while(it != container_.end()) {
+				gal::object_index o = it->first;
+		
+				if(o._M_p == p_old) {
+					gal::object_index o1(p_new, o._M_i);
 					
-						v.insert(v.end(), std::move(p));
-
-						//v.push_back(std::move(p));
-
-						//v.push_back(P(o1, std::move(it->second)));
-
-						/*
-						v.emplace_back(
-								gal::object_index(p_new, o._M_i),
-								std::move(it->second));
-						*/
-						it = container_.erase(it);
-					} else {
-						it++;
-					}
-				}
+					P p(o1, std::move(it->second.ptr_));
 				
-				printv(INFO, "v.size(): %u\n", v.size());
+					//v.insert(v.end(), P(o1, std::move(it->second.ptr_)));
 
-				/*
-				auto it2 = v.begin();
-				while(it2 != v.end()) {
-					if(it2->second.expired()) {
-						it2 = v.erase(it2);
-					} else {
-						it2->second.lock()->change_process_index(p_old, p_new);
-						it2++;
-					}
+					//v.insert(v.end(), std::move(p));
+
+					v.push_back(std::move(p));
+
+					//v.push_back(P(o1, std::move(it->second)));
+
+					/*
+					v.emplace_back(
+							gal::object_index(p_new, o._M_i),
+							std::move(it->second));
+					*/
+					it = container_.erase(it);
+
+				} else {
+					it++;
 				}
-				*/
-
-				container_.insert(v.begin(), v.end());
 			}
+			
+			printv(INFO, "v.size(): %u\n", v.size());
 
-		private:
-			factory_shared_type		factory_;
-			container_type			container_;
-			boost::mutex			mutex_;
+			/*
+			auto it2 = v.begin();
+			while(it2 != v.end()) {
+				if(it2->second.expired()) {
+					it2 = v.erase(it2);
+				} else {
+					it2->second.lock()->change_process_index(p_old, p_new);
+					it2++;
+				}
+			}
+			*/
+
+			auto it2 = v.begin();
+			while(it2 != v.end()) {
+				auto ret = container_.insert(
+					value_type(
+						it2->first,
+						wrapper_type(std::move(it2->second))));
+				assert(ret.second);
+			}
+		}
+
+	private:
+		factory_shared_type		factory_;
+		container_type			container_;
+		boost::mutex			mutex_;
 	};	
 }}
 

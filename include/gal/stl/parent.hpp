@@ -17,6 +17,7 @@ namespace gal { namespace stl {
 		//typedef std::shared_ptr<T>		S;
 		typedef S_				S;
 		typedef gal::stl::map<T, S_>		MAP;
+		typedef typename MAP::W			W;
 		typedef std::shared_ptr<MAP>		MAP_SHARED;
 		typedef typename MAP::iterator		ITER;
 		typedef typename MAP::FILTER_FUNC	FILTER_FUNC;
@@ -47,7 +48,7 @@ namespace gal { namespace stl {
 			assert(map_);
 			map_->insert(std::move(s));
 		}
-		S			get(gal::object_index i)
+		W			get(gal::object_index i)
 		{
 			assert(map_);
 			return map_->find(i);
@@ -68,12 +69,12 @@ namespace gal { namespace stl {
 			if(map_) //assert(map_);
 				map_->clear();
 		}
-		S			front(FILTER_FUNC func = FILTER_FUNC())
+		W			front(FILTER_FUNC func = FILTER_FUNC())
 		{
 			assert(map_);
 			return map_->front(func);
 		}
-		S			random()
+		W			random()
 		{
 			assert(map_);
 			return map_->random();
