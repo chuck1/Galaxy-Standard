@@ -48,34 +48,9 @@ namespace gal { namespace tmp {
 	public:
 		static int		_M_level;
 	};
-	/**
-	 * store a register of strings and level pointers for use with config file
-	 */
-	class VerbosityRegister:
-		public gal::tmp::Verbosity<gal::tmp::VerbosityRegister>
-	{
-	public:
-		template<typename T>
-		void	reg(std::string str)
-		{
-			_M_map[str] = &Verbosity<T>::_M_level;
-		}
-		void	set(std::string str, int i)
-		{
-			auto it = _M_map.find(str);
-			if(it == _M_map.end()) {
-				printv(DEBUG, "no entry: %s\n",
-						str.c_str());
-				//abort();
-				return;
-			}
-
-			*(it->second) = i;
-		}
-		std::map< std::string, int* >	_M_map;
-	};
 }}
 
 template<typename T> int gal::tmp::Verbosity<T>::_M_level = INFO;
 
 #endif
+
