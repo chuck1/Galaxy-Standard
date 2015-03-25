@@ -73,9 +73,10 @@ int main()
 		printf("%s\n", e.what());
 	}
 
+	m.change_process_index(1,2);
+
 
 	m.front();
-	m.clear();
 
 	m.for_each([](M::S & s){ s->a(); });
 	m.for_each([](M::S & s){ s->b(); });
@@ -85,7 +86,7 @@ int main()
 	m.for_each([](M::T & t){ t.b(); });
 	m.for_each([](M::T const & t){ t.b(); });
 
-	m.change_process_index(1,1);
+	m.clear();
 
 	return 0;
 }

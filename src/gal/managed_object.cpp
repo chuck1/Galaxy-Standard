@@ -61,8 +61,18 @@ gal::object_index		THIS::get_index(gal::process_index p) const
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
 		printv(WARNING, "process index not found: %li\n", i);
+
+		printv(WARNING, "entries are:\n");
+		for(auto e : _M_index_table) {
+			printv(WARNING, "%li %li %li\n",
+					e.first._M_i,
+					e.second._M_p._M_i,
+					e.second._M_i);
+		}
+
 		throw gal::error::no_index();
 	}
+
 	return it->second;
 }
 /*

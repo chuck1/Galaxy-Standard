@@ -311,7 +311,8 @@ namespace gal { namespace stl {
 			//typedef std::pair<gal::object_index, wrapper_type> P;
 			typedef std::pair<gal::object_index, S> P;
 			std::vector<P> v;
-			
+		
+		lbl1:
 			auto it = container_.begin();
 			while(it != container_.end()) {
 				gal::object_index o = it->first;
@@ -319,48 +320,61 @@ namespace gal { namespace stl {
 				if(o._M_p == p_old) {
 					gal::object_index o1(p_new, o._M_i);
 					
-					P p(o1, std::move(it->second.ptr_));
-				
-					//v.insert(v.end(), P(o1, std::move(it->second.ptr_)));
-
-					//v.insert(v.end(), std::move(p));
-
-					v.push_back(std::move(p));
-
-					//v.push_back(P(o1, std::move(it->second)));
+					assert(it->second.ptr_);
 
 					/*
-					v.emplace_back(
-							gal::object_index(p_new, o._M_i),
-							std::move(it->second));
+					if(it->second.ptr_) {
+						P p(o1, std::move(it->second.ptr_));
+
+						v.push_back(std::move(p));
+					}
 					*/
+
+					S s(std::move(it->second.ptr_));
+
 					it = container_.erase(it);
 
+					auto ret = container_.insert(
+						value_type(
+							o1,
+							wrapper_type(std::move(s))));
+
+					if(!ret.second) {
+						printv(CRITICAL, "not inserted i = %i\n", o);
+						abort();
+					}
+					assert(ret.first->second.ptr_);
+					printv(INFO, "object moved %i\n", o1);
+					goto lbl1;
 				} else {
 					it++;
 				}
 			}
-			
+
 			printv(INFO, "v.size(): %u\n", v.size());
 
 			/*
-			auto it2 = v.begin();
-			while(it2 != v.end()) {
-				if(it2->second.expired()) {
-					it2 = v.erase(it2);
-				} else {
-					it2->second.lock()->change_process_index(p_old, p_new);
-					it2++;
-				}
-			}
-			*/
+			   auto it2 = v.begin();
+			   while(it2 != v.end()) {
+			   if(it2->second.expired()) {
+			   it2 = v.erase(it2);
+			   } else {
+			   it2->second.lock()->change_process_index(p_old, p_new);
+			   it2++;
+			   }
+			   }
+			   */
 
 			auto it2 = v.begin();
 			while(it2 != v.end()) {
+				assert(it2->second);
+				S s(std::move(it2->second));
+				assert(s);
+
 				auto ret = container_.insert(
-					value_type(
-						it2->first,
-						wrapper_type(std::move(it2->second))));
+						value_type(
+							it2->first,
+							wrapper_type(std::move(s))));
 				assert(ret.second);
 			}
 		}
