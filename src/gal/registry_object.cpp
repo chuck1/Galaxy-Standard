@@ -67,30 +67,40 @@ void			THIS::insert(S s)
 
 	}
 }
-void		THIS::set_index(gal::process_index i)
+void		THIS::set_index(gal::process_index p)
 {
-	gal::managed_process::set_index(i);
+	printv_func(INFO);
 
-	set_process_index(i);
+	set_process_index(p);
+
+	_M_next._M_p = p;
+
+	gal::managed_process::set_index(p);
 }
 void		THIS::set_process_index(gal::process_index p_new)
 {
-	printv_func(DEBUG);
+	printv_func(INFO);
+	printv(INFO, "_M_map.size(): %u p_old = %li p_new = %li\n", _M_map.size(), _M_index._M_i, p_new._M_i);
 
-	auto p_old = _M_index;
+	gal::process_index p_old = _M_index;
 	
 	std::vector< std::pair<gal::object_index, std::weak_ptr<gal::managed_object>> > v;
 
 	auto it = _M_map.begin();
 	while(it != _M_map.end()) {
-		if(it->first._M_p == p_old) {
-			v.emplace_back(gal::object_index(p_new, it->first._M_i),
+		gal::object_index o = it->first;
+
+		if(o._M_p == p_old) {
+			v.emplace_back(
+					gal::object_index(p_new, o._M_i),
 					it->second);
 			it = _M_map.erase(it);
 		} else {
 			it++;
 		}
 	}
+
+	printv(INFO, "v.size(): %u\n", v.size());
 
 	auto it2 = v.begin();
 	while(it2 != v.end()) {

@@ -14,6 +14,7 @@
 #include <boost/serialization/map.hpp>
 #endif
 
+#include <gal/weak_ptr.hpp>
 #include <gal/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
 #include <gal/stl/verbosity.hpp>
@@ -48,6 +49,8 @@ namespace gal { namespace stl {
 			//typedef std::shared_ptr<T>					S;
 			typedef T_							T;
 			typedef S_							S;
+
+			typedef gal::weak_ptr<T>					W;
 
 			typedef gal::stl::wrapper<T, S_>				wrapper_type;
 			typedef std::map<gal::object_index, wrapper_type, gal::less_index>	container_type;
@@ -121,7 +124,7 @@ namespace gal { namespace stl {
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
 				for(auto it = container_.begin(); it != container_.cend(); ++it) {
-					auto p = it->second.ptr_;
+					S & p = it->second.ptr_;
 					assert(p);
 					f(*p);
 				}
@@ -170,7 +173,7 @@ namespace gal { namespace stl {
 				int ret;
 
 				for(auto it = container_.begin(); it != container_.cend(); ++it) {
-					auto p = it->second.ptr_;
+					S & p = it->second.ptr_;
 					assert(p);
 					ret = f(p);
 					if(ret == CONTINUE) {
@@ -181,20 +184,20 @@ namespace gal { namespace stl {
 				}
 			}
 			/** */
-			S			find(std::string name)
+			W			find(std::string name)
 			{
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
 				for(auto it = container_.begin(); it != container_.cend(); ++it)
 				{
-					auto p = it->second.ptr_;
+					S & p = it->second.ptr_;
 					assert(p);
 					if(p->_M_name == name) return p;
 				}
 
 				return std::shared_ptr<T>();
 			}
-			S			find(gal::object_index i)
+			W			find(gal::object_index i)
 			{
 				boost::lock_guard<boost::mutex> lk(mutex_);
 
@@ -217,7 +220,7 @@ namespace gal { namespace stl {
 			}
 			/** @brief begin iterator 0
 			*/
-			S			front(FILTER_FUNC func = FILTER_FUNC())
+			W			front(FILTER_FUNC func = FILTER_FUNC())
 			{
 				if(func) {
 					for(auto it = container_.begin(); it != container_.cend(); ++it) {
@@ -233,7 +236,7 @@ namespace gal { namespace stl {
 				}
 				return S();
 			}
-			S			random() const
+			W			random() const
 			{
 				if(empty()) return S();
 				
@@ -277,7 +280,7 @@ namespace gal { namespace stl {
 
 					if(it == container_.cend()) return;//throw item_not_found();
 
-					auto p = it->second.ptr_;
+					S & p = it->second.ptr_;
 
 					assert(p);
 
@@ -298,6 +301,59 @@ namespace gal { namespace stl {
 			{
 				return container_.empty();
 			}
+			virtual void			change_process_index(
+					gal::process_index p_old,
+					gal::process_index p_new)
+			{
+				printv_func(INFO);
+				printv(INFO, "_M_container.size(): %u p_old = %li p_new = %li\n", container_.size(), p_old._M_i, p_new._M_i);
+				
+				typedef std::pair<gal::object_index, wrapper_type> P;
+				std::vector<P> v;
+				
+				auto it = container_.begin();
+				while(it != container_.end()) {
+					gal::object_index o = it->first;
+			
+					if(o._M_p == p_old) {
+						gal::object_index o1(p_new, o._M_i);
+						
+						P p(o1, std::move(it->second));
+					
+						v.insert(v.end(), std::move(p));
+
+						//v.push_back(std::move(p));
+
+						//v.push_back(P(o1, std::move(it->second)));
+
+						/*
+						v.emplace_back(
+								gal::object_index(p_new, o._M_i),
+								std::move(it->second));
+						*/
+						it = container_.erase(it);
+					} else {
+						it++;
+					}
+				}
+				
+				printv(INFO, "v.size(): %u\n", v.size());
+
+				/*
+				auto it2 = v.begin();
+				while(it2 != v.end()) {
+					if(it2->second.expired()) {
+						it2 = v.erase(it2);
+					} else {
+						it2->second.lock()->change_process_index(p_old, p_new);
+						it2++;
+					}
+				}
+				*/
+
+				container_.insert(v.begin(), v.end());
+			}
+
 		private:
 			factory_shared_type		factory_;
 			container_type			container_;

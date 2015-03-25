@@ -53,6 +53,13 @@ namespace gal {
 			}
 			return 0;
 		}
+		T &		operator*()
+		{
+			if(!_M_ptr) {
+				throw null_pointer_exception();
+			}
+			return *_M_ptr.get();
+		}
 		T const *	operator->() const
 		{
 			if(!_M_ptr) {

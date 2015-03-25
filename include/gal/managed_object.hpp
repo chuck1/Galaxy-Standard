@@ -87,7 +87,7 @@ namespace gal {
 		virtual void			register_all(registry_type *);
 		registry_type *			get_registry();
 		registry_type const *		get_registry() const;
-		void				change_process_index(
+		virtual void			change_process_index(
 				gal::process_index p_old,
 				gal::process_index p_new);
 	public:

@@ -7,6 +7,7 @@
 
 #include <gal/registry_object.hpp>
 #include <gal/registry_process.hpp>
+#include <gal/unique_ptr.hpp>
 
 #include <gal/stl/map.hpp>
 
@@ -33,7 +34,7 @@ struct foo: gal::managed_object
 
 int main()
 {
-	typedef gal::stl::map<foo> M;
+	typedef gal::stl::map<foo, gal::unique_ptr<foo>> M;
 
 	typedef std::shared_ptr<bar> S_B;
 	typedef std::shared_ptr<M> S_M;
@@ -83,6 +84,8 @@ int main()
 	//m.for_each([](M::T const & t){ t.a(); });
 	m.for_each([](M::T & t){ t.b(); });
 	m.for_each([](M::T const & t){ t.b(); });
+
+	m.change_process_index(1,1);
 
 	return 0;
 }

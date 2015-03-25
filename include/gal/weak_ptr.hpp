@@ -61,6 +61,11 @@ namespace gal {
 		{
 			return gal::weak_ptr<T1>(std::move(std::static_pointer_cast<T1>(_M_ptr.lock())));
 		}
+		template<typename T1>
+		operator gal::weak_ptr<T1>() const
+		{
+			return gal::weak_ptr<T1>(std::move(std::static_pointer_cast<T1>(_M_ptr.lock())));
+		}
 		operator std::weak_ptr<T>()
 		{
 			return _M_ptr;
@@ -73,6 +78,13 @@ namespace gal {
 		operator bool() const
 		{
 			return (!_M_ptr.expired());
+		}
+		std::shared_ptr<T>	lock()
+		{
+			if(_M_ptr.expired()) {
+				throw null_pointer_exception();
+			}
+			return _M_ptr.lock();
 		}
 	private:
 		W&	operator=(W const & w) = default;

@@ -1,3 +1,4 @@
+#include <boost/serialization/map.hpp>
 
 #include <gal/registry.hpp>
 
@@ -20,6 +21,24 @@ THIS::~managed_object()
 {
 	printv_func(DEBUG);
 }
+void    		        THIS::init(registry_type * r)
+//void    		        THIS::init(gal::managed_object * p)
+{
+	printv_func(DEBUG);
+
+	if(_M_flag.any(flag::INITIALIZED)) return;
+
+	assert(r);
+	
+	_M_registry_parent = r;
+	r->reg(shared_from_this());
+	
+	_M_flag.set(flag::INITIALIZED);
+	
+	//printv(DEBUG, "_M_index = %i\n", _M_index);
+
+	//assert(_M_index != -1);
+}
 gal::object_index		THIS::get_index() const
 {
 	printv_func(DEBUG);
@@ -41,7 +60,7 @@ gal::object_index		THIS::get_index(gal::process_index p) const
 
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
-		printv(DEBUG, "process index not found: %li\n", i);
+		printv(WARNING, "process index not found: %li\n", i);
 		throw gal::error::no_index();
 	}
 	return it->second;
@@ -116,14 +135,14 @@ void				THIS::change_process_index(
 		gal::process_index p_old,
 		gal::process_index p_new)
 {
-	printv_func(DEBUG);
+	printv_func(INFO);
 
 	std::vector< std::pair<gal::process_index, gal::object_index> > v;
 
 	auto it = _M_index_table.begin();
 	while(it != _M_index_table.end()) {
 		if(it->first == p_old) {
-			printv(DEBUG, "change process index from %li to %li. object index: %li\n",
+			printv(INFO, "change process index from %li to %li. object index: %li\n",
 				p_old, p_new, it->second._M_i);
 
 			v.emplace_back(p_new,
@@ -136,50 +155,6 @@ void				THIS::change_process_index(
 
 	_M_index_table.insert(v.begin(), v.end());
 
-}
-
-
-#include <boost/serialization/map.hpp>
-
-#include <gal/registry_object.hpp>
-#include <gal/managed_process.hpp>
-
-#include <gal/managed_object.hpp>
-
-typedef gal::managed_object THIS;
-
-void    		        THIS::init(registry_type * r)
-//void    		        THIS::init(gal::managed_object * p)
-{
-	printv_func(DEBUG);
-
-	if(_M_flag.any(flag::INITIALIZED)) return;
-
-	assert(r);
-	
-	/*	
-	auto r = dynamic_cast<registry_type*>(p);
-	
-	if(!r) {
-		r = p->get_registry();
-		if(!r) {
-			throw 0;
-		}
-	}
-	*/
-	
-
-	
-	// find registry
-	
-	_M_registry_parent = r;
-	r->reg(shared_from_this());
-	
-	_M_flag.set(flag::INITIALIZED);
-	
-	//printv(DEBUG, "_M_index = %i\n", _M_index);
-
-	//assert(_M_index != -1);
 }
 void			THIS::load(
 		boost::archive::polymorphic_iarchive & ar,

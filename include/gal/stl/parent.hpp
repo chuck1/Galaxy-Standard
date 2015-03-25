@@ -36,6 +36,12 @@ namespace gal { namespace stl {
 			};
 			map_->for_each(l);
 		}
+		void			change_process_index(
+				gal::process_index p0,
+				gal::process_index p1)
+		{
+			map_->change_process_index(p0, p1);
+		}
 		void			insert(S && s)
 		{
 			assert(map_);
