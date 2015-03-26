@@ -7,16 +7,10 @@
 
 #include <gal/etc/print.hpp>
 
-#define printv_func(level) printv(level, "%s\n", __PRETTY_FUNCTION__)
+#include <gal/stl/verbosity_base.hpp>
+#include <gal/stl/verbosity_register.hpp>
 
-enum
-{
-	DEBUG,
-	INFO,
-	WARNING,
-	ERROR,
-	CRITICAL
-};
+#define printv_func(level) printv(level, "%s\n", __PRETTY_FUNCTION__)
 
 namespace gal { namespace tmp {
 	/** log levels
@@ -28,29 +22,36 @@ namespace gal { namespace tmp {
 	class Verbosity
 	{
 	protected:
-		Verbosity()
+		typedef gal::tmp::VerbosityRegistry VR;
+		typedef std::weak_ptr<VR> W_VR;
+
+		int			level() const
 		{
+			auto r = _M_reg.lock();
+			assert(r);
+			
+			return r->get(typeid(T).name());
 		}
 		template<typename... A>
-		static void		printv(
+		void			printv(
 				int sev,
-				const char * format, A... a)
+				const char * format, A... a) const
 		{
-			if(sev >= _M_level) printf(format, a...);
+			if(sev >= level())
+				printf(format, a...);
 		}
 		template<typename A>
-		static void		printv(
+		void			printv(
 				int sev,
-				A const & a)
+				A const & a) const
 		{
-			if(sev >= _M_level) gal::etc::print(a);
+			if(sev >= level())
+				gal::etc::print(a);
 		}
-	public:
-		static int		_M_level;
 	};
 }}
 
-template<typename T> int gal::tmp::Verbosity<T>::_M_level = INFO;
+//template<typename T> int gal::tmp::Verbosity<T>::_M_level = INFO;
 
 #endif
 

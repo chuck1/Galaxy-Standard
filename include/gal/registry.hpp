@@ -50,7 +50,7 @@ namespace gal {
 			printv_func(DEBUG);
 			return _M_next++;
 		}
-		void			reg(S s)
+		virtual void		reg(S s)
 		{
 			printv_func(DEBUG);
 

@@ -2,9 +2,19 @@
 
 typedef gal::tmp::VerbosityRegister THIS;
 
+/*
 void		THIS::reg(std::string str, int* i)
 {
-	_M_map[str] = i;
+	auto p = _M_map.insert(value_type(str, i));
+
+	if(!p.second) {
+		printv(CRITICAL, "not inserted: %s %p\n",
+				str.c_str(), i);
+		abort();
+	}
+
+	printv(INFO, "inserted: %s %p\n",
+			str.c_str(), i);
 }
 void		THIS::set(std::string str, int i)
 {
@@ -12,11 +22,10 @@ void		THIS::set(std::string str, int i)
 	if(it == _M_map.end()) {
 		printv(ERROR, "no entry: %s\n",
 				str.c_str());
-		abort();
 		return;
 	}
 
 	*(it->second) = i;
 }
-
+*/
 

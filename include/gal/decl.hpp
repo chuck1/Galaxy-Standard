@@ -5,6 +5,15 @@
 
 #include <gal/typedef.hpp>
 
+enum
+{
+	DEBUG,
+	INFO,
+	WARNING,
+	ERROR,
+	CRITICAL
+};
+
 namespace gal {
 	class managed_object;
 	class managed_process;
@@ -33,6 +42,10 @@ namespace gal {
 		class helper_base;
 		template<typename T, template<typename T2> class S = std::shared_ptr>
 		class helper;
+	}
+	namespace tmp
+	{
+		class VerbosityRegistry;
 	}
 }
 

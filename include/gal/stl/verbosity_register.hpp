@@ -2,27 +2,61 @@
 #define NEB_CORE_ITF_VERBOSITY_REGISTER_HPP
 
 #include <map>
+#include <vector>
 
-#include <gal/stl/verbosity.hpp>
+#include <gal/decl.hpp>
 
 namespace gal { namespace tmp {
 	/**
 	 * store a register of strings and level pointers for use with config file
 	 */
-	class VerbosityRegister:
-		public gal::tmp::Verbosity<gal::tmp::VerbosityRegister>
+	class VerbosityRegistry
+		//public gal::tmp::Verbosity<gal::tmp::VerbosityRegister>
 	{
 	public:
-		typedef std::map< std::string, int* > map_type;
-		typedef typename map_type::value_type value_type;
-		template<typename T>
-		void	reg(std::string str)
+		typedef std::tuple<std::string, std::string, int> tuple_type;
+		typedef std::vector<tuple_type> vec_type;
+	
+		int			get(std::string str)
 		{
-			_M_map[str] = &Verbosity<T>::_M_level;
+			auto it = _M_vec.begin();
+			while(it != _M_vec.end()) {
+				if(std::get<0>(*it) == str) {
+					return std::get<2>(*it);
+				}
+			}
+			abort();
+			return 0;
 		}
-		void	reg(std::string str, int*);
-		void	set(std::string str, int i);
-			_M_map;
+		template<typename T>
+		void			reg(
+				std::string nickname,
+				int i = INFO)
+		{
+			std::string str = typeid(T).name();
+
+			_M_vec.insert(_M_vec.end(), tuple_type(str, nickname, i));
+	
+			printf("inserted:\n"
+					"\t%s\n"
+					"\t%s\n"
+					"\t%i\n",
+					str.c_str(), i);
+		}
+		void			set(
+				std::string nickname,
+				int i)
+		{
+			auto it = _M_vec.begin();
+			while(it != _M_vec.end()) {
+				if(std::get<1>(*it) == nickname) {
+					std::get<2>(*it) = i;
+					return;
+				}
+			}
+			abort();
+		}
+		vec_type	_M_vec;
 	};
 }}
 
