@@ -41,7 +41,9 @@ namespace gal { namespace tmp {
 					"\t%s\n"
 					"\t%s\n"
 					"\t%i\n",
-					str.c_str(), i);
+					str.c_str(),
+					nickname.c_str(),
+					i);
 		}
 		void			set(
 				std::string nickname,

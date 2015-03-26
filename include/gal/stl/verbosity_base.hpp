@@ -19,6 +19,7 @@ namespace gal {
 
 		W_VR			_M_reg;
 	};
+}
 
 #endif
 

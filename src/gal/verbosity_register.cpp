@@ -1,6 +1,6 @@
 #include <gal/stl/verbosity_register.hpp>
 
-typedef gal::tmp::VerbosityRegister THIS;
+typedef gal::tmp::VerbosityRegistry THIS;
 
 /*
 void		THIS::reg(std::string str, int* i)

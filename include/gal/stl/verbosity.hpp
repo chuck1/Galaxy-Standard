@@ -19,7 +19,7 @@ namespace gal { namespace tmp {
 	 * the CRTP is used to disambiguate multiple inheritances of this class
 	 */
 	template<typename T>
-	class Verbosity
+	class Verbosity: virtual public gal::verbosity_base
 	{
 	protected:
 		typedef gal::tmp::VerbosityRegistry VR;
@@ -28,7 +28,10 @@ namespace gal { namespace tmp {
 		int			level() const
 		{
 			auto r = _M_reg.lock();
-			assert(r);
+			if(!r) {
+				printf("warning: verbosity registry is null\n");
+				return DEBUG;
+			}
 			
 			return r->get(typeid(T).name());
 		}
