@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <gal/decl.hpp>
+#include <gal/error/no_index.hpp>
 
 namespace gal { namespace tmp {
 	/**
@@ -24,8 +25,9 @@ namespace gal { namespace tmp {
 				if(std::get<0>(*it) == str) {
 					return std::get<2>(*it);
 				}
+				it++;
 			}
-			abort();
+			throw gal::verb::error::not_registered(str.c_str());
 			return 0;
 		}
 		template<typename T>
@@ -55,8 +57,9 @@ namespace gal { namespace tmp {
 					std::get<2>(*it) = i;
 					return;
 				}
+				it++;
 			}
-			abort();
+			throw gal::verb::error::not_registered(nickname.c_str());
 		}
 		vec_type	_M_vec;
 	};
