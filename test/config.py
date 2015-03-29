@@ -5,4 +5,5 @@ include("serial")
 include("map")
 include("registry")
 include("weak_ptr")
+include("tuple")
 

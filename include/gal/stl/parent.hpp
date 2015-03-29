@@ -6,14 +6,20 @@
 #include <gal/stl/wrapper.hpp>
 
 namespace gal { namespace stl {
-	template< typename T, typename S_ = std::shared_ptr<T> >
-	class parent:
-		virtual public gal::managed_object,
-		virtual public gal::tmp::Verbosity< gal::stl::parent<T,S_> >
+	class parent_base:
+		virtual public gal::tmp::Verbosity<gal::stl::parent_base>
 	{
 	public:
+		using gal::tmp::Verbosity<gal::stl::parent_base>::printv;
+	};
+	template< typename T, typename S_ = std::shared_ptr<T> >
+	class parent:
+		virtual public gal::stl::parent_base,
+		virtual public gal::managed_object
+	{
+	public:
+		using gal::tmp::Verbosity<gal::stl::parent_base>::printv;
 		friend class boost::serialization::access;
-		using gal::tmp::Verbosity< gal::stl::parent<T,S_> >::printv;
 		//typedef std::shared_ptr<T>		S;
 		typedef S_				S;
 		typedef gal::stl::map<T, S_>		MAP;
