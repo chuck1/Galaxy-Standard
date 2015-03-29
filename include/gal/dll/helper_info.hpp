@@ -49,5 +49,6 @@ namespace gal { namespace dll {
 	};
 }}
 
+
 #endif
 

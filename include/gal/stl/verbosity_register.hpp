@@ -18,18 +18,6 @@ namespace gal { namespace tmp {
 		typedef std::tuple<std::string, std::string, int> tuple_type;
 		typedef std::vector<tuple_type> vec_type;
 	
-		int			get(std::string str)
-		{
-			auto it = _M_vec.begin();
-			while(it != _M_vec.end()) {
-				if(std::get<0>(*it) == str) {
-					return std::get<2>(*it);
-				}
-				it++;
-			}
-			throw gal::verb::error::not_registered(str.c_str());
-			return 0;
-		}
 		template<typename T>
 		void			reg(
 				std::string nickname,
@@ -47,21 +35,12 @@ namespace gal { namespace tmp {
 					nickname.c_str(),
 					i);
 		}
+		int			get(
+				std::string str);
 		void			set(
 				std::string nickname,
-				int i)
-		{
-			auto it = _M_vec.begin();
-			while(it != _M_vec.end()) {
-				if(std::get<1>(*it) == nickname) {
-					std::get<2>(*it) = i;
-					return;
-				}
-				it++;
-			}
-			throw gal::verb::error::not_registered(nickname.c_str());
-		}
-		vec_type	_M_vec;
+				int i);
+		vec_type		_M_vec;
 	};
 }}
 
