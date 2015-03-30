@@ -18,9 +18,15 @@ namespace gal { namespace dll {
 		public gal::tmp::Verbosity<gal::dll::deleter>
 	{
 		public:
-			typedef std::function< void(gal::_release *) > FUNC;
+			typedef std::function<
+			std::shared_ptr<gal::dll::class_info_destroy_0>,
+			void(gal::_release *)>
+			FUNC;
 
-			deleter(std::shared_ptr<helper_base> h, FUNC f, helper_info hi);
+			deleter(
+					std::shared_ptr<helper_base> h,
+					FUNC f,
+					helper_info hi);
 			virtual ~deleter();
 			deleter(deleter&& d);
 			deleter(deleter const & d);
