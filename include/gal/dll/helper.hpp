@@ -17,93 +17,9 @@
 #include <gal/dll/deleter.hpp>
 #include <gal/shared.hpp>
 #include <gal/stl/funcmap.hpp>
+#include <gal/dll/class_info.hpp>
 
 namespace gal { namespace dll {
-	class class_info_destroy_0
-	{
-	public:
-		virtual void	operator()(gal::_release *) = 0;
-	};
-	template<class D>
-	class class_info_destroy:
-		public class_info_destroy_0
-	{
-	public:
-		typedef void(*PD)(D*);
-		class_info_destroy(std::string n):
-			_M_name(n),
-			_M_pd(NULL)
-		{}
-		virtual void	operator()(gal::_release * r)
-		{
-			D* d = dynamic_cast<D*>(r);
-			if(!d) {
-				abort();
-			}
-			operator()(d);
-		}
-		void		open_destroy(void* handle)
-		{
-			auto name_d = _M_name + "_destroy";
-
-			_M_pd = (PD)dlsym(
-					handle,
-					name_d.c_str());
-			
-			if(_M_pd == NULL) {
-				//printf("file: %s\n",
-				//	filename_.c_str());
-				perror(dlerror());
-				abort();
-			}
-		}
-		void		operator()(D* d)
-		{
-			if(_M_pd == NULL) abort();
-			_M_pd(d);
-		}
-	protected:
-		std::string	_M_name;
-		PD		_M_pd;
-	};
-	template<class D, typename... ARGS>
-	class class_info: public class_info_destroy<D>
-	{
-	public:
-		typedef D*(*PC)(ARGS...);
-
-		using class_info_destroy<D>::open_destroy;
-		using class_info_destroy<D>::_M_name;
-
-		class_info(std::string n):
-			class_info_destroy<D>(n),
-			_M_pc(NULL)
-		{}
-		void		open(void* handle)
-		{
-			open_destroy(handle);
-
-			auto name_c = _M_name + "_create";
-
-			_M_pc = (PC)dlsym(
-					handle,
-					name_c.c_str());
-
-			if(_M_pc == NULL) {
-				//printf("file: %s\n",
-				//	filename_.c_str());
-				perror(dlerror());
-				abort();
-			}
-		}
-		D*		operator()(ARGS... a)
-		{
-			if(_M_pc == NULL) abort();
-			return _M_pc(a...);
-		}
-	private:
-		PC		_M_pc;
-	};
 	/*
 	 * used by deleter to keep helper alive
 	 */
@@ -160,9 +76,8 @@ namespace gal { namespace dll {
 
 			typedef class_info_destroy_0 CID0;
 			typedef class_info<D, ARGS...> CI;
+			typedef std::shared_ptr<CI> S_C;
 
-			std::shared_ptr<CI> ci(new CI(o));
-			ci->open(handle_);
 			
 			auto lambda_delete = [] (
 					std::shared_ptr<CID0> c,
@@ -180,25 +95,32 @@ namespace gal { namespace dll {
 			gal::dll::helper_info hi(filename_, o, typeid(D));
 
 			gal::dll::deleter del(
-					shared_from_this(),
-					func_delete,
-					hi);
+						shared_from_this(),
+						func_delete,
+						hi,
+						0);
+
+			std::shared_ptr<CI> ci(new CI(o, del));
+			ci->open(handle_);
+
+			ci->_M_del._M_class_info = ci;
 
 			// capture by value
-			auto lamb = [=] (CI ci, ARGS... args) -> S<B>
+			auto lamb = [] (S_C ci, ARGS... args) -> S<B>
 			{
+		
 				//assert(pcreate);
 				//D* d = pcreate(args...);
-				D* d = ci(args...);
+				D* d = (*ci)(args...);
 				
-				S<D> t(d,del);
+				S<D> t(d, ci->_M_del);
 				
 				return t;
 			};
-				
-			std::function< S<B>(CI, ARGS...) > f(lamb);
+			
+			std::function< S<B>(S_C, ARGS...) > f(lamb);
 
-			FM::template add_cd<D, CI>(f, ci);
+			FM::template add_cd<D, S_C>(f, ci);
 		}
 		void			open()
 		{
@@ -217,13 +139,14 @@ namespace gal { namespace dll {
 		template<typename D, typename... ARGS>
 		S<D>		make_shared(ARGS... args)
 		{
-			printv_func(DEBUG);
-
 			typedef class_info<D, ARGS...> CI;
-			
+			typedef std::shared_ptr<CI> S_C;
+	
+			printv_func(DEBUG);
+		
 			size_t h = typeid(D).hash_code();
 
-			auto f = FM::template find_cd<CI, ARGS...>(h);
+			auto f = FM::template find_cd<S_C, ARGS...>(h);
 			
 			//assert(f->_M_f);
 			

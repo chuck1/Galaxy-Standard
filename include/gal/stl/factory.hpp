@@ -28,7 +28,7 @@ namespace gal { namespace stl {
 			typedef gal::stl::funcmap<T>	fm;
 			/** */
 			template<typename... Args>
-			shared				alloc(gal::hash_type hash_code, Args&&... args)
+			shared				alloc(size_t hash_code, Args&&... args)
 			{
 				//auto f = find<Args...>(hash_code);
 				//auto f = gal::stl::funcmap<T>::find<Args...>(hash_code);
@@ -36,7 +36,8 @@ namespace gal { namespace stl {
 				// get allocator function from funcmap using hashcode
 				auto f = fm::template find<Args...>(hash_code);
 
-				return (f->f_)(::std::forward<Args>(args)...);
+				//return (f->f_)(std::forward<Args>(args)...);
+				return (*f)(std::forward<Args>(args)...);
 			}
 		public:
 			static std::shared_ptr< factory<T> >				default_factory_;

@@ -64,7 +64,7 @@ namespace gal { namespace stl {
 		shared_type		operator()(A... a)
 		{
 			if(f_) {
-				f_(a...);
+				return f_(a...);
 			}
 			throw void_function();
 		}
@@ -92,7 +92,7 @@ namespace gal { namespace stl {
 		shared_type		operator()(A... a)
 		{
 			if(_M_f) {
-				_M_f(_M_cd, a...);
+				return _M_f(_M_cd, a...);
 			}
 			throw void_function();
 		}
@@ -124,6 +124,24 @@ namespace gal { namespace stl {
 	public:
 		funcmap() {}
 		virtual ~funcmap() {}
+		void			print_error(
+				std::string s0,
+				size_t h,
+				std::string s1,
+				std::string s2)
+		{
+			printf(
+					"%s:\n"
+					"\thash code:%i\n"
+					"\tfunc_t    %s\n"
+					"\tf:        %s\n",
+					s0.c_str(),
+					h,
+					s1.c_str(),
+					s2.c_str()
+					);
+
+		}
 		template<typename D, typename... Args>
 		void			add(
 				std::function< shared_type(Args...) > f)
@@ -139,34 +157,26 @@ namespace gal { namespace stl {
 			
 			if(p.second) {
 				if(0) {
-				printf(
-						"inserted:\n"
-						"\thash code:%i\n",
-						"\tfunc_t    %s\n",
-						"\tf:        %s\n",
+					print_error(
+						"inserted",
 						typeid(D).hash_code(),
 						typeid(func_t).name(),
-						typeid(f).name()
-						);
+						typeid(f).name());
 				}
 			}
 			else
 			{
-				printf(
-						"not inserted:\n"
-						"\thash code:%i\n",
-						"\tfunc_t    %s\n",
-						"\tf:        %s\n",
-						typeid(D).hash_code(),
-						typeid(func_t).name(),
-						typeid(f).name()
-						);
+				print_error(
+					"not inserted",
+					typeid(D).hash_code(),
+					typeid(func_t).name(),
+					typeid(f).name());
 				abort();
 			}
 		}
 		template<typename D, typename CD, typename... Args>
 		void			add_cd(
-				std::function<shared_type(Args...)> f,
+				std::function<shared_type(CD, Args...)> f,
 				CD cd)
 		{
 			typedef __function_common_data<T, CD, Args...>
@@ -183,28 +193,20 @@ namespace gal { namespace stl {
 			if(p.second)
 			{
 				if(0) {
-				printf(
-						"inserted:\n"
-						"\thash code:%i\n",
-						"\tfunc_t    %s\n",
-						"\tf:        %s\n",
-						h,
+					print_error(
+						"inserted",
+						typeid(D).hash_code(),
 						typeid(func_t).name(),
-						typeid(f).name()
-						);
+						typeid(f).name());
 				}
 			}
 			else
 			{
-				printf(
-						"not inserted:\n"
-						"\thash code:%i\n",
-						"\tfunc_t    %s\n",
-						"\tf:        %s\n",
-						h,
-						typeid(func_t).name(),
-						typeid(f).name()
-						);
+				print_error(
+					"not inserted",
+					typeid(D).hash_code(),
+					typeid(func_t).name(),
+					typeid(f).name());
 				abort();
 			}
 		}
@@ -223,7 +225,9 @@ namespace gal { namespace stl {
 		{
 			printf("%s\n", s);
 
-			pass1(printf("%s\n", typeid(A).name())...);
+			printf("Args:\n");
+
+			pass1(printf("\t%s\n", typeid(A).name())...);
 			
 			printf(
 					"T:   %32s\n"
@@ -232,7 +236,8 @@ namespace gal { namespace stl {
 					h);
 		}
 		template<typename... Args>
-		std::shared_ptr< __function< Args... > >	find(
+		std::shared_ptr< __function<T, Args...> >
+		find(
 				gal::hash_type h)
 		{
 			typedef __function<Args...> func_t;

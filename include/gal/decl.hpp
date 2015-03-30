@@ -42,6 +42,7 @@ namespace gal {
 		class helper_base;
 		template<typename T, template<typename T2> class S = std::shared_ptr>
 		class helper;
+		class class_info_destroy_0;
 	}
 	namespace tmp
 	{
