@@ -2,7 +2,6 @@
 #define NEBULA_UTIL_HELPER_HH
 
 namespace gal {
-
 	template <int...>
 	struct seq {};
 
@@ -22,7 +21,6 @@ namespace gal {
 
 	template <typename... T>
 	void pass1(T&&...) {}
-
 }
 
 #endif

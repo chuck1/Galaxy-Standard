@@ -13,12 +13,12 @@
 
 namespace gal {
 	class registry_process:
-		public gal::tmp::Verbosity<gal::registry_process>,
-		public gal::registry<
+		virtual public gal::tmp::Verbosity<gal::registry_process>,
+		virtual public gal::registry<
 				gal::process_index,
 				gal::managed_process,
 				gal::process_index_less>,
-		public gal::managed_process
+		virtual public gal::managed_process
 	{
 	public:
 		using gal::tmp::Verbosity<gal::registry_process>::printv;

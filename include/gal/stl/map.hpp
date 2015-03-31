@@ -22,18 +22,31 @@
 namespace mi = boost::multi_index;
 
 namespace gal { namespace stl {
+	class map_base:
+		virtual public gal::tmp::Verbosity<gal::stl::map_base>
+	{
+	};
 	template <typename T_, class S_ = std::shared_ptr<T_> >
 	class map:
-		public gal::tmp::Verbosity< map<T_, S_> >,
+		virtual public gal::stl::map_base,
 		virtual public gal::managed_object
 	{
 	public:
-		using gal::tmp::Verbosity<map>::printv;
-		struct item_not_found: std::exception {
+		using gal::tmp::Verbosity<gal::stl::map_base>::printv;
+
+		class item_not_found:
+			virtual public std::exception
+		{
+		public:
 			item_not_found(gal::object_index ni):
 				i(ni)
 			{
-				sprintf(buffer, "item not found: %li %li: %s", i._M_p._M_i, i._M_i, __PRETTY_FUNCTION__);
+				sprintf(buffer,
+						"item not found: "
+						"%li %li: %s",
+						i._M_p._M_i,
+						i._M_i,
+						__PRETTY_FUNCTION__);
 			}
 			virtual const char * what() const noexcept
 			{
@@ -87,8 +100,6 @@ namespace gal { namespace stl {
 		void				insert(S && s)
 		{
 			boost::lock_guard<boost::mutex> lk(mutex_);
-			
-			//std::weak_ptr<T> w(s);
 			
 			assert(s);
 			

@@ -117,7 +117,6 @@ namespace gal { namespace stl {
 	private:
 		typedef S_<T>		shared_type;
 
-
 		typedef std::shared_ptr<__base_function>	S_F;
 		typedef std::map<long int, S_F>			map_type;
 		typedef typename map_type::iterator		iter;
@@ -132,7 +131,7 @@ namespace gal { namespace stl {
 		{
 			printf(
 					"%s:\n"
-					"\thash code:%i\n"
+					"\thash code:%lu\n"
 					"\tfunc_t    %s\n"
 					"\tf:        %s\n",
 					s0.c_str(),
@@ -163,9 +162,7 @@ namespace gal { namespace stl {
 						typeid(func_t).name(),
 						typeid(f).name());
 				}
-			}
-			else
-			{
+			} else {
 				print_error(
 					"not inserted",
 					typeid(D).hash_code(),
@@ -190,8 +187,7 @@ namespace gal { namespace stl {
 					std::make_pair(
 						h, b));
 			
-			if(p.second)
-			{
+			if(p.second) {
 				if(0) {
 					print_error(
 						"inserted",
@@ -199,9 +195,7 @@ namespace gal { namespace stl {
 						typeid(func_t).name(),
 						typeid(f).name());
 				}
-			}
-			else
-			{
+			} else {
 				print_error(
 					"not inserted",
 					typeid(D).hash_code(),
@@ -221,26 +215,24 @@ namespace gal { namespace stl {
 		}
 		/** */
 		template<typename... A>
-		void	print_error_info(const char * s, gal::hash_type h)
+		void			print_error_info(
+				const char * s,
+				size_t h)
 		{
 			printf("%s\n", s);
-
 			printf("Args:\n");
-
 			pass1(printf("\t%s\n", typeid(A).name())...);
-			
 			printf(
 					"T:   %32s\n"
-					"hash:%32i\n",
+					"hash:%32lu\n",
 					typeid(T).name(),
 					h);
 		}
 		template<typename... Args>
 		std::shared_ptr< __function<T, Args...> >
-		find(
-				gal::hash_type h)
+		find(size_t h)
 		{
-			typedef __function<Args...> func_t;
+			typedef __function<T, Args...> func_t;
 			
 			auto it = map_.find(h);
 
@@ -266,13 +258,11 @@ namespace gal { namespace stl {
 
 				throw invalid_args();
 			}
-
 			return f;
 		}
 		template<typename CD, typename... A>
 		std::shared_ptr< __function_common_data<T, CD, A...> >
-		find_cd(
-				size_t h)
+		find_cd(size_t h)
 		{
 			typedef __function_common_data<T, CD, A...> func_t;
 			

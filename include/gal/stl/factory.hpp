@@ -28,13 +28,13 @@ namespace gal { namespace stl {
 			typedef gal::stl::funcmap<T>	fm;
 			/** */
 			template<typename... Args>
-			shared				alloc(size_t hash_code, Args&&... args)
+			shared				alloc(size_t h, Args&&... args)
 			{
 				//auto f = find<Args...>(hash_code);
 				//auto f = gal::stl::funcmap<T>::find<Args...>(hash_code);
 				
 				// get allocator function from funcmap using hashcode
-				auto f = fm::template find<Args...>(hash_code);
+				auto f = fm::template find<Args...>(h);
 
 				//return (f->f_)(std::forward<Args>(args)...);
 				return (*f)(std::forward<Args>(args)...);

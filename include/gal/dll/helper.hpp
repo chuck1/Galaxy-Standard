@@ -111,8 +111,13 @@ namespace gal { namespace dll {
 		
 				//assert(pcreate);
 				//D* d = pcreate(args...);
+				
+				assert(ci);
+
 				D* d = (*ci)(args...);
 				
+				assert(d);
+
 				S<D> t(d, ci->_M_del);
 				
 				return t;
@@ -136,17 +141,19 @@ namespace gal { namespace dll {
 				dlclose(handle_);
 		}
 	public:
-		template<typename D, typename... ARGS>
-		S<D>		make_shared(ARGS... args)
+		template<typename D, typename... A>
+		S<D>		make_shared(A... args)
 		{
-			typedef class_info<D, ARGS...> CI;
+			typedef class_info<D, A...> CI;
 			typedef std::shared_ptr<CI> S_C;
 	
 			printv_func(DEBUG);
 		
 			size_t h = typeid(D).hash_code();
 
-			auto f = FM::template find_cd<S_C, ARGS...>(h);
+			typedef std::shared_ptr< gal::stl::__function_common_data<B, S_C, A...> > F;
+
+			F f = FM::template find_cd<S_C, A...>(h);
 			
 			//assert(f->_M_f);
 			

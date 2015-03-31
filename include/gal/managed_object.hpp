@@ -47,7 +47,7 @@ namespace gal {
 	 * Supply type info.
 	 */
 	class managed_object:
-		public gal::tmp::Verbosity<gal::managed_object>,
+		virtual public gal::tmp::Verbosity<gal::managed_object>,
 		virtual public gal::enable_shared_from_this<gal::managed_object>
 	{
 	public:

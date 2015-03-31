@@ -27,6 +27,7 @@ int			THIS::get(std::string str)
 		}
 		it++;
 	}
+	printf("error: str=%s\n", str.c_str());
 	throw gal::verb::error::not_registered(str.c_str());
 	return 0;
 }
