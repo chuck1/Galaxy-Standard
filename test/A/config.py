@@ -1,11 +1,11 @@
 
-e = Static("A")
+l = pbs.classes.Static.Static("A", self)
 
-e.require("galaxy_std")
-e.require("boost_serialization")
-e.require("boost_system")
+l.require("galaxy_std")
+l.require("boost_serialization")
+l.require("boost_system")
 
-e.make()
+l.make()
 
 
 

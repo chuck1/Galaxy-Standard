@@ -5,10 +5,9 @@
 
 #include <gal/dll/helper.hpp>
 
-//#include "../external/Galaxy/components/std/test/A/include/A.hpp"
 #include <A.hpp>
 
-const char * filename = "/home/chuck/git/nebula-engine/nebula/external/Galaxy/components/std/test/B/build/dynamic/libB.so";
+const char * filename = "/home/chuck/git/nebula/external/Galaxy/components/std/test/B/build/dynamic/libB.so";
 
 namespace ba = boost::archive;
 

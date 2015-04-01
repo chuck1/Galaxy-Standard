@@ -1,5 +1,6 @@
+import pbs.classes.Dynamic
 
-e = Dynamic("B")
+e = pbs.classes.Dynamic.Dynamic("B", self)
 
 e.require("A")
 e.require("galaxy_std")

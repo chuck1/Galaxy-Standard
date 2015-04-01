@@ -1,5 +1,6 @@
+import pbs.classes.Executable
 
-e = Executable("galaxy_std_test_serial")
+e = pbs.classes.Executable.Executable("galaxy_std_test_serial", self)
 
 e.require("A")
 e.require("B","dynamic")

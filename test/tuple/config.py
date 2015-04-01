@@ -1,5 +1,6 @@
+import pbs.classes.Executable
 
-e = Executable("galaxy_std_test_tuple")
+e = pbs.classes.Executable.Executable("galaxy_std_test_tuple", self)
 
 e.require("galaxy_std")
 e.require("boost_serialization")
