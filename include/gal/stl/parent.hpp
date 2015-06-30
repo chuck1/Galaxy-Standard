@@ -129,6 +129,7 @@ namespace gal { namespace stl {
 		{
 			if(!map_) {
 				map_.reset(new MAP);
+				map_->gal::verbosity_base::init(get_vr());
 				map_->init(get_registry());
 			}
 		}
