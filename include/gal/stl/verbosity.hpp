@@ -30,9 +30,8 @@ namespace gal { namespace tmp {
 		{
 			auto name = typeid(T).name();
 
-			auto r = _M_reg.lock();
+			auto r = get_vr();
 			if(!r) {
-				printf("warning: verbosity registry is null. name=%s\n", name);
 				return INFO;
 			}
 			

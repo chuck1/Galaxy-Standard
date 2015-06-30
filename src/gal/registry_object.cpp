@@ -6,7 +6,6 @@ typedef gal::registry_object THIS;
 
 THIS::registry_object()
 {
-	printv_func(DEBUG);
 }
 THIS::index_type	THIS::first()
 {

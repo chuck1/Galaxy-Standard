@@ -11,14 +11,12 @@ namespace gal {
 	{
 	public:
 		typedef gal::tmp::VerbosityRegistry VR;
-		typedef std::weak_ptr<VR> W_VR;
+		typedef std::weak_ptr<VR>	W_VR;
+		typedef std::shared_ptr<VR>	S_VR;
 
 		virtual ~verbosity_base() {}
-		void			init(std::shared_ptr<VR> r)
-		{
-			assert(r);
-			_M_reg = r;
-		}
+		void			init(std::shared_ptr<VR> r);
+		S_VR			get_vr() const;
 
 		W_VR			_M_reg;
 	};

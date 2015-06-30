@@ -32,7 +32,6 @@ namespace gal {
 
 		registry(): _M_ready(false)
 		{
-			printv_func(DEBUG);
 		}
 		void			init()
 		{

@@ -34,9 +34,10 @@ int main()
 			new gal::tmp::VerbosityRegistry);
 	
 	vr->reg<gal::managed_process>("gal managed_process");
+	vr->reg<gal::managed_object>("gal managed_object");
 	vr->reg<gal::registry_base>("gal registry_base");
 	vr->reg<gal::registry_process>("gal registry_process");
-	vr->reg<gal::managed_object>("gal managed_object");
+	vr->reg<gal::registry_object>("gal registry_object");
 	
 	typedef gal::registry_object R1;
 	typedef std::shared_ptr<R1> S_R1;
@@ -50,9 +51,9 @@ int main()
 	r0->gal::verbosity_base::init(vr);
 	r0->init();
 	
-	
 	// object registry
 	S_R1 r1(new R1);
+	r1->gal::verbosity_base::init(vr);
 
 	r0->reg(r1);
 
