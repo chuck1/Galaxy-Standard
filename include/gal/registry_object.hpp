@@ -23,7 +23,18 @@ namespace gal {
 	public:
 		using gal::tmp::Verbosity<gal::registry_object>::printv;
 
+		typedef gal::registry<
+				gal::object_index,
+				gal::managed_object,
+				gal::less_index> BASE_REGISTRY;
+
 		registry_object();
+		
+		registry_object&	operator=(registry_object&& ro)
+		{
+			BASE_REGISTRY::operator=(std::move(ro));
+			return *this;
+		}
 
 		//S			get(gal::object_index i);
 		

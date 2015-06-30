@@ -33,6 +33,13 @@ namespace gal {
 		registry(): _M_ready(false)
 		{
 		}
+		registry&		operator=(registry&& r)
+		{
+			_M_next=(std::move(r._M_next));
+			_M_map=(std::move(r._M_map));
+			_M_ready=(std::move(r._M_ready));
+			return *this;
+		}
 		void			init()
 		{
 			_M_next = first();

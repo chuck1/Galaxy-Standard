@@ -49,8 +49,6 @@ gal::dll::deleter::deleter(deleter&& d):
 }
 void			gal::dll::deleter::operator()(gal::_release * p)
 {
-	printv_func(DEBUG);
-
 	assert(p);
 
 	p->release();

@@ -60,33 +60,28 @@ namespace gal { namespace stl {
 		wrapper(): 
 			factory_(factory<T>::default_factory_)
 		{
-			printv(DEBUG, "wrapper default ctor\n");
 			assert(!factory_.expired());
 		}
 		wrapper(S && ptr):
 			ptr_(std::move(ptr)),
 			factory_(factory<T>::default_factory_)
 		{
-			printv(DEBUG, "wrapper ctor 1\n");
 			assert(ptr_);
 		}
 		wrapper(wrapper<T, S_> const & w):
 			ptr_(w.ptr_),
 			factory_(w.factory_)
 		{
-			printv(DEBUG, "wrapper copy ctor\n");
 			assert(ptr_);
 		}
 		wrapper(wrapper<T, S_>&& w):
 			ptr_(std::move(w.ptr_)),
 			factory_(std::move(w.factory_))
 		{
-			printv(DEBUG, "wrapper move ctor\n");
 			assert(ptr_);
 		}
 		virtual ~wrapper()
 		{
-			printv(DEBUG, "%s\n", __PRETTY_FUNCTION__);
 		}
 		void					release()
 		{

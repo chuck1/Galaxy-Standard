@@ -15,11 +15,11 @@ THIS::managed_object():
 	//_M_index(-1),
 	//_M_index_creation(-1)
 {
-	printv_func(DEBUG);
+	//printv_func(DEBUG);
 }
 THIS::~managed_object()
 {
-	printv_func(DEBUG);
+	//printv_func(DEBUG);
 }
 void    		        THIS::init(registry_type * r)
 //void    		        THIS::init(gal::managed_object * p)

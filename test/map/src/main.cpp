@@ -34,29 +34,42 @@ struct foo: gal::managed_object
 
 int main()
 {
+	std::shared_ptr<gal::tmp::VerbosityRegistry> vr(new gal::tmp::VerbosityRegistry);
+	vr->reg<gal::registry_base>("gal registry_base");
+	vr->reg<gal::registry_process>("gal registry_process");
+	vr->reg<gal::registry_object>("gal registry_object");
+	vr->reg<gal::managed_object>("gal managed_object");
+	vr->reg<gal::stl::map_base>("gal stl map_base");
+	
 	typedef gal::stl::map<foo, gal::unique_ptr<foo>> M;
 
 	typedef std::shared_ptr<bar> S_B;
 	typedef std::shared_ptr<M> S_M;
 	
 	std::shared_ptr<gal::registry_process> rp(new gal::registry_process);
+	rp->gal::verbosity_base::init(vr);
 	rp->init();
 	
 	S_B b(new bar);
+	b->gal::verbosity_base::init(vr);
 
 	rp->reg(b);
 
 	b->init();
 	
 	S_M pm(new M);
-	
+	pm->gal::verbosity_base::init(vr);
+
 	M & m = *pm;
 
 	m.init(b.get());
 
-	m.insert(M::S(new foo));
-	m.insert(M::S(new foo));
-	m.insert(M::S(new foo));
+	foo* f = new foo; f->gal::verbosity_base::init(vr);
+	m.insert(M::S(std::move(f)));
+	f = new foo; f->gal::verbosity_base::init(vr);
+	m.insert(M::S(std::move(f)));
+	f = new foo; f->gal::verbosity_base::init(vr);
+	m.insert(M::S(std::move(f)));
 	
 	m.begin();
 	m.end();

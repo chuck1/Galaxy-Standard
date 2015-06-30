@@ -15,15 +15,22 @@ int main()
 {
 	typedef gal::dll::helper<A, std::shared_ptr> H;
 
+	typedef gal::tmp::VerbosityRegistry VR;
+	std::shared_ptr<VR> vr(new VR);
+	vr->reg<gal::dll::helper_base>("gal dll helper_base");
+	vr->reg<gal::managed_object>("gal managed_object");
+
+
 	std::shared_ptr<H> h(new H(filename));
+	h->gal::verbosity_base::init(vr);
 	h->open();
 	h->add<A>("A");
 
 	auto a0 = h->make_shared<A>();
 	auto a1 = h->make_shared<A>();
-
+	
 	std::stringstream ss;
-
+	
 	// save
 	ba::polymorphic_binary_oarchive oar(ss);
 

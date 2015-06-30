@@ -17,6 +17,9 @@ namespace gal { namespace tmp {
 	 */
 	/*
 	 * the CRTP is used to disambiguate multiple inheritances of this class
+	 *
+	 * - every Verbosity<> object must be first initialized with a VR pointer
+	 * - do not ues print commands in constructor
 	 */
 	template<typename T>
 	class Verbosity:

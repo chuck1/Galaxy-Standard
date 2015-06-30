@@ -159,6 +159,9 @@ namespace gal { namespace dll {
 			
 			S<B> b = (*f)(args...);
 
+			// attempt to do verbosity registration here...
+			b->gal::verbosity_base::init(get_vr());
+
 			auto d = std::dynamic_pointer_cast<D>(b);
 			assert(d);
 
