@@ -3,6 +3,10 @@
 
 typedef gal::verbosity_base THIS;
 
+THIS::verbosity_base()
+{}
+THIS::~verbosity_base()
+{}
 void			THIS::init(std::shared_ptr<VR> r)
 {
 	assert(r);

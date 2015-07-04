@@ -12,6 +12,7 @@
 
 typedef std::vector< std::string > vec_str;
 
+/*
 namespace gal { namespace argparse {
 	struct Tag: gal::tmp::Verbosity<Tag>
 	{
@@ -33,5 +34,6 @@ namespace gal { namespace argparse {
 		std::string	long_;
 	};
 }}
+*/
 
 #endif

@@ -2,6 +2,7 @@
 #include <gal/argparse/Args.hpp>
 #include <gal/argparse/argparse.hpp>
 
+/*
 typedef std::vector< std::string > vec_str;
 
 typedef gal::argparse::Args THIS;
@@ -45,4 +46,4 @@ bool			THIS::has_long(std::string l)
 	}
 	return false;
 }
-
+*/

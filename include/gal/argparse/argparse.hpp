@@ -12,6 +12,7 @@
 
 typedef std::vector< std::string > vec_str;
 
+/*
 namespace gal { namespace argparse {
 	struct ValuesEmpty
 	{
@@ -21,5 +22,6 @@ namespace gal { namespace argparse {
 	vec_str		split(char * str);
 	vec_str		split(int ac, char ** av);
 }}
+*/
 
 #endif

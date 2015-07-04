@@ -12,6 +12,7 @@
 
 typedef std::vector< std::string > vec_str;
 
+/*
 namespace gal { namespace argparse {
 	struct Args
 	{
@@ -23,5 +24,6 @@ namespace gal { namespace argparse {
 		std::map< std::string, gal::argparse::Arg* >	arg_map_;
 	};
 }}
+*/
 
 #endif

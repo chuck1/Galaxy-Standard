@@ -15,6 +15,8 @@ enum
 };
 
 namespace gal {
+	class generic_factory;
+
 	class managed_object;
 	class managed_process;
 	class registry_object;

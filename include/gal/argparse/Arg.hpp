@@ -12,6 +12,7 @@
 
 typedef std::vector< std::string > vec_str;
 
+/*
 namespace gal { namespace argparse {
 	struct Arg: gal::tmp::Verbosity<Arg>
 	{
@@ -35,5 +36,5 @@ namespace gal { namespace argparse {
 		std::string	name_;
 	};
 }}
-
+*/
 #endif

@@ -2,6 +2,7 @@
 #include <gal/argparse/Arg.hpp>
 #include <gal/argparse/argparse.hpp>
 
+/*
 gal::argparse::Arg*		gal::argparse::make_arg(vec_str words)
 {
 	//printv(DEBUG, "make_arg");
@@ -70,4 +71,4 @@ vec_str			gal::argparse::split(int ac, char ** av)
 
 	return words;
 }
-
+*/
