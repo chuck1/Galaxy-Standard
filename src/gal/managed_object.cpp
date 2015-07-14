@@ -24,11 +24,13 @@ THIS::~managed_object()
 void    		        THIS::init(registry_type * r)
 //void    		        THIS::init(gal::managed_object * p)
 {
+	assert(r);
+
+	gal::verbosity_base::init(r->get_vr());
+
 	printv_func(DEBUG);
 
 	if(_M_flag.any(flag::INITIALIZED)) return;
-
-	assert(r);
 	
 	_M_registry_parent = r;
 	r->reg(shared_from_this());
