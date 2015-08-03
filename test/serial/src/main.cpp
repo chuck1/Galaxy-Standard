@@ -7,7 +7,7 @@
 
 #include <A.hpp>
 
-const char * filename = "/home/chuck/git/nebula/external/Galaxy/components/std/test/B/build/dynamic/libB.so";
+const char * filename = "/home/chuck/home/git/nebula/external/Galaxy/components/std/test/B/build/dynamic/libB.so";
 
 namespace ba = boost::archive;
 
