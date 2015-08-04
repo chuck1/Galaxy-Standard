@@ -2,7 +2,7 @@
 #define GAL_STD_TYPEDEF_HPP
 
 namespace gal {
-	typedef unsigned int			hash_type;
+	typedef size_t		hash_type;
 }
 
 #endif

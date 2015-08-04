@@ -14,10 +14,11 @@
 
 //#include <Nebula/App/BaseFactory.hh>
 
-#include <gal/managed_object.hpp>
-#include <gal/stl/factory.hpp>
+//#include <gal/managed_object.hpp>
+//#include <gal/stl/factory.hpp>
+#include <gal/typedef.hpp>
 #include <gal/stl/verbosity.hpp>
-#include <gal/dll/helper.hpp>
+//#include <gal/dll/helper.hpp>
 
 namespace ba = boost::archive;
 

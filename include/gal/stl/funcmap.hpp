@@ -8,6 +8,7 @@
 #include <gal/decl.hpp>
 #include <gal/typedef.hpp>
 #include <gal/stl/helper.hpp>
+#include <gal/stl/HashCode.hpp>
 
 namespace gal { namespace stl {
 
@@ -100,6 +101,17 @@ namespace gal { namespace stl {
 		func_type		_M_f;
 		CD			_M_cd;
 	};
+	/** @brief hash_code_less
+	 *
+	 */
+	class hash_code_less
+	{
+	public:
+		bool	operator()(gal::stl::HashCode const & h0, gal::stl::HashCode const & h1) const
+		{
+			return h0.hc < h1.hc;
+		}
+	};
 	/** @brief funcmap
 	 *
 	 * A map containing @c ::std::function objects with
@@ -118,7 +130,7 @@ namespace gal { namespace stl {
 		typedef S_<T>		shared_type;
 
 		typedef std::shared_ptr<__base_function>	S_F;
-		typedef std::map<long int, S_F>			map_type;
+		typedef std::map<gal::stl::HashCode, S_F, hash_code_less>		map_type;
 		typedef typename map_type::iterator		iter;
 	public:
 		funcmap() {}
@@ -208,8 +220,8 @@ namespace gal { namespace stl {
 		{
 			printf("funcmap entries:\n");
 			for(auto p : map_) {
-				printf("%16li %s\n",
-						p.first,
+				printf("%16lu %s\n",
+						p.first.hc,
 						p.second->signature());
 			}
 		}
@@ -217,7 +229,7 @@ namespace gal { namespace stl {
 		template<typename... A>
 		void			print_error_info(
 				const char * s,
-				size_t h)
+				gal::stl::HashCode h)
 		{
 			printf("%s\n", s);
 			printf("Args:\n");
@@ -226,11 +238,11 @@ namespace gal { namespace stl {
 					"T:   %32s\n"
 					"hash:%32lu\n",
 					typeid(T).name(),
-					h);
+					h.hc);
 		}
 		template<typename... Args>
 		std::shared_ptr< __function<T, Args...> >
-		find(size_t h)
+		find(gal::stl::HashCode h)
 		{
 			typedef __function<T, Args...> func_t;
 			
@@ -262,7 +274,7 @@ namespace gal { namespace stl {
 		}
 		template<typename CD, typename... A>
 		std::shared_ptr< __function_common_data<T, CD, A...> >
-		find_cd(size_t h)
+		find_cd(gal::stl::HashCode h)
 		{
 			typedef __function_common_data<T, CD, A...> func_t;
 			

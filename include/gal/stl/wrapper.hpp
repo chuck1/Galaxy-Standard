@@ -120,7 +120,7 @@ namespace gal { namespace stl {
 				std::string n = ptr_->name();
 
 				printv(DEBUG, "name     = %s\n", n.c_str());
-				printv(DEBUG, "hashcode = %i\n", h);
+				printv(DEBUG, "hashcode = %lu\n", h);
 
 				ar << bs::make_nvp("hashcode", h);
 			}
@@ -176,7 +176,7 @@ namespace gal { namespace stl {
 
 			ar >> bs::make_nvp("hashcode", h);
 
-			printv(DEBUG, "hashcode = %i\n", h);
+			printv(DEBUG, "hashcode = %lu\n", h);
 
 			// get the factory
 			auto fs = factory_.lock();

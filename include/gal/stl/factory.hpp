@@ -21,11 +21,11 @@ namespace gal { namespace stl {
 		 * like local and remote??? how does this work?
 		 */
 		template<typename T>
-		class factory: public gal::stl::funcmap<T>
+		class factory: public gal::stl::funcmap<T, std::shared_ptr>
 		{
 		public:
 			typedef std::shared_ptr<T>	shared;
-			typedef gal::stl::funcmap<T>	fm;
+			typedef gal::stl::funcmap<T, std::shared_ptr>	fm;
 			/** */
 			template<typename... Args>
 			shared				alloc(size_t h, Args&&... args)
