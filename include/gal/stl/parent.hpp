@@ -37,8 +37,7 @@ namespace gal { namespace stl {
 		void			register_all(gal::registry_object * r)
 		{
 			assert_map();
-			auto l = [&](S & s)
-			{
+			auto l = [&] (S & s) {
 				s->register_all(r);
 			};
 			map_->for_each(l);
@@ -47,6 +46,7 @@ namespace gal { namespace stl {
 				gal::process_index p0,
 				gal::process_index p1)
 		{
+			assert_map();
 			map_->change_process_index(p0, p1);
 		}
 		void			insert(S && s)
