@@ -101,8 +101,7 @@ namespace gal { namespace stl {
 			printv(DEBUG, "del = %p\n", del);
 
 			int load_type;
-			if(del)
-			{
+			if(del) {
 				printv(DEBUG, "dynamic\n");
 
 				load_type = 1;					
@@ -111,9 +110,7 @@ namespace gal { namespace stl {
 				auto hi = del->getHelperInfo();
 
 				ar << bs::make_nvp("helper", hi);
-			}
-			else
-			{
+			} else {
 				printv(DEBUG, "static\n");
 
 				load_type = 0;
@@ -165,6 +162,9 @@ namespace gal { namespace stl {
 			//ar >> bs::make_nvp("object", ptr_);
 			ptr_->v_load(ar);
 		}
+		/*
+		 * load static object
+		 */
 		template<class Archive>
 		void			load_0(
 				Archive & ar,
@@ -185,6 +185,9 @@ namespace gal { namespace stl {
 			// allocate the object
 			ptr_ = fs->template alloc<>(h);
 		}
+		/*
+		 * load dynamic object
+		 */
 		template<class Archive>
 		void			load_1(
 				Archive & ar,
