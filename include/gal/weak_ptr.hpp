@@ -56,29 +56,37 @@ namespace gal {
 			}
 			return 0;
 		}
+		/** @brief conversion */
 		template<typename T1>
 		operator gal::weak_ptr<T1>()
 		{
-			return gal::weak_ptr<T1>(std::move(std::static_pointer_cast<T1>(_M_ptr.lock())));
+			return gal::weak_ptr<T1>(std::move(
+						std::static_pointer_cast<T1>(_M_ptr.lock())));
 		}
+		/** @brief conversion */
 		template<typename T1>
 		operator gal::weak_ptr<T1>() const
 		{
-			return gal::weak_ptr<T1>(std::move(std::static_pointer_cast<T1>(_M_ptr.lock())));
+			return gal::weak_ptr<T1>(std::move(
+						std::static_pointer_cast<T1>(_M_ptr.lock())));
 		}
+		/** @brief conversion */
 		operator std::weak_ptr<T>()
 		{
 			return _M_ptr;
 		}
+		/** @brief conversion */
 		template<typename T1>
 		operator std::weak_ptr<T1>()
 		{
 			return std::static_pointer_cast<T1>(_M_ptr.lock());
 		}
+		/** @brief bool conversion */
 		operator bool() const
 		{
 			return (!_M_ptr.expired());
 		}
+		/** @brief access */
 		std::shared_ptr<T>	lock()
 		{
 			if(_M_ptr.expired()) {

@@ -79,7 +79,7 @@ namespace gal {
 		
 		
 		/** get index for this process */
-		gal::object_index		get_index() const;
+		gal::object_index		get_index();
 		gal::object_index		get_index(gal::process_index) const;
 		void				set_index(gal::object_index);
 
@@ -87,17 +87,20 @@ namespace gal {
 		virtual void			register_all(registry_type *);
 		registry_type *			get_registry();
 		registry_type const *		get_registry() const;
+		bool				has_registry() const;
 		virtual void			change_process_index(
 				gal::process_index p_old,
 				gal::process_index p_new);
-	public:
+
+		void				print_index_table() const;
+	private:
 		/**
 		 * used to find the gal::itf::regisry and register this
 		 * does not need to be immediate parent
 		 * can be any ancestor or at least just not a child
 		 */
 		registry_type *		_M_registry_parent;
-
+	public:
 		map_type		_M_index_table;
 
 

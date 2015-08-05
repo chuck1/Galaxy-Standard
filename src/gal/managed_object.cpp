@@ -30,24 +30,43 @@ void    		        THIS::init(registry_type * r)
 
 	printv_func(DEBUG);
 
-	if(_M_flag.any(flag::INITIALIZED)) return;
+	//if(_M_flag.any(flag::INITIALIZED)) return;
 	
-	_M_registry_parent = r;
-	r->reg(shared_from_this());
-	
-	_M_flag.set(flag::INITIALIZED);
+	// use _M_registry_parent to determine if this needs to be registered
+	if(_M_registry_parent == 0) {
+		printv(DEBUG, "managed_object registering\n");
+		_M_registry_parent = r;
+		r->reg(shared_from_this());
+	}
+	//_M_flag.set(flag::INITIALIZED);
 	
 	//printv(DEBUG, "_M_index = %i\n", _M_index);
 
 	//assert(_M_index != -1);
 }
-gal::object_index		THIS::get_index() const
+gal::object_index		THIS::get_index()
 {
 	printv_func(DEBUG);
 	
 	auto r = get_registry();
+	
+	gal::object_index i;
 
-	return get_index(r->_M_index);
+
+	try {
+		i = get_index(r->_M_index);
+	} catch(gal::error::no_index & e) {
+		// if
+		//   this does not have an index for the this_process
+		// then
+		//   register this with this_process
+		printv(DEBUG, "managed_object registering\n");
+		r->reg(shared_from_this());
+		// try again
+		i = get_index(r->_M_index);
+	}
+
+	return i;
 }
 gal::object_index		THIS::get_index(gal::process_index p) const
 {
@@ -62,17 +81,18 @@ gal::object_index		THIS::get_index(gal::process_index p) const
 
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
-		printv(DEBUG, "process index not found: %li\n", i);
-
-		printv(DEBUG, "entries are:\n");
+		if(0) { /// TODO need a good way to suppress this when the throw is going to be caught
+		printv(WARNING, "process index not found: %li\n", i);
+		printv(WARNING, "entries are:\n");
+		printv(WARNING, "%16s%16s%16s\n", "proc_idx", "obj_idx.p", "obj_idx.i");
 		for(auto e : _M_index_table) {
-			printv(WARNING, "%li %li %li\n",
+			printv(WARNING, "%16li%16li%16li\n",
 					e.first._M_i,
 					e.second._M_p._M_i,
 					e.second._M_i);
 		}
-
-		throw gal::error::no_index();
+		}
+		throw gal::error::no_index(__FILE__, __LINE__);
 	}
 
 	return it->second;
@@ -121,9 +141,21 @@ THIS::registry_type *		THIS::get_registry()
 	
 	printv(CRITICAL, "registry_parent is null and this is not a registry\n");
 
-	abort();
+	assert(0);
 	
 	return 0;
+}
+bool				THIS::has_registry() const
+{
+	if(_M_registry_parent) return true;
+	
+	// this could be a registry
+	auto r = dynamic_cast<registry_type const * const>(this);
+	if(r) {
+		//_M_registry_parent = r;
+		return true;
+	}
+	return false;
 }
 THIS::registry_type const *	THIS::get_registry() const
 {
@@ -189,5 +221,16 @@ void			THIS::save(
 	ar & BOOST_SERIALIZATION_NVP(_M_name);
 }
 
+void			THIS::print_index_table() const
+{
+	printf("index table\n");
+	printf("    %16s%16s%16s\n", "proc_idx", "obj_idx.p", "obj_idx.i");
+	for(auto e : _M_index_table) {
+		printf("    %16li%16li%16li\n",
+				e.first._M_i,
+				e.second._M_p._M_i,
+				e.second._M_i);
+	}
+}
 
 

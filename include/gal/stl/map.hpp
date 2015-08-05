@@ -104,7 +104,7 @@ namespace gal { namespace stl {
 			assert(s);
 			
 			// make sure index is initialized
-			s->gal::managed_object::init(_M_registry_parent);
+			s->gal::managed_object::init(get_registry());
 		
 			// get this_process index
 			gal::object_index i = s->gal::managed_object::get_index();

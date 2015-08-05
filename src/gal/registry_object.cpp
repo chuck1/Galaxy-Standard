@@ -30,13 +30,10 @@ void			THIS::insert(S s)
 	printv_func(DEBUG);
 
 	typedef std::pair<typename map_type::iterator, bool> PAIR;
-	
-	if(s->_M_registry_parent != 0) {
-		printv(DEBUG, "registry_parent already set\n");
-	}
-	
-	s->_M_registry_parent = this;
 
+	// register the object if not already
+	s->gal::managed_object::init(this);
+	
 	for(auto i : s->_M_index_table) {
 
 		PAIR p = _M_map.insert(
@@ -56,10 +53,10 @@ void			THIS::insert(S s)
 				printv(DEBUG, "index already inserted\n");
 			} else {
 				printv(CRITICAL, "duplicate index error\n");
-				abort();
+				assert(0);
 			}
 		} else {
-			printv(DEBUG, "index inserted: %li %li\n",
+			printv(INFO, "index inserted: %8li%8li\n",
 					i.second._M_p,
 					i.second._M_i);
 		}
@@ -78,8 +75,8 @@ void		THIS::set_index(gal::process_index p)
 }
 void		THIS::set_process_index(gal::process_index p_new)
 {
-	printv_func(DEBUG);
-	printv(DEBUG, "_M_map.size(): %u p_old = %li p_new = %li\n",
+	printv_func(INFO);
+	printv(INFO, "_M_map.size(): %u p_old = %li p_new = %li\n",
 			_M_map.size(), _M_index._M_i, p_new._M_i);
 
 	gal::process_index p_old = _M_index;
@@ -102,7 +99,7 @@ void		THIS::set_process_index(gal::process_index p_new)
 		}
 	}
 
-	printv(DEBUG, "v.size(): %u\n", v.size());
+	printv(INFO, "v.size(): %u\n", v.size());
 
 	auto it2 = v.begin();
 	while(it2 != v.end()) {
@@ -116,7 +113,14 @@ void		THIS::set_process_index(gal::process_index p_new)
 	
 	_M_map.insert(v.begin(), v.end());
 }
-
+void		THIS::print_table()
+{
+	printf("registry object table\n");
+	printf("    %16s%16s%16s\n", "p", "i", "ptr");
+	for(auto e : _M_map) {
+		printf("    %16li%16li%16p\n", e.first._M_p._M_i, e.first._M_i, e.second.lock().get());
+	}
+}
 
 
 

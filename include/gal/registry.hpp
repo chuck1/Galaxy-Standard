@@ -15,7 +15,8 @@ namespace gal {
 		public gal::tmp::Verbosity< gal::registry_base >
 	{
 	};
-	template<typename index_type_,
+	template<
+		typename index_type_,
 		typename T_,
 		typename index_less_type_ = std::less<T_> >
 	class registry:
@@ -47,8 +48,14 @@ namespace gal {
 		}
 
 		virtual index_type	first() = 0;
-		virtual index_type	get_index(S) = 0;
-		virtual void		set_index(S, index_type) = 0;
+		/**
+		 * get the this_process index for object s
+		 */
+		virtual index_type	get_index(S s) = 0;
+		/**
+		 * set the this_process index for object s
+		 */
+		virtual void		set_index(S s, index_type) = 0;
 		virtual void		insert(S) = 0;
 
 		index_type_		next()
@@ -60,27 +67,22 @@ namespace gal {
 		{
 			printv_func(DEBUG);
 
+			// why??
 			if(!_M_ready) {
 				abort();
 			}
-
-			//gal::managed_object* s0 = s.get();
-
-			//if(s->_M_index == -1) {
-
+			
 			// check to see it the object has an index with this_process
-			try {	
-				//s->get_index(_M_process_index);
+			try {
+				// try getting the index
 				get_index(s);
 			} catch(gal::error::no_index& e) {
-				//s->set_index(gal::object_index(
-				//	_M_process_index,
-				//     	_M_next++));
+				// if not, use the next available index
 				set_index(s, next());
 			}
 			
+			// insert each entry of the index table for s into this registry
 			insert(s);
-
 		}
 		S		get(index_type i)
 		{

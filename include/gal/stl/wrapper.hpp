@@ -145,10 +145,11 @@ namespace gal { namespace stl {
 			} else {
 				abort();
 			}
-			
-			if(_M_registry_parent) {
+		
+			if(gal::managed_object::has_registry()) {
+				auto r = get_registry();
 				//ptr_->init_shared(_M_registry_parent);
-				ptr_->gal::managed_object::init(_M_registry_parent);
+				ptr_->gal::managed_object::init(r);
 			} else {
 				auto ar1 = dynamic_cast<gal::archive::archive*>(&ar);
 				assert(ar1);

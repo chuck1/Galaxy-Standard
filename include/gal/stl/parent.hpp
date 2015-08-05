@@ -4,6 +4,7 @@
 #include <gal/stl/map.hpp>
 #include <gal/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
+#include <gal/stl/child.hpp>
 
 namespace gal { namespace stl {
 	class parent_base:
@@ -133,15 +134,45 @@ namespace gal { namespace stl {
 				map_->init(get_registry());
 			}
 		}
+
 		template<typename ARCHIVE>
-		void			serialize(
+		void			load(
 				ARCHIVE & ar,
 				unsigned int const & version)
 		{
 			printv_func(DEBUG);
 			assert_map();
 			ar & boost::serialization::make_nvp("map", *map_);
+
+			// set the parent of each object
+			auto p = dynamic_cast<typename T::parent_t *>(this);
+
+			auto l = [&] (T & t) {
+				try {
+					t.init(p);
+				} catch(gal::stl::child_util::exception_parent_is_null & e) {
+					// if 
+					//   initialization fails because an ancestor of
+					//   t has a null parent
+					// then
+					//   not an error
+				}
+			};
+			
+			map_->for_each(l);
 		}
+		template<typename ARCHIVE>
+		void			save(
+				ARCHIVE & ar,
+				unsigned int const & version) const
+		{
+			printv_func(DEBUG);
+			//assert_map();
+			assert(map_);
+			ar & boost::serialization::make_nvp("map", *map_);
+		}
+		BOOST_SERIALIZATION_SPLIT_MEMBER();
+
 		void			thread_erase(gal::object_index i)
 		{
 			map_->erase(i);
