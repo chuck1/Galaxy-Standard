@@ -56,6 +56,7 @@ namespace gal {
 		virtual void		insert(S s);
 
 		void			set_process_index(gal::process_index);
+	private:
 	};
 }
 

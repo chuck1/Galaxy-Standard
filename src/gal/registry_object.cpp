@@ -28,6 +28,8 @@ void			THIS::set_index(S s, index_type i)
 void			THIS::insert(S s)
 {
 	printv_func(DEBUG);
+	// lock
+	std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
 	typedef std::pair<typename map_type::iterator, bool> PAIR;
 
@@ -53,10 +55,15 @@ void			THIS::insert(S s)
 				printv(DEBUG, "index already inserted\n");
 			} else {
 				printv(CRITICAL, "duplicate index error\n");
+				printv(CRITICAL, "s0 = %16p %s\n", s.get(), typeid(*s).name());
+				printv(CRITICAL, "s1 = %16p %s\n", s1.get(), typeid(*s).name());
+				printv(CRITICAL, "p = %16li, i = %16li\n",
+					i.second._M_p,
+					i.second._M_i);
 				assert(0);
 			}
 		} else {
-			printv(INFO, "index inserted: %8li%8li\n",
+			printv(DEBUG, "index inserted: %8li%8li\n",
 					i.second._M_p,
 					i.second._M_i);
 		}
@@ -66,6 +73,8 @@ void			THIS::insert(S s)
 void		THIS::set_index(gal::process_index p)
 {
 	printv_func(DEBUG);
+	// lock
+	std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
 	set_process_index(p);
 
@@ -76,6 +85,9 @@ void		THIS::set_index(gal::process_index p)
 void		THIS::set_process_index(gal::process_index p_new)
 {
 	printv_func(INFO);
+	// lock
+	std::lock_guard<std::recursive_mutex> lg(_M_mutex);
+
 	printv(INFO, "_M_map.size(): %u p_old = %li p_new = %li\n",
 			_M_map.size(), _M_index._M_i, p_new._M_i);
 
@@ -84,6 +96,8 @@ void		THIS::set_process_index(gal::process_index p_new)
 	std::vector< std::pair<
 		gal::object_index,
 		std::weak_ptr<gal::managed_object>> > v;
+
+	printv(INFO, "m.size(): %u\n", _M_map.size());
 
 	auto it = _M_map.begin();
 	while(it != _M_map.end()) {
@@ -95,6 +109,7 @@ void		THIS::set_process_index(gal::process_index p_new)
 					it->second);
 			it = _M_map.erase(it);
 		} else {
+			printf("not changing %li %li\n", o._M_p._M_i, o._M_i);
 			it++;
 		}
 	}
@@ -103,22 +118,32 @@ void		THIS::set_process_index(gal::process_index p_new)
 
 	auto it2 = v.begin();
 	while(it2 != v.end()) {
-		if(it2->second.expired()) {
+		auto s = it2->second.lock();
+		if(!s) {
 			it2 = v.erase(it2);
 		} else {
-			it2->second.lock()->change_process_index(p_old, p_new);
+			s->change_process_index(p_old, p_new);
 			it2++;
 		}
 	}
+
+	printv(INFO, "m.size(): %u\n", _M_map.size());
 	
 	_M_map.insert(v.begin(), v.end());
+
+	print_table();
 }
 void		THIS::print_table()
 {
+	// lock
+	std::lock_guard<std::recursive_mutex> lg(_M_mutex);
+
 	printf("registry object table\n");
 	printf("    %16s%16s%16s\n", "p", "i", "ptr");
 	for(auto e : _M_map) {
-		printf("    %16li%16li%16p\n", e.first._M_p._M_i, e.first._M_i, e.second.lock().get());
+		auto s = e.second.lock();
+		assert(s);
+		printf("    %16li%16li%16p\n", e.first._M_p._M_i, e.first._M_i, s.get());
 	}
 }
 

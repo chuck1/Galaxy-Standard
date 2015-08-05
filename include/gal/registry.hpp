@@ -3,7 +3,7 @@
 
 #include <map>
 #include <memory>
-
+#include <mutex>
 #include <gal/decl.hpp>
 #include <gal/stl/verbosity.hpp>
 #include <gal/error/no_index.hpp>
@@ -66,6 +66,8 @@ namespace gal {
 		virtual void		reg(S s)
 		{
 			printv_func(DEBUG);
+			// lock
+			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
 			// why??
 			if(!_M_ready) {
@@ -87,6 +89,9 @@ namespace gal {
 		S		get(index_type i)
 		{
 			printv_func(DEBUG);
+			// lock
+			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
+
 			auto it = _M_map.find(i);
 			if(it == _M_map.cend()) {
 				throw gal::error::item_not_found();
@@ -97,6 +102,9 @@ namespace gal {
 		index_type_		_M_next;
 		map_type		_M_map;
 		bool			_M_ready;
+	protected:
+		/** general mutex for various operations */
+		std::recursive_mutex	_M_mutex;
 	};
 
 /*	class object_registry:
