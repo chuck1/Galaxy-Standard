@@ -4,7 +4,7 @@
 #include <gal/stl/map.hpp>
 #include <gal/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
-#include <gal/stl/child.hpp>
+#include <gal/object/Child.hpp>
 
 namespace gal { namespace stl {
 	class parent_base:
@@ -150,7 +150,7 @@ namespace gal { namespace stl {
 			auto l = [&] (T & t) {
 				try {
 					t.init(p);
-				} catch(gal::stl::child_util::exception_parent_is_null & e) {
+				} catch(gal::object::child_util::exception_parent_is_null & e) {
 					// if 
 					//   initialization fails because an ancestor of
 					//   t has a null parent

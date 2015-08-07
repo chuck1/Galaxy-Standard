@@ -83,7 +83,7 @@ gal::object_index		THIS::get_index(gal::process_index p) const
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
 		/// TODO need a good way to suppress this when the throw is going to be caught
-		if(1) { 
+		if(0) { 
 		printv(WARNING, "process index not found: %li\n", i);
 		printv(WARNING, "entries are:\n");
 		printv(WARNING, "%16s%16s%16s\n", "proc_idx", "obj_idx.p", "obj_idx.i");

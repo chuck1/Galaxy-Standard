@@ -1,5 +1,5 @@
-#ifndef GAL_STD_RELEASE_HH
-#define GAL_STD_RELEASE_HH
+#ifndef GAL_STD_RELEASE_HPP
+#define GAL_STD_RELEASE_HPP
 
 #include <boost/signals2.hpp>
 
@@ -22,13 +22,20 @@
  *     bad: confusing, therefore probably hard to maintain
  *          MULTIPLE INHERITANCE OF DIFFERENT TEMPLATE VERSIONS OF BASE CLASS
  */
+
+#include <gal/shared.hpp>
+
 namespace gal {
-	class _release
+	class _release:
+		virtual public gal::enable_shared_from_this<gal::_release>
 	{
 	public:
+		typedef std::shared_ptr<gal::_release> S;
+		typedef boost::signals2::signal<void(S)> SIGNAL;
+
 		virtual ~_release();
-		virtual void				release();
-		boost::signals2::signal<void()>		sig_release_;
+		virtual void			release();
+		SIGNAL				sig_release_;
 	};
 }
 

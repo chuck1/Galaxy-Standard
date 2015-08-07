@@ -9,7 +9,9 @@
 
 #include <gal/managed_object.hpp>
 
-namespace gal { namespace stl {
+#include<gal/object/ChildBase.hpp>
+
+namespace gal { namespace object {
 	namespace child_util {
 		/**
 		 * use only with getParent function
@@ -18,9 +20,10 @@ namespace gal { namespace stl {
 		{
 		};
 	}
-
+	
 	template<typename T>
-	class child:
+	class Child:
+		virtual public gal::object::ChildBase,
 		virtual public gal::managed_object
 	{
 	public:
@@ -30,10 +33,10 @@ namespace gal { namespace stl {
 		 * exists so you don't have to call every constructor
 		 * for every class in a virtual class hierarchy
 		 */
-		child(): _M_parent(0)
+		Child(): _M_parent(0)
 		{
 		}
-		child(T* p): _M_parent(p)
+		Child(T* p): _M_parent(p)
 		{
 			assert(p);
 		}
@@ -45,7 +48,7 @@ namespace gal { namespace stl {
 			 * it needs to be removed or changed as
 			 * some classes cannot be converted as is
 			 */
-			//assert(dynamic_cast<gal::stl::child<T>*>(p) != this);
+			//assert(dynamic_cast<gal::object::Child<T>*>(p) != this);
 		
 			auto r = dynamic_cast<gal::managed_object::registry_type*>(p);
 			if(!r) {
