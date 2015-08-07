@@ -69,6 +69,7 @@ namespace gal {
 			gal::object_index,
 			gal::managed_object,
 			gal::less_index>;
+		friend class gal::registry_object;
 
 		friend class boost::serialization::access;
 
@@ -88,11 +89,13 @@ namespace gal {
 		registry_type *			get_registry();
 		registry_type const *		get_registry() const;
 		bool				has_registry() const;
+
+		void				print_index_table() const;
+	protected:
 		virtual void			change_process_index(
 				gal::process_index p_old,
 				gal::process_index p_new);
 
-		void				print_index_table() const;
 	private:
 		/**
 		 * used to find the gal::itf::regisry and register this

@@ -26,8 +26,9 @@ namespace gal { namespace tmp {
 			std::string str = typeid(T).name();
 
 			_M_vec.insert(_M_vec.end(), tuple_type(str, nickname, i));
-	
-			printf("inserted:\n"
+			
+
+			if(DEBUG >= my_level()) printf("inserted:\n"
 					"\t%s\n"
 					"\t%s\n"
 					"\t%i\n",
@@ -41,6 +42,10 @@ namespace gal { namespace tmp {
 				std::string nickname,
 				int i);
 		vec_type		_M_vec;
+		
+	private:
+		/** control verb level of this */
+		int			my_level();
 	};
 }}
 

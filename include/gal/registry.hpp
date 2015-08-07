@@ -41,8 +41,11 @@ namespace gal {
 			_M_ready=(std::move(r._M_ready));
 			return *this;
 		}
-		void			init()
+		virtual void		init()
 		{
+			// lock
+			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
+
 			_M_next = first();
 			_M_ready = true;
 		}
@@ -60,14 +63,18 @@ namespace gal {
 
 		index_type_		next()
 		{
+			// lock
+			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
+
 			printv_func(DEBUG);
+
 			return _M_next++;
 		}
 		virtual void		reg(S s)
 		{
-			printv_func(DEBUG);
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
+			printv_func(DEBUG);
 
 			// why??
 			if(!_M_ready) {
@@ -88,9 +95,10 @@ namespace gal {
 		}
 		S		get(index_type i)
 		{
-			printv_func(DEBUG);
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
+
+			printv_func(DEBUG);
 
 			auto it = _M_map.find(i);
 			if(it == _M_map.cend()) {
@@ -98,7 +106,7 @@ namespace gal {
 			}
 			return it->second.lock();
 		}
-
+	protected:
 		index_type_		_M_next;
 		map_type		_M_map;
 		bool			_M_ready;

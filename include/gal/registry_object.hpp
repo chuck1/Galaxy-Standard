@@ -14,7 +14,7 @@
 namespace gal {
 	class registry_object:
 		virtual public gal::tmp::Verbosity<gal::registry_object>,
-		virtual public gal::registry<
+		virtual private gal::registry<
 				gal::object_index,
 				gal::managed_object,
 				gal::less_index>,
@@ -28,6 +28,8 @@ namespace gal {
 				gal::managed_object,
 				gal::less_index> BASE_REGISTRY;
 
+		typedef typename BASE_REGISTRY::S S;
+
 		registry_object();
 		
 		registry_object&	operator=(registry_object&& ro)
@@ -36,8 +38,15 @@ namespace gal {
 			return *this;
 		}
 
-		//S			get(gal::object_index i);
-		
+		/**
+		 * implemented so gal::registry<> can be private inherited
+		 */
+		virtual void		init();
+		virtual void		reg(S s);
+		S			get(gal::object_index i);
+
+
+	
 		virtual index_type	first();
 		virtual index_type	get_index(S);
 		virtual void		set_index(S, index_type);

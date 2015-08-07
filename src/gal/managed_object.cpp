@@ -71,7 +71,8 @@ gal::object_index		THIS::get_index()
 gal::object_index		THIS::get_index(gal::process_index p) const
 {
 	printv_func(DEBUG);
-	
+	printv(DEBUG, "  p = %li\n", p);
+
 	long i = p._M_i;
 
 	if(i == -1) {
@@ -81,7 +82,8 @@ gal::object_index		THIS::get_index(gal::process_index p) const
 
 	auto it = _M_index_table.find(p);
 	if(it == _M_index_table.cend()) {
-		if(0) { /// TODO need a good way to suppress this when the throw is going to be caught
+		/// TODO need a good way to suppress this when the throw is going to be caught
+		if(1) { 
 		printv(WARNING, "process index not found: %li\n", i);
 		printv(WARNING, "entries are:\n");
 		printv(WARNING, "%16s%16s%16s\n", "proc_idx", "obj_idx.p", "obj_idx.i");
@@ -184,22 +186,38 @@ void				THIS::change_process_index(
 
 	std::vector< std::pair<gal::process_index, gal::object_index> > v;
 
+	//printf("before\n");
+	//print_index_table();
+
+	if(_M_index_table.empty()) {
+		printv(DEBUG, "index table is empty\n");
+	}
+
 	auto it = _M_index_table.begin();
 	while(it != _M_index_table.end()) {
-		if(it->first == p_old) {
+		auto p = it->first;
+		if(p == p_old) {
 			printv(DEBUG, "change process index from "
 					"%li to %li. object index: %li\n",
-					p_old, p_new, it->second._M_i);
+					p, p_new, it->second._M_i);
 
 			v.emplace_back(p_new,
 					gal::object_index(p_new, it->second._M_i));
+
 			it = _M_index_table.erase(it);
 		} else {
+			printv(DEBUG, "DO NOT change process index from "
+					"%li to %li. object index: %li\n",
+					p, p_new, it->second._M_i);
 			it++;
 		}
 	}
 
 	_M_index_table.insert(v.begin(), v.end());
+
+
+	//printf("after\n");
+	//print_index_table();
 
 }
 void			THIS::load(

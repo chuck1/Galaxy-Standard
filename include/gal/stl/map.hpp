@@ -322,6 +322,9 @@ namespace gal { namespace stl {
 					container_.size(),
 					p_old._M_i,
 					p_new._M_i);
+
+			// do base class
+			gal::managed_object::change_process_index(p_old, p_new);
 			
 			//typedef std::pair<gal::object_index, wrapper_type> P;
 			typedef std::pair<gal::object_index, S> P;

@@ -17,10 +17,8 @@ THIS::index_type	THIS::get_index(S s)
 
 	gal::process_index p = s->gal::managed_process::get_index();
 
-	if(p._M_i == -1) {
-		printf("registry process p._M_i == -1\n");
+	if(p._M_i == -1)
 		throw gal::error::no_index(__FILE__, __LINE__);
-	}
 	
 	return p;
 }

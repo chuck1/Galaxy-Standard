@@ -2,6 +2,10 @@
 
 typedef gal::tmp::VerbosityRegistry THIS;
 
+int			THIS::my_level()
+{
+	return INFO;
+}
 void			THIS::set(
 		std::string nickname,
 		int i)
@@ -16,7 +20,7 @@ void			THIS::set(
 	}
 	
 	//throw gal::verb::error::not_registered(nickname.c_str());
-	printf("verb set: not registered %s\n", nickname.c_str());
+	if(DEBUG >= my_level()) printf("verb set: not registered %s\n", nickname.c_str());
 }
 int			THIS::get(std::string str)
 {
