@@ -7,7 +7,7 @@ THIS::~_release()
 }
 void		THIS::release()
 {
-        sig_release_(shared_from_this());
+        sig_release_(this);
 }
 
 

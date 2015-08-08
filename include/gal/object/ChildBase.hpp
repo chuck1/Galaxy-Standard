@@ -25,7 +25,7 @@ namespace gal { namespace object {
 		
 		S_P		get_parent_base();
 	protected:
-		W_P		_M_parent;
+		W_P		_M_parent_base;
 	};
 	
 

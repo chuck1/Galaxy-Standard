@@ -31,7 +31,8 @@ namespace gal {
 	{
 	public:
 		typedef std::shared_ptr<gal::_release> S;
-		typedef boost::signals2::signal<void(S)> SIGNAL;
+		//typedef boost::signals2::signal<void(S)> SIGNAL;
+		typedef boost::signals2::signal<void(gal::_release *)> SIGNAL;
 
 		virtual ~_release();
 		virtual void			release();
