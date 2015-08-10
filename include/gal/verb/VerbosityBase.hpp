@@ -6,8 +6,9 @@
 
 #include <gal/decl.hpp>
 
-namespace gal {
-	class verbosity_base
+namespace gal { namespace verb {
+
+	class VerbosityBase
 	{
 	public:
 		friend class gal::generic_factory;
@@ -17,15 +18,16 @@ namespace gal {
 		typedef std::shared_ptr<VR>	S_VR;
 	protected:
 	//private:
-		verbosity_base();
+		VerbosityBase();
 	public:
-		virtual ~verbosity_base();
+		virtual ~VerbosityBase();
 		void			init(std::shared_ptr<VR> r);
 		S_VR			get_vr() const;
 
 		W_VR			_M_reg;
 	};
-}
+
+}}
 
 #endif
 

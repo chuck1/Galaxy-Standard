@@ -7,13 +7,13 @@
 
 namespace ba = boost::archive;
 
-#include <gal/_release.hpp>
+#include <gal/object/ChildBase.hpp>
+
 #include <gal/managed_object.hpp>
 
 struct A:
-	virtual gal::_release,
+	virtual gal::object::ChildBase,
 	virtual gal::managed_object
-
 {
 	virtual ~A() {}
 	virtual void foo() = 0;

@@ -25,7 +25,7 @@ namespace gal { namespace dll {
 			_M_name(n),
 			_M_pd(NULL)
 		{}
-		virtual void	operator()(gal::_release * r)
+		virtual void	operator()(gal::object::ChildBase * r)
 		{
 			D* d = dynamic_cast<D*>(r);
 			if(!d) {

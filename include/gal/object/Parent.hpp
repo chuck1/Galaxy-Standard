@@ -5,14 +5,9 @@
 #include <gal/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
 #include <gal/object/Child.hpp>
+#include <gal/object/ParentBase.hpp>
 
 namespace gal { namespace object {
-	class ParentBase:
-		virtual public gal::tmp::Verbosity<gal::object::ParentBase>
-	{
-	public:
-		using gal::tmp::Verbosity<gal::object::ParentBase>::printv;
-	};
 
 	template< typename T, typename S_ = std::shared_ptr<T> >
 	class Parent:
@@ -20,7 +15,7 @@ namespace gal { namespace object {
 		virtual public gal::managed_object
 	{
 	public:
-		using gal::tmp::Verbosity<gal::object::ParentBase>::printv;
+		using gal::verb::Verbosity<gal::object::ParentBase>::printv;
 		
 		friend class boost::serialization::access;
 		
@@ -81,15 +76,25 @@ namespace gal { namespace object {
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
-			auto self = std::dynamic_pointer_cast< gal::object::Parent< T > >(shared_from_this());
+			typedef gal::object::Parent< T,S > TYPE;
+
+			auto self = std::dynamic_pointer_cast<TYPE>(shared_from_this());
 
 			boost::thread t(boost::bind(
-						&gal::object::Parent< T >::thread_erase,
+						&TYPE::thread_erase,
 						self,
 						i
 					));
 			
 			t.detach();
+		}
+		void			erase(
+				std::shared_ptr<gal::managed_object> s)
+		{
+			// lock
+			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
+
+			erase(s->get_index());
 		}
 		void			clear()
 		{
@@ -156,7 +161,7 @@ namespace gal { namespace object {
 		{
 			if(!_M_map) {
 				_M_map.reset(new MAP);
-				_M_map->gal::verbosity_base::init(get_vr());
+				_M_map->gal::verb::VerbosityBase::init(get_vr());
 				_M_map->init(get_registry());
 			}
 		}
@@ -204,7 +209,7 @@ namespace gal { namespace object {
 			ar & boost::serialization::make_nvp("map", *_M_map);
 		}
 		BOOST_SERIALIZATION_SPLIT_MEMBER();
-
+	protected:
 		void			thread_erase(gal::object_index i)
 		{
 			// lock
@@ -212,6 +217,7 @@ namespace gal { namespace object {
 
 			_M_map->erase(i);
 		}
+	private:
 		/** container */
 		MAP_S			_M_map;
 		/**

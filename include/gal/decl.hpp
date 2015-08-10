@@ -24,7 +24,7 @@ namespace gal {
 	template<typename, typename, typename>
 	class registry;
 	
-	class _release;
+	//class _release;
 
 	namespace error {
 		class no_index;

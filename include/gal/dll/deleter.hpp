@@ -9,17 +9,18 @@
 
 #include <gal/typedef.hpp>
 #include <gal/decl.hpp>
+#include <gal/object/util/decl.hpp>
 #include <gal/dll/helper_info.hpp>
 
 #include <boost/serialization/nvp.hpp>
 
 namespace gal { namespace dll {
 	struct deleter:
-		public gal::tmp::Verbosity<gal::dll::deleter>
+		public gal::verb::Verbosity<gal::dll::deleter>
 	{
 		public:
 			typedef std::shared_ptr<gal::dll::class_info_destroy_0> S_C;
-			typedef std::function<void(S_C, gal::_release *)> FUNC;
+			typedef std::function<void(S_C, gal::object::ChildBase *)> FUNC;
 
 			deleter(
 					std::shared_ptr<helper_base> h,
@@ -30,7 +31,7 @@ namespace gal { namespace dll {
 			deleter(deleter&& d);
 			deleter(deleter const & d);
 			helper_info const	getHelperInfo();
-			void			operator()(gal::_release * p);
+			void			operator()(gal::object::ChildBase * p);
 		//private:
 			std::shared_ptr<helper_base>		_M_helper;
 			FUNC					_M_delete;

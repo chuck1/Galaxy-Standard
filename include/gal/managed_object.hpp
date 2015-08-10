@@ -8,8 +8,9 @@
 #include <string>
 
 
-#include <gal/stl/verbosity.hpp>
-#include <gal/_release.hpp>
+#include <gal/verb/Verbosity.hpp>
+//#include <gal/_release.hpp>
+#include <gal/object/ChildBase.hpp>
 #include <gal/decl.hpp>
 #include <gal/typedef.hpp>
 
@@ -25,13 +26,13 @@
 #include <boost/archive/polymorphic_oarchive.hpp>
 #include <boost/serialization/string.hpp>
 
-#include <gal/stl/verbosity.hpp>
+#include <gal/verb/Verbosity.hpp>
 #include <gal/Flag.hpp>
 //#include <gal/itf/release.hpp>
 //#include <gal/itf/typedef.hpp>
 //#include <gal/decl.hpp>
 //#include <gal/itf/typedef.hpp>
-//#include <gal/stl/verbosity.hpp>
+//#include <gal/verb/Verbosity.hpp>
 #include <gal/shared.hpp>
 //#include <gal/object_index.hpp>
 //#include <gal/registry.hpp>
@@ -47,11 +48,11 @@ namespace gal {
 	 * Supply type info.
 	 */
 	class managed_object:
-		virtual public gal::tmp::Verbosity<gal::managed_object>,
+		virtual public gal::verb::Verbosity<gal::managed_object>,
 		virtual public gal::enable_shared_from_this<gal::managed_object>
 	{
 	public:
-		using gal::tmp::Verbosity<gal::managed_object>::printv;
+		using gal::verb::Verbosity<gal::managed_object>::printv;
 		using gal::enable_shared_from_this<gal::managed_object>::shared_from_this;
 
 		DEFINE_FLAG(flag, ((INITIALIZED)(1<<0)))

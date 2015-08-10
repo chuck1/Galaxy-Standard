@@ -25,12 +25,12 @@ namespace gal { namespace dll {
 	 */
 	class helper_base:
 		public gal::enable_shared_from_this<helper_base>,
-		public gal::tmp::Verbosity<gal::dll::helper_base>
+		public gal::verb::Verbosity<gal::dll::helper_base>
 	{
 	public:
 		using gal::enable_shared_from_this<
 			gal::dll::helper_base>::shared_from_this;
-		using gal::tmp::Verbosity<
+		using gal::verb::Verbosity<
 			gal::dll::helper_base>::printv;
 	};
 	template< class B_, template<typename T> class S_ >
@@ -81,14 +81,14 @@ namespace gal { namespace dll {
 			
 			auto lambda_delete = [] (
 					std::shared_ptr<CID0> c,
-					gal::_release * p)
+					gal::object::ChildBase * p)
 			{
 				assert(c);
 				(*c)(p);
 			};
 			
 			//typedef std::function<
-			//	void(CI, gal::_release *)> F;
+			//	void(CI, gal::object::ChildBase *)> F;
 			
 			gal::dll::deleter::FUNC func_delete(lambda_delete);
 
@@ -160,7 +160,7 @@ namespace gal { namespace dll {
 			S<B> b = (*f)(args...);
 
 			// attempt to do verbosity registration here...
-			b->gal::verbosity_base::init(get_vr());
+			b->gal::verb::VerbosityBase::init(get_vr());
 
 			auto d = std::dynamic_pointer_cast<D>(b);
 			assert(d);

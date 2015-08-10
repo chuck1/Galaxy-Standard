@@ -5,7 +5,7 @@
 #include <memory>
 
 #include <gal/decl.hpp>
-#include <gal/stl/verbosity.hpp>
+#include <gal/verb/Verbosity.hpp>
 #include <gal/object_index.hpp>
 
 #include <gal/registry.hpp>
@@ -13,7 +13,7 @@
 
 namespace gal {
 	class registry_object:
-		virtual public gal::tmp::Verbosity<gal::registry_object>,
+		virtual public gal::verb::Verbosity<gal::registry_object>,
 		virtual private gal::registry<
 				gal::object_index,
 				gal::managed_object,
@@ -21,7 +21,7 @@ namespace gal {
 		virtual public gal::managed_process
 	{
 	public:
-		using gal::tmp::Verbosity<gal::registry_object>::printv;
+		using gal::verb::Verbosity<gal::registry_object>::printv;
 
 		typedef gal::registry<
 				gal::object_index,

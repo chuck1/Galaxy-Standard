@@ -7,12 +7,12 @@
 #include <gal/decl.hpp>
 #include <gal/error/no_index.hpp>
 
-namespace gal { namespace tmp {
+namespace gal { namespace verb {
 	/**
 	 * store a register of strings and level pointers for use with config file
 	 */
 	class VerbosityRegistry
-		//public gal::tmp::Verbosity<gal::tmp::VerbosityRegister>
+		//public gal::verb::Verbosity<gal::tmp::VerbosityRegister>
 	{
 	public:
 		typedef std::tuple<std::string, std::string, int> tuple_type;
@@ -46,6 +46,16 @@ namespace gal { namespace tmp {
 	private:
 		/** control verb level of this */
 		int			my_level();
+		template<typename... Args>
+		void			printv(
+				int sl,
+				char const * fmt,
+				Args... args)
+		{
+			if(sl >= my_level()) {
+				printf(fmt, args...);
+			}
+		}
 	};
 }}
 

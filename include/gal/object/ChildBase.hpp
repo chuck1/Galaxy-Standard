@@ -23,9 +23,11 @@ namespace gal { namespace object {
 		typedef std::shared_ptr<gal::object::ParentBase>	S_P;
 		typedef std::weak_ptr<gal::object::ParentBase>		W_P;
 		
-		S_P		get_parent_base();
+		S_P			get_parent_base();
+
+		virtual void		release() = 0;
 	protected:
-		W_P		_M_parent_base;
+		W_P			_M_parent_base;
 	};
 	
 

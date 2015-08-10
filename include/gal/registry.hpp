@@ -5,14 +5,14 @@
 #include <memory>
 #include <mutex>
 #include <gal/decl.hpp>
-#include <gal/stl/verbosity.hpp>
+#include <gal/verb/Verbosity.hpp>
 #include <gal/error/no_index.hpp>
 
 #include <gal/object_index.hpp>
 
 namespace gal {
 	class registry_base:
-		public gal::tmp::Verbosity< gal::registry_base >
+		public gal::verb::Verbosity< gal::registry_base >
 	{
 	};
 	template<
@@ -116,14 +116,14 @@ namespace gal {
 	};
 
 /*	class object_registry:
-		public gal::tmp::Verbosity<gal::object_registry>,
+		public gal::verb::Verbosity<gal::object_registry>,
 		public registry<
 				gal::object_index,
 				gal::managed_object,
 				gal::less_index>	
 	{
 	public:
-		using gal::tmp::Verbosity<gal::object_registry>::printv;
+		using gal::verb::Verbosity<gal::object_registry>::printv;
 
 		object_registry()
 			//_M_process_index(0),

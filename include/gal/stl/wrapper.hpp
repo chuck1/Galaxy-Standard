@@ -18,7 +18,7 @@
 #include <gal/stl/HashCode.hpp>
 #include <gal/managed_object.hpp>
 #include <gal/stl/factory.hpp>
-#include <gal/stl/verbosity.hpp>
+#include <gal/verb/Verbosity.hpp>
 #include <gal/dll/helper.hpp>
 
 #include <gal/archive/archive.hpp>
@@ -28,10 +28,10 @@ namespace bs = boost::serialization;
 
 namespace gal { namespace stl {
 	class wrapper_base:
-		public gal::tmp::Verbosity< gal::stl::wrapper_base >
+		public gal::verb::Verbosity< gal::stl::wrapper_base >
 	{
 	public:
-		using gal::tmp::Verbosity< gal::stl::wrapper_base >::printv;
+		using gal::verb::Verbosity< gal::stl::wrapper_base >::printv;
 	};
 	template< typename T, typename S_ = std::shared_ptr<T> >
 	class wrapper:
@@ -229,7 +229,7 @@ namespace gal { namespace stl {
 	};
 }}
 
-//template< typename T, typename S > int gal::tmp::Verbosity< gal::stl::wrapper<T, S> >::_M_level = DEBUG;
+//template< typename T, typename S > int gal::verb::Verbosity< gal::stl::wrapper<T, S> >::_M_level = DEBUG;
 
 #endif
 

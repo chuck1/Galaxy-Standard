@@ -11,7 +11,7 @@ namespace gal { namespace dll {
 		class_info_destroy_0(gal::dll::deleter d):
 			_M_del(d)
 		{}
-		virtual void	operator()(gal::_release *) = 0;
+		virtual void	operator()(gal::object::ChildBase *) = 0;
 		gal::dll::deleter	_M_del;
 	};
 }}

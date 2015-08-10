@@ -26,7 +26,7 @@ void    		        THIS::init(registry_type * r)
 {
 	assert(r);
 
-	gal::verbosity_base::init(r->get_vr());
+	gal::verb::VerbosityBase::init(r->get_vr());
 
 	printv_func(DEBUG);
 

@@ -7,12 +7,12 @@
 
 #include <gal/etc/print.hpp>
 
-#include <gal/stl/verbosity_base.hpp>
-#include <gal/stl/verbosity_register.hpp>
+#include <gal/verb/VerbosityBase.hpp>
+#include <gal/verb/VerbosityRegistry.hpp>
 
 #define printv_func(level) printv(level, "%s\n", __PRETTY_FUNCTION__)
 
-namespace gal { namespace tmp {
+namespace gal { namespace verb {
 	/** log levels
 	 */
 	/*
@@ -23,12 +23,12 @@ namespace gal { namespace tmp {
 	 */
 	template<typename T>
 	class Verbosity:
-		virtual public gal::verbosity_base
+		virtual public gal::verb::VerbosityBase
 	{
-	protected:
+	public:
 		typedef gal::tmp::VerbosityRegistry VR;
 		typedef std::weak_ptr<VR> W_VR;
-
+	protected:
 		int			level() const
 		{
 			auto name = typeid(T).name();
@@ -59,7 +59,7 @@ namespace gal { namespace tmp {
 	};
 }}
 
-//template<typename T> int gal::tmp::Verbosity<T>::_M_level = INFO;
+//template<typename T> int gal::verb::Verbosity<T>::_M_level = INFO;
 
 #endif
 

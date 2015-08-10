@@ -17,13 +17,13 @@
 #include <gal/weak_ptr.hpp>
 #include <gal/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
-#include <gal/stl/verbosity.hpp>
+#include <gal/verb/Verbosity.hpp>
 
-namespace mi = boost::multi_index;
+//namespace mi = boost::multi_index;
 
 namespace gal { namespace stl {
 	class map_base:
-		virtual public gal::tmp::Verbosity<gal::stl::map_base>
+		virtual public gal::verb::Verbosity<gal::stl::map_base>
 	{
 	};
 	template <typename T_, class S_ = std::shared_ptr<T_> >
@@ -32,7 +32,7 @@ namespace gal { namespace stl {
 		virtual public gal::managed_object
 	{
 	public:
-		using gal::tmp::Verbosity<gal::stl::map_base>::printv;
+		using gal::verb::Verbosity<gal::stl::map_base>::printv;
 
 		class item_not_found:
 			virtual public std::exception

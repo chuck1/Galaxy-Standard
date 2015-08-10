@@ -3,7 +3,7 @@
 
 #include <gal/std/decl.hpp>
 #include <gal/itf/typedef.hpp>
-#include <gal/stl/verbosity.hpp>
+#include <gal/verb/Verbosity.hpp>
 #include <gal/shared.hpp>
 #include <gal/object_index.hpp>
 // gal/managed_object.hpp
@@ -11,7 +11,7 @@
 
 namespace gal { namespace itf {
 	class shared00:
-		public gal::tmp::Verbosity<gal::managed_object>,
+		public gal::verb::Verbosity<gal::managed_object>,
 		virtual public gal::enable_shared_from_this<shared00>
 	{
 	public:

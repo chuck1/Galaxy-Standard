@@ -1,6 +1,7 @@
-#include <gal/stl/verbosity_register.hpp>
+//#include <gal/verb/Verbosity.hpp>
+#include <gal/verb/VerbosityRegistry.hpp>
 
-typedef gal::tmp::VerbosityRegistry THIS;
+typedef gal::verb::VerbosityRegistry THIS;
 
 int			THIS::my_level()
 {
@@ -20,7 +21,7 @@ void			THIS::set(
 	}
 	
 	//throw gal::verb::error::not_registered(nickname.c_str());
-	if(DEBUG >= my_level()) printf("verb set: not registered %s\n", nickname.c_str());
+	printv(DEBUG, "verb set: not registered %s\n", nickname.c_str());
 }
 int			THIS::get(std::string str)
 {
@@ -31,8 +32,10 @@ int			THIS::get(std::string str)
 		}
 		it++;
 	}
-	printf("error: str=%s\n", str.c_str());
+	
+	printv(CRITICAL, "error: str=%s\n", str.c_str());
 	throw gal::verb::error::not_registered(str.c_str());
+
 	return 0;
 }
 

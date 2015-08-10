@@ -1,0 +1,2 @@
+#ifndef GAL_VERB_DECL_HPP
+#define GAL_VERB_DECL_HPP

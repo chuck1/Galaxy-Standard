@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <gal/_release.hpp>
+#include <gal/object/ChildBase.hpp>
 
 #include <gal/dll/helper.hpp>
 
@@ -47,7 +47,7 @@ gal::dll::deleter::deleter(deleter&& d):
 	//std::cout << "name " << hi_.name << std::endl;
 	//std::cout << "hc   " << hi_.hc << std::endl;
 }
-void			gal::dll::deleter::operator()(gal::_release * p)
+void			gal::dll::deleter::operator()(gal::object::ChildBase * p)
 {
 	assert(p);
 

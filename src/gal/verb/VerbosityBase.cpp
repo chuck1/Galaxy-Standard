@@ -1,11 +1,11 @@
 
-#include <gal/stl/verbosity_base.hpp>
+#include <gal/verb/VerbosityBase.hpp>
 
-typedef gal::verbosity_base THIS;
+typedef gal::verb::VerbosityBase THIS;
 
-THIS::verbosity_base()
+THIS::VerbosityBase()
 {}
-THIS::~verbosity_base()
+THIS::~VerbosityBase()
 {}
 void			THIS::init(std::shared_ptr<VR> r)
 {
