@@ -26,7 +26,7 @@ namespace gal { namespace verb {
 		virtual public gal::verb::VerbosityBase
 	{
 	public:
-		typedef gal::tmp::VerbosityRegistry VR;
+		typedef gal::verb::VerbosityRegistry VR;
 		typedef std::weak_ptr<VR> W_VR;
 	protected:
 		int			level() const

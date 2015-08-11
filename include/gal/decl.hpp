@@ -46,10 +46,6 @@ namespace gal {
 		class helper;
 		class class_info_destroy_0;
 	}
-	namespace tmp
-	{
-		class VerbosityRegistry;
-	}
 }
 
 #endif

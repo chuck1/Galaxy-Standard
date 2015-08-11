@@ -5,6 +5,7 @@
 #include <memory>
 
 #include <gal/decl.hpp>
+#include <gal/verb/decl.hpp>
 
 namespace gal { namespace verb {
 
@@ -13,7 +14,7 @@ namespace gal { namespace verb {
 	public:
 		friend class gal::generic_factory;
 
-		typedef gal::tmp::VerbosityRegistry VR;
+		typedef gal::verb::VerbosityRegistry VR;
 		typedef std::weak_ptr<VR>	W_VR;
 		typedef std::shared_ptr<VR>	S_VR;
 	protected:

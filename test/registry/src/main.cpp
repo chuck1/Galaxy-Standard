@@ -8,7 +8,7 @@
 #include <gal/stl/map.hpp>
 #include <gal/registry_object.hpp>
 #include <gal/registry_process.hpp>
-#include <gal/stl/verbosity_register.hpp>
+#include <gal/verb/VerbosityRegistry.hpp>
 
 namespace ba = boost::archive;
 
@@ -30,8 +30,8 @@ int main()
 {
 	try {
 
-	std::shared_ptr<gal::tmp::VerbosityRegistry> vr(
-			new gal::tmp::VerbosityRegistry);
+	std::shared_ptr<gal::verb::VerbosityRegistry> vr(
+			new gal::verb::VerbosityRegistry);
 	
 	vr->reg<gal::managed_process>("gal managed_process");
 	vr->reg<gal::managed_object>("gal managed_object");
@@ -48,12 +48,12 @@ int main()
 	// process registry
 	S_R0 r0(new R0);
 
-	r0->gal::verbosity_base::init(vr);
+	r0->gal::verb::VerbosityBase::init(vr);
 	r0->init();
 	
 	// object registry
 	S_R1 r1(new R1);
-	r1->gal::verbosity_base::init(vr);
+	r1->gal::verb::VerbosityBase::init(vr);
 
 	r0->reg(r1);
 
@@ -67,9 +67,9 @@ int main()
 	S_F f1(new foo);
 	S_F f2(new foo);
 
-	f0->gal::verbosity_base::init(vr);
-	f1->gal::verbosity_base::init(vr);
-	f2->gal::verbosity_base::init(vr);
+	f0->gal::verb::VerbosityBase::init(vr);
+	f1->gal::verb::VerbosityBase::init(vr);
+	f2->gal::verb::VerbosityBase::init(vr);
 
 	r1->reg(f0);
 	r1->reg(f1);

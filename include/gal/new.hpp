@@ -15,7 +15,7 @@ namespace gal {
 			return t;
 		}
 	private:
-		std::weak_ptr<gal::tmp::VerbosityRegistry>	_M_vr;
+		std::weak_ptr<gal::verb::VerbosityRegistry>	_M_vr;
 	};
 }
 
