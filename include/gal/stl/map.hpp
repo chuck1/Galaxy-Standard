@@ -86,6 +86,8 @@ namespace gal { namespace stl {
 		//void				init(gal::managed_object * parent)
 		void				init(gal::registry_object * parent)
 		{
+			printv_func(DEBUG);
+
 			gal::managed_object::init(parent);
 		}
 		void				release()
@@ -99,6 +101,8 @@ namespace gal { namespace stl {
 		}
 		void				insert(S && s)
 		{
+			printv_func(DEBUG);
+
 			boost::lock_guard<boost::mutex> lk(mutex_);
 			
 			assert(s);
@@ -221,6 +225,8 @@ namespace gal { namespace stl {
 		/** */
 		void			clear()
 		{
+			printv_func(DEBUG);
+
 			printv(DEBUG, "%s\n", __PRETTY_FUNCTION__);
 			boost::lock_guard<boost::mutex> lk(mutex_);
 			// replaced by deleter objects
@@ -283,6 +289,7 @@ namespace gal { namespace stl {
 		}
 		void			erase(gal::object_index i)
 		{
+			printv_func(DEBUG);
 
 			while(1) {	
 				boost::lock_guard<boost::mutex> lk(mutex_);
@@ -297,12 +304,16 @@ namespace gal { namespace stl {
 
 				// so deadlock can't occur:
 				// if object is already locked, release map then try again
-				if(!p->mutex_.try_lock()) continue;
-
-				p->release();
+				if(!p->mutex_.try_lock()) {
+					printv(DEBUG, "element mutex is locked, loop and try again");
+					continue;
+				}
 
 				p->mutex_.unlock();
-
+				
+				// this is where release is called.
+				p->release();
+				
 				container_.erase(it);
 
 				return;

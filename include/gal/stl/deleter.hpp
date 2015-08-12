@@ -7,7 +7,11 @@ namespace gal { namespace stl {
 	{
 		void	operator()(T* p)
 		{
-			p->release();
+			// do not call release here,
+			// want to have shared pointer for some release
+			// operations. need to make sure release is
+			// called before shared pointer is deleted
+			//p->release();
 			delete p;
 		}
 	};

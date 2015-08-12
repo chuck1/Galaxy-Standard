@@ -49,6 +49,8 @@ namespace gal { namespace object {
 				gal::process_index p0,
 				gal::process_index p1)
 		{
+			printv_func(DEBUG);
+
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
@@ -57,6 +59,8 @@ namespace gal { namespace object {
 		}
 		void			insert(S && s)
 		{
+			printv_func(DEBUG);
+
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
@@ -65,6 +69,8 @@ namespace gal { namespace object {
 		}
 		W			get(gal::object_index i)
 		{
+			printv_func(DEBUG);
+
 			assert(_M_map);
 			return _M_map->find(i);
 		}
@@ -73,6 +79,8 @@ namespace gal { namespace object {
 		 */
 		void			erase(gal::object_index i)
 		{
+			printv_func(DEBUG);
+
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
@@ -91,6 +99,8 @@ namespace gal { namespace object {
 		void			erase(
 				std::shared_ptr<gal::managed_object> s)
 		{
+			printv_func(DEBUG);
+
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
@@ -98,6 +108,8 @@ namespace gal { namespace object {
 		}
 		void			clear()
 		{
+			printv_func(DEBUG);
+
 			if(_M_map) //assert(_M_map);
 				_M_map->clear();
 		}
@@ -108,16 +120,22 @@ namespace gal { namespace object {
 		}
 		W			random()
 		{
+			printv_func(DEBUG);
+
 			assert(_M_map);
 			return _M_map->random();
 		}
 		ITER			begin()
 		{
+			printv_func(DEBUG);
+
 			assert(_M_map);
 			return _M_map->begin();
 		}
 		ITER			end()
 		{
+			printv_func(DEBUG);
+
 			assert(_M_map);
 			return _M_map->end();
 		}
@@ -135,6 +153,8 @@ namespace gal { namespace object {
 		}
 		void			for_each(std::function<void(S &)> const & f)
 		{
+			printv_func(DEBUG);
+
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
@@ -149,13 +169,19 @@ namespace gal { namespace object {
 		*/
 		void			for_each_int(std::function<int(S &)> const & f)
 		{
+			printv_func(DEBUG);
+
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
 			assert_map();
 			_M_map->for_each_int(f);
 		}
-	
+		std::unique_lock<std::recursive_mutex>		unique_lock()
+		{
+			return std::unique_lock<std::recursive_mutex>(_M_mutex);
+			//return std::move(std::unique_lock<std::recursive_mutex>(_M_mutex));
+		}
 	private:
 		void			assert_map()
 		{
@@ -212,6 +238,8 @@ namespace gal { namespace object {
 	protected:
 		void			thread_erase(gal::object_index i)
 		{
+			printv_func(DEBUG);
+
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
