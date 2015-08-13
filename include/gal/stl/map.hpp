@@ -71,6 +71,8 @@ namespace gal { namespace stl {
 		typedef typename container_type::iterator			iterator;
 		typedef typename container_type::const_iterator			IC;
 		typedef std::function<bool(S&)>					FILTER_FUNC;
+		typedef std::lock_guard<std::recursive_mutex>			LOCK;
+
 		enum { CONTINUE, BREAK };
 		/** @brief Constructor */
 		map() {}
@@ -95,7 +97,7 @@ namespace gal { namespace stl {
 		}
 		template<class Archive>
 		void				serialize(Archive & ar, unsigned int const & version) {
-			boost::lock_guard<boost::mutex> lk(mutex_);
+			LOCK lk(mutex_);
 
 			ar & boost::serialization::make_nvp("container", container_);
 		}
@@ -103,7 +105,7 @@ namespace gal { namespace stl {
 		{
 			printv_func(DEBUG);
 
-			boost::lock_guard<boost::mutex> lk(mutex_);
+			LOCK lk(mutex_);
 			
 			assert(s);
 			
@@ -136,7 +138,7 @@ namespace gal { namespace stl {
 		}
 		void			for_each(std::function<void(T &)> const & f)
 		{
-			boost::lock_guard<boost::mutex> lk(mutex_);
+			LOCK lk(mutex_);
 
 			for(auto it = container_.begin(); it != container_.cend(); ++it) {
 				S & p = it->second.ptr_;
@@ -148,7 +150,7 @@ namespace gal { namespace stl {
 
 		void			for_each(std::function<void(S const &)> const & f)
 		{
-			boost::lock_guard<boost::mutex> lk(mutex_);
+			LOCK lk(mutex_);
 
 			for(auto it = container_.begin(); it != container_.cend(); ++it) {
 				S const & p = it->second.ptr_;
@@ -158,7 +160,7 @@ namespace gal { namespace stl {
 		}
 		void			for_each(std::function<void(S &)> const & f)
 		{
-			boost::lock_guard<boost::mutex> lk(mutex_);
+			LOCK lk(mutex_);
 
 			for(auto it = container_.begin(); it != container_.cend(); ++it) {
 				S & p = it->second.ptr_;
@@ -167,7 +169,7 @@ namespace gal { namespace stl {
 			}
 		}
 		void			for_each_int(std::function<int(S const &)> const & f) {
-			boost::lock_guard<boost::mutex> lk(mutex_);
+			LOCK lk(mutex_);
 
 			int ret;
 
@@ -183,7 +185,7 @@ namespace gal { namespace stl {
 			}
 		}
 		void			for_each_int(std::function<int(S &)> const & f) {
-			boost::lock_guard<boost::mutex> lk(mutex_);
+			LOCK lk(mutex_);
 
 			int ret;
 
@@ -201,7 +203,7 @@ namespace gal { namespace stl {
 		/** */
 		W			find(std::string name)
 		{
-			boost::lock_guard<boost::mutex> lk(mutex_);
+			LOCK lk(mutex_);
 
 			for(auto it = container_.begin(); it != container_.cend(); ++it)
 			{
@@ -214,7 +216,7 @@ namespace gal { namespace stl {
 		}
 		W			find(gal::object_index i)
 		{
-			boost::lock_guard<boost::mutex> lk(mutex_);
+			LOCK lk(mutex_);
 
 			auto it = container_.find(i);
 
@@ -228,7 +230,15 @@ namespace gal { namespace stl {
 			printv_func(DEBUG);
 
 			printv(DEBUG, "%s\n", __PRETTY_FUNCTION__);
-			boost::lock_guard<boost::mutex> lk(mutex_);
+			LOCK lk(mutex_);
+			
+			auto l = [](S & s){
+				assert(s);
+				s->release();
+			};
+			
+			for_each(l);
+
 			// replaced by deleter objects
 			//for(auto it = container_.begin(); it != container_.end(); ++it) {
 			//	it->second.ptr_->release();
@@ -292,7 +302,7 @@ namespace gal { namespace stl {
 			printv_func(DEBUG);
 
 			while(1) {	
-				boost::lock_guard<boost::mutex> lk(mutex_);
+				LOCK lk(mutex_);
 
 				auto it = container_.find(i);
 
@@ -415,7 +425,7 @@ namespace gal { namespace stl {
 	private:
 		factory_shared_type		factory_;
 		container_type			container_;
-		boost::mutex			mutex_;
+		std::recursive_mutex		mutex_;
 	};	
 }}
 

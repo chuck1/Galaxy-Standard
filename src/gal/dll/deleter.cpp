@@ -51,7 +51,9 @@ void			gal::dll::deleter::operator()(gal::object::ChildBase * p)
 {
 	assert(p);
 
-	p->release();
+	// NO, this must be called before deleter is called
+	// so that release procedure can use shared_from_this
+	//p->release();
 
 	assert(_M_delete);
 	assert(_M_class_info);
