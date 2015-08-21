@@ -14,7 +14,7 @@
 namespace gal { namespace object {
 	
 	/**
-	 * so neb::fnd::object::ChildBase::suicide can get parent pointer for any
+	 * so neb::fnd0::object::ChildBase::suicide can get parent pointer for any
 	 * type
 	 */
 	class ChildBase
