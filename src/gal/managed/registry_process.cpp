@@ -28,7 +28,7 @@ void			THIS::set_index(S s, index_type i)
 
 	s->set_index(i);
 }
-void			THIS::insert(S s)
+void			THIS::v_insert(S s)
 {
 	printv_func(DEBUG);
 

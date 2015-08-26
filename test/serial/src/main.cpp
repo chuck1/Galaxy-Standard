@@ -7,7 +7,8 @@
 
 #include <A.hpp>
 
-const char * filename = "/home/chuck/home/git/nebula/external/Galaxy/components/std/test/B/build/dynamic/libB.so";
+//const char * filename = "/home/chuck/home/git/nebula/external/Galaxy/components/std/test/B/build/dynamic/libB.so";
+const char * filename = "libB.so";
 
 namespace ba = boost::archive;
 
@@ -19,7 +20,6 @@ int main()
 	std::shared_ptr<VR> vr(new VR);
 	vr->reg<gal::dll::helper_base>("gal dll helper_base");
 	vr->reg<gal::managed_object>("gal managed_object");
-
 
 	std::shared_ptr<H> h(new H(filename));
 	h->gal::verb::VerbosityBase::init(vr);

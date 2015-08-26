@@ -62,7 +62,7 @@ namespace gal {
 		/*
 		 * insert the indicies of s into this table
 		 */
-		virtual void		insert(S s);
+		virtual void		v_insert(S s);
 
 		void			set_process_index(gal::process_index);
 	private:

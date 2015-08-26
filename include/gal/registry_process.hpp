@@ -28,7 +28,7 @@ namespace gal {
 		virtual index_type	first();
 		virtual index_type	get_index(S);
 		virtual void		set_index(S, index_type);
-		virtual void		insert(S);
+		virtual void		v_insert(S);
 
 	};
 }

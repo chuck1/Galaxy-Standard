@@ -57,7 +57,7 @@ namespace gal { namespace object {
 			assert_map();
 			_M_map->change_process_index(p0, p1);
 		}
-		void			insert(S && s)
+		void			v_insert(S && s)
 		{
 			printv_func(DEBUG);
 
@@ -210,7 +210,7 @@ namespace gal { namespace object {
 			auto l = [&] (T & t) {
 				try {
 					t.init(p);
-				} catch(gal::object::child_util::exception_parent_is_null & e) {
+				} catch(gal::object::child_util::except::parent_is_null & e) {
 					// if 
 					//   initialization fails because an ancestor of
 					//   t has a null parent

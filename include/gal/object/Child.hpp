@@ -5,22 +5,16 @@
 #include <cassert>
 #include <exception>
 
+#include <gal/error/backtrace.hpp>
 #include <gal/registry_object.hpp>
+#include <gal/object/child_util/except.hpp>
 
 #include <gal/managed_object.hpp>
-
-#include<gal/object/ChildBase.hpp>
+#include <gal/object/ChildBase.hpp>
 
 namespace gal { namespace object {
-	namespace child_util {
-		/**
-		 * use only with getParent function
-		 */
-		class exception_parent_is_null: public std::exception
-		{
-		};
-	}
-	
+
+
 	template<typename T>
 	class Child:
 		virtual public gal::object::ChildBase,
@@ -65,7 +59,8 @@ namespace gal { namespace object {
 		T* const &	getParent() const
 		{
 			if(_M_parent == 0) {
-				throw child_util::exception_parent_is_null();
+				gal::error::backtrace bt; bt.calc();
+				throw child_util::except::parent_is_null(bt);
 			}
 			return _M_parent;
 		}

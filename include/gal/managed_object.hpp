@@ -26,6 +26,8 @@
 #include <boost/archive/polymorphic_oarchive.hpp>
 #include <boost/serialization/string.hpp>
 
+#include <gal/type_info.hpp>
+
 #include <gal/verb/Verbosity.hpp>
 #include <gal/Flag.hpp>
 //#include <gal/itf/release.hpp>
@@ -48,6 +50,7 @@ namespace gal {
 	 * Supply type info.
 	 */
 	class managed_object:
+		virtual public gal::type_info,
 		virtual public gal::verb::Verbosity<gal::managed_object>,
 		virtual public gal::enable_shared_from_this<gal::managed_object>
 	{

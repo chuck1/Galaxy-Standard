@@ -59,7 +59,7 @@ namespace gal {
 		 * set the this_process index for object s
 		 */
 		virtual void		set_index(S s, index_type) = 0;
-		virtual void		insert(S) = 0;
+		virtual void		v_insert(S) = 0;
 
 		index_type_		next()
 		{
@@ -91,7 +91,7 @@ namespace gal {
 			}
 			
 			// insert each entry of the index table for s into this registry
-			insert(s);
+			v_insert(s);
 		}
 		S		get(index_type i)
 		{

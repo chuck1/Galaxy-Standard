@@ -46,7 +46,7 @@ void			THIS::set_index(S s, index_type i)
 	
 	s->set_index(i);
 }
-void			THIS::insert(S s)
+void			THIS::v_insert(S s)
 {
 	// lock
 	std::lock_guard<std::recursive_mutex> lg(_M_mutex);
