@@ -143,7 +143,8 @@ namespace gal { namespace stl {
 			} else if(load_type == 1) {
 				load_1(ar, version);
 			} else {
-				abort();
+				printf("invalid load type %i\n", load_type);
+				assert(0);
 			}
 		
 			if(gal::managed_object::has_registry()) {

@@ -5,7 +5,8 @@
 
 #include <A.hpp>
 
-struct B: virtual A
+namespace gal { namespace test {
+struct B: virtual gal::test::A
 {
 	virtual ~B() {}
 	virtual void foo();
@@ -27,8 +28,8 @@ struct B: virtual A
 	}
 
 };
-
-BOOST_CLASS_EXPORT_KEY(B)
+}}
+BOOST_CLASS_EXPORT_KEY(gal::test::B)
 
 #endif
 

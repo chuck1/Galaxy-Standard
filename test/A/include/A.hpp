@@ -11,6 +11,7 @@ namespace ba = boost::archive;
 
 #include <gal/managed_object.hpp>
 
+namespace gal { namespace test {
 struct A:
 	virtual gal::object::ChildBase,
 	virtual gal::managed_object
@@ -28,8 +29,9 @@ struct A:
 	virtual void	v_load(ba::polymorphic_iarchive & ar) = 0;
 	virtual void	v_save(ba::polymorphic_oarchive & ar) = 0;
 };
+}}
 
-BOOST_CLASS_EXPORT_KEY(A);
+BOOST_CLASS_EXPORT_KEY(gal::test::A);
 
 #endif
 

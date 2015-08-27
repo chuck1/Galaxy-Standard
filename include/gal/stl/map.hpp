@@ -96,11 +96,25 @@ namespace gal { namespace stl {
 		{
 		}
 		template<class Archive>
-		void				serialize(Archive & ar, unsigned int const & version) {
+		void				load(
+				Archive & ar, unsigned int const & version)
+		{
+			printv_func(DEBUG);
 			LOCK lk(mutex_);
-
+			assert(container_.empty());
+			clear();
 			ar & boost::serialization::make_nvp("container", container_);
 		}
+		template<class Archive>
+		void				save(
+				Archive & ar, unsigned int const & version) const
+		{
+			printv_func(DEBUG);
+			LOCK lk(const_cast< gal::stl::map<T_,S_>* >(this)->mutex_);
+			
+			ar & boost::serialization::make_nvp("container", container_);
+		}
+		BOOST_SERIALIZATION_SPLIT_MEMBER();
 		void				insert(S && s)
 		{
 			printv_func(DEBUG);

@@ -5,20 +5,13 @@
 #include <exception>
 
 #include <gal/unique_ptr.hpp>
+#include <gal/memory/except.hpp>
 
 namespace gal {
 	template<typename T>
 	class weak_ptr
 	{
 	public:
-		class null_pointer_exception:
-			public std::exception
-		{
-			virtual char const *	what() const noexcept
-			{
-				return "null pointer exception";
-			}
-		};
 		typedef std::shared_ptr<T>	S;
 		typedef gal::unique_ptr<T>	U;
 		typedef gal::weak_ptr<T>	W;
@@ -50,7 +43,9 @@ namespace gal {
 		{
 			std::shared_ptr<T> t = _M_ptr.lock();
 			if(!t) {
-				throw null_pointer_exception();
+				gal::error::backtrace bt;
+				bt.calc();
+				throw gal::mem::except::weak_null_pointer(bt);
 			} else {
 				return t.get();
 			}
@@ -90,7 +85,9 @@ namespace gal {
 		std::shared_ptr<T>	lock()
 		{
 			if(_M_ptr.expired()) {
-				throw null_pointer_exception();
+				gal::error::backtrace bt;
+				bt.calc();
+				throw gal::mem::except::weak_null_pointer(bt);
 			}
 			return _M_ptr.lock();
 		}

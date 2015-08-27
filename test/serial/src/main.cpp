@@ -14,7 +14,7 @@ namespace ba = boost::archive;
 
 int main()
 {
-	typedef gal::dll::helper<A, std::shared_ptr> H;
+	typedef gal::dll::helper<gal::test::A, std::shared_ptr> H;
 
 	typedef gal::verb::VerbosityRegistry VR;
 	std::shared_ptr<VR> vr(new VR);
@@ -24,10 +24,10 @@ int main()
 	std::shared_ptr<H> h(new H(filename));
 	h->gal::verb::VerbosityBase::init(vr);
 	h->open();
-	h->add<A>("A");
+	h->add<gal::test::A>("A");
 
-	auto a0 = h->make_shared<A>();
-	auto a1 = h->make_shared<A>();
+	auto a0 = h->make_shared<gal::test::A>();
+	auto a1 = h->make_shared<gal::test::A>();
 	
 	std::stringstream ss;
 	

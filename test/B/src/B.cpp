@@ -3,15 +3,15 @@
 
 #include <B.hpp>
 
-void B::foo()
+void gal::test::B::foo()
 {
 }
 
-extern "C" A* A_create()
+extern "C" gal::test::A* A_create()
 {
-	return new B;
+	return new gal::test::B;
 }
-extern "C" void A_destroy(A* a)
+extern "C" void A_destroy(gal::test::A* a)
 {
 	delete a;
 }
