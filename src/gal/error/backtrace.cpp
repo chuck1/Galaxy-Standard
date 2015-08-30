@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <cxxabi.h>
 
 #define SIZE 100
 
@@ -33,9 +34,21 @@ void		THIS::calc()
 		perror("backtrace_symbols");
 		exit(EXIT_FAILURE);
 	}
+
+	//const int len = 512;
+	//char sbuffer[len];
 	
 	for(int j = 0; j < nptrs; j++) {
-		_M_strings.push_back(std::string(strings[j]));
+		
+		int status;
+		
+		char * ret = abi::__cxa_demangle(strings[j], 0, 0, &status);
+		
+		if(ret != 0) {
+			_M_strings.push_back(std::string(ret));
+		} else {
+			_M_strings.push_back(std::string(strings[j]));
+		}
 	}
 }
 void		THIS::print() const

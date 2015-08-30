@@ -64,7 +64,7 @@ namespace gal { namespace object {
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
 
-			assert(_M_map);
+			assert_map();
 			_M_map->insert(std::move(s));
 		}
 		W			get(gal::object_index i)
@@ -115,7 +115,7 @@ namespace gal { namespace object {
 		}
 		W			front(FILTER_FUNC func = FILTER_FUNC())
 		{
-			assert(_M_map);
+			assert_map();
 			return _M_map->front(func);
 		}
 		W			random()
