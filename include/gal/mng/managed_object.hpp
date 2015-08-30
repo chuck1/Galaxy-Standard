@@ -65,10 +65,17 @@ namespace gal {
 				gal::object_index> map_type;
 			
 			template<typename AR>
-			void		serialize(AR const & ar, unsigned int const & v)
+			void		load(AR & ar, unsigned int const & v)
 			{
 				ar & _M_map;
 			}
+			template<typename AR>
+			void		save(AR & ar, unsigned int const & v) const
+			{
+				ar & _M_map;
+			}
+			BOOST_SERIALIZATION_SPLIT_MEMBER();
+
 			map_type	_M_map;
 		};
 
