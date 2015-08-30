@@ -64,13 +64,31 @@ namespace gal {
 				gal::process_index,
 				gal::object_index> map_type;
 			
+			gal::object_index	get_index(
+					gal::process_index p)
+			{
+				auto it = _M_map.find(p);
+				if(it == _M_map.end()) return gal::object_index();
+				return it->second;
+			}
+			void			print()
+			{
+				printf("index map\n");
+				for(auto it = _M_map.begin(); it != _M_map.end(); ++it) {
+					printf("  %16li%16li\n", it->first._M_i, it->second._M_i);
+				}
+			}
 			template<typename AR>
-			void		load(AR & ar, unsigned int const & v)
+			void			load(
+					AR & ar,
+					unsigned int const & v)
 			{
 				ar & _M_map;
 			}
 			template<typename AR>
-			void		save(AR & ar, unsigned int const & v) const
+			void			save(
+					AR & ar,
+					unsigned int const & v) const
 			{
 				ar & _M_map;
 			}
