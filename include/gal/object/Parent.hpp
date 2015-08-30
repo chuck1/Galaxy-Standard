@@ -2,7 +2,7 @@
 #define GAL_STD_PARENT_HPP
 
 #include <gal/stl/map.hpp>
-#include <gal/managed_object.hpp>
+#include <gal/mng/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
 #include <gal/object/Child.hpp>
 #include <gal/object/ParentBase.hpp>

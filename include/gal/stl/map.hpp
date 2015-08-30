@@ -15,7 +15,7 @@
 #endif
 
 #include <gal/weak_ptr.hpp>
-#include <gal/managed_object.hpp>
+#include <gal/mng/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
 #include <gal/verb/Verbosity.hpp>
 

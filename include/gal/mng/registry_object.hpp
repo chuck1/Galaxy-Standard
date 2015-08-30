@@ -6,10 +6,10 @@
 
 #include <gal/decl.hpp>
 #include <gal/verb/Verbosity.hpp>
-#include <gal/object_index.hpp>
+#include <gal/mng/index_object.hpp>
 
-#include <gal/registry.hpp>
-#include <gal/managed_process.hpp>
+#include <gal/mng/registry.hpp>
+#include <gal/mng/managed_process.hpp>
 
 namespace gal {
 	class registry_object:

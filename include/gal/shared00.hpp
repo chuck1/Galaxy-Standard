@@ -5,9 +5,9 @@
 #include <gal/itf/typedef.hpp>
 #include <gal/verb/Verbosity.hpp>
 #include <gal/shared.hpp>
-#include <gal/object_index.hpp>
-// gal/managed_object.hpp
-// gal/registry.hpp
+#include <gal/mng/index_object.hpp>
+// gal/mng/managed_object.hpp
+// gal/mng/registry.hpp
 
 namespace gal { namespace itf {
 	class shared00:

@@ -1,12 +1,12 @@
 #include <boost/serialization/map.hpp>
 
-#include <gal/registry.hpp>
+#include <gal/mng/registry.hpp>
 
-#include <gal/managed_process.hpp>
-#include <gal/registry_object.hpp>
+#include <gal/mng/managed_process.hpp>
+#include <gal/mng/registry_object.hpp>
 #include <gal/error/no_index.hpp>
 
-#include <gal/managed_object.hpp>
+#include <gal/mng/managed_object.hpp>
 
 typedef gal::managed_object THIS;
 
@@ -80,14 +80,14 @@ gal::object_index		THIS::get_index(gal::process_index p) const
 		//throw 0;
 	}
 
-	auto it = _M_index_table.find(p);
-	if(it == _M_index_table.cend()) {
+	auto it = _M_map_index._M_map.find(p);
+	if(it == _M_map_index._M_map.cend()) {
 		/// TODO need a good way to suppress this when the throw is going to be caught
 		if(0) { 
 		printv(WARNING, "process index not found: %li\n", i);
 		printv(WARNING, "entries are:\n");
 		printv(WARNING, "%16s%16s%16s\n", "proc_idx", "obj_idx.p", "obj_idx.i");
-		for(auto e : _M_index_table) {
+		for(auto e : _M_map_index._M_map) {
 			printv(WARNING, "%16li%16li%16li\n",
 					e.first._M_i,
 					e.second._M_p._M_i,
@@ -111,8 +111,8 @@ void				THIS::set_index(gal::object_index i)
 {
 	printv_func(DEBUG);
 	
-	std::pair<map_type::iterator, bool> p =
-		_M_index_table.insert(std::make_pair(i._M_p, i));
+	std::pair<map_index::map_type::iterator, bool> p =
+		_M_map_index._M_map.insert(std::make_pair(i._M_p, i));
 	
 	if(!p.second) {
 		printv(CRITICAL, "not inserted: %li %li\n", i._M_p, i._M_i);
@@ -189,12 +189,12 @@ void				THIS::change_process_index(
 	//printf("before\n");
 	//print_index_table();
 
-	if(_M_index_table.empty()) {
+	if(_M_map_index._M_map.empty()) {
 		printv(DEBUG, "index table is empty\n");
 	}
 
-	auto it = _M_index_table.begin();
-	while(it != _M_index_table.end()) {
+	auto it = _M_map_index._M_map.begin();
+	while(it != _M_map_index._M_map.end()) {
 		auto p = it->first;
 		if(p == p_old) {
 			printv(DEBUG, "change process index from "
@@ -204,7 +204,7 @@ void				THIS::change_process_index(
 			v.emplace_back(p_new,
 					gal::object_index(p_new, it->second._M_i));
 
-			it = _M_index_table.erase(it);
+			it = _M_map_index._M_map.erase(it);
 		} else {
 			printv(DEBUG, "DO NOT change process index from "
 					"%li to %li. object index: %li\n",
@@ -213,7 +213,7 @@ void				THIS::change_process_index(
 		}
 	}
 
-	_M_index_table.insert(v.begin(), v.end());
+	_M_map_index._M_map.insert(v.begin(), v.end());
 
 
 	//printf("after\n");
@@ -226,7 +226,7 @@ void			THIS::load(
 {
 	printv_func(DEBUG);
 
-	ar & BOOST_SERIALIZATION_NVP(_M_index_table);
+	ar & BOOST_SERIALIZATION_NVP(_M_map_index._M_map);
 	ar & BOOST_SERIALIZATION_NVP(_M_name);
 }
 void			THIS::save(
@@ -235,7 +235,7 @@ void			THIS::save(
 {
 	printv_func(DEBUG);
 
-	ar & BOOST_SERIALIZATION_NVP(_M_index_table);
+	ar & BOOST_SERIALIZATION_NVP(_M_map_index._M_map);
 	ar & BOOST_SERIALIZATION_NVP(_M_name);
 }
 
@@ -243,7 +243,7 @@ void			THIS::print_index_table() const
 {
 	printf("index table\n");
 	printf("    %16s%16s%16s\n", "proc_idx", "obj_idx.p", "obj_idx.i");
-	for(auto e : _M_index_table) {
+	for(auto e : _M_map_index._M_map) {
 		printf("    %16li%16li%16li\n",
 				e.first._M_i,
 				e.second._M_p._M_i,

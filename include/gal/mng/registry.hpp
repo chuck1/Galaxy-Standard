@@ -8,7 +8,7 @@
 #include <gal/verb/Verbosity.hpp>
 #include <gal/error/no_index.hpp>
 
-#include <gal/object_index.hpp>
+#include <gal/mng/index_object.hpp>
 
 namespace gal {
 	class registry_base:

@@ -7,9 +7,9 @@
 
 #include <gal/object/util/decl.hpp>
 
-#include <gal/registry_object.hpp>
+#include <gal/mng/registry_object.hpp>
 
-#include <gal/managed_object.hpp>
+#include <gal/mng/managed_object.hpp>
 
 namespace gal { namespace object {
 	

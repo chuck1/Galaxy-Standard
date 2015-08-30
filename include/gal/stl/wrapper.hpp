@@ -16,7 +16,7 @@
 //#include <Nebula/App/BaseFactory.hh>
 
 #include <gal/stl/HashCode.hpp>
-#include <gal/managed_object.hpp>
+#include <gal/mng/managed_object.hpp>
 #include <gal/stl/factory.hpp>
 #include <gal/verb/Verbosity.hpp>
 #include <gal/dll/helper.hpp>

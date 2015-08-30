@@ -1,7 +1,7 @@
-//#include <gal/managed_object.hpp>
-#include <gal/managed_process.hpp>
+//#include <gal/mng/managed_object.hpp>
+#include <gal/mng/managed_process.hpp>
 
-#include <gal/registry_process.hpp>
+#include <gal/mng/registry_process.hpp>
 
 typedef gal::registry_process THIS;
 

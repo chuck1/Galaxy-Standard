@@ -5,9 +5,9 @@
 #include <map>
 #include <typeindex>
 
-// gal/managed_object.hpp
-// gal/managed_object.hpp
-// gal/registry.hpp
+// gal/mng/managed_object.hpp
+// gal/mng/managed_object.hpp
+// gal/mng/registry.hpp
 #include <gal/typedef.hpp>
 #include <gal/decl.hpp>
 

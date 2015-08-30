@@ -1,6 +1,6 @@
-#include <gal/managed_object.hpp>
+#include <gal/mng/managed_object.hpp>
 
-#include <gal/registry_object.hpp>
+#include <gal/mng/registry_object.hpp>
 
 typedef gal::registry_object THIS;
 
@@ -59,7 +59,7 @@ void			THIS::v_insert(S s)
 	// register the object if not already
 	s->gal::managed_object::init(this);
 	
-	for(auto i : s->_M_index_table) {
+	for(auto i : s->_M_map_index._M_map) {
 
 		PAIR p = _M_map.insert(
 				typename map_type::value_type(

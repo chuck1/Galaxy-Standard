@@ -6,8 +6,8 @@
 #include <gal/dll/helper.hpp>
 
 #include <gal/stl/map.hpp>
-#include <gal/registry_object.hpp>
-#include <gal/registry_process.hpp>
+#include <gal/mng/registry_object.hpp>
+#include <gal/mng/registry_process.hpp>
 #include <gal/verb/VerbosityRegistry.hpp>
 
 namespace ba = boost::archive;

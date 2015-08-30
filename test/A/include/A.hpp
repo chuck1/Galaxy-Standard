@@ -9,7 +9,7 @@ namespace ba = boost::archive;
 
 #include <gal/object/ChildBase.hpp>
 
-#include <gal/managed_object.hpp>
+#include <gal/mng/managed_object.hpp>
 
 namespace gal { namespace test {
 struct A:

@@ -14,9 +14,9 @@
 #include <gal/decl.hpp>
 #include <gal/typedef.hpp>
 
-#include <gal/registry.hpp>
-#include <gal/managed_object.hpp>
-#include <gal/process_index.hpp>
+#include <gal/mng/registry.hpp>
+#include <gal/mng/managed_object.hpp>
+#include <gal/mng/index_process.hpp>
 #include <gal/type_info.hpp>
 
 
@@ -36,14 +36,15 @@
 //#include <gal/itf/typedef.hpp>
 //#include <gal/verb/Verbosity.hpp>
 #include <gal/shared.hpp>
-//#include <gal/object_index.hpp>
-//#include <gal/registry.hpp>
+//#include <gal/mng/index_object.hpp>
+//#include <gal/mng/registry.hpp>
 
-// gal/managed_object.hpp
-// gal/registry.hpp
+// gal/mng/managed_object.hpp
+// gal/mng/registry.hpp
 
 namespace gal {
-/** @brief %shared.
+
+	/** @brief %shared.
 	 *
 	 * Avoid multiple enabled_shared_from_this bases.
 	 * Provide common base for working with factory and map.
@@ -55,6 +56,22 @@ namespace gal {
 		virtual public gal::enable_shared_from_this<gal::managed_object>
 	{
 	public:
+
+		class map_index
+		{
+		public:
+			typedef std::map<
+				gal::process_index,
+				gal::object_index> map_type;
+			
+			template<typename AR>
+			void		serialize(AR const & ar, unsigned int const & v)
+			{
+				ar & _M_map;
+			}
+			map_type	_M_map;
+		};
+
 		using gal::verb::Verbosity<gal::managed_object>::printv;
 		using gal::enable_shared_from_this<gal::managed_object>::shared_from_this;
 
@@ -67,7 +84,6 @@ namespace gal {
 		//typedef gal::managed_process registry_type;
 		typedef gal::registry_object registry_type;
 
-		typedef std::map<gal::process_index, gal::object_index> map_type;
 
 		friend class gal::registry<
 			gal::object_index,
@@ -99,29 +115,20 @@ namespace gal {
 		virtual void			change_process_index(
 				gal::process_index p_old,
 				gal::process_index p_new);
-
 	private:
 		/**
 		 * used to find the gal::itf::regisry and register this
 		 * does not need to be immediate parent
 		 * can be any ancestor or at least just not a child
 		 */
-		registry_type *		_M_registry_parent;
+		registry_type *			_M_registry_parent;
 	public:
-		map_type		_M_index_table;
-
-
-
-
-		
-
-
-
+		map_index			_M_map_index;
 	private:
-		void			load(
+		void				load(
 				boost::archive::polymorphic_iarchive & ar,
 				unsigned int const & version);
-		void			save(
+		void				save(
 				boost::archive::polymorphic_oarchive & ar,
 				unsigned int const & version) const;
 		BOOST_SERIALIZATION_SPLIT_MEMBER();

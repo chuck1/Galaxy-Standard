@@ -1,7 +1,7 @@
 #ifndef GAL_OBJECT_INDEX_HPP
 #define GAL_OBJECT_INDEX_HPP
 
-#include <gal/process_index.hpp>
+#include <gal/mng/index_process.hpp>
 
 namespace gal {
 	struct object_index

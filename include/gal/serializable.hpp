@@ -4,7 +4,7 @@
 #include <boost/archive/polymorphic_iarchive.hpp>
 #include <boost/archive/polymorphic_oarchive.hpp>
 
-// gal/managed_object.hpp
+// gal/mng/managed_object.hpp
 
 namespace gal {
 	class serializable

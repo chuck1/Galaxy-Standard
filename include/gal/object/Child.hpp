@@ -6,10 +6,10 @@
 #include <exception>
 
 #include <gal/error/backtrace.hpp>
-#include <gal/registry_object.hpp>
+#include <gal/mng/registry_object.hpp>
 #include <gal/object/child_util/except.hpp>
 
-#include <gal/managed_object.hpp>
+#include <gal/mng/managed_object.hpp>
 #include <gal/object/ChildBase.hpp>
 
 namespace gal { namespace object {

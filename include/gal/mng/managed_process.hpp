@@ -1,11 +1,11 @@
 #ifndef GAL_MANAGED_PROCESS_HPP
 #define GAL_MANAGED_PROCESS_HPP
 
-// gal/managed_object.hpp
+// gal/mng/managed_object.hpp
 
-#include <gal/process_index.hpp>
-//#include <gal/registry_object.hpp>
-//#include <gal/registry_process.hpp>
+#include <gal/mng/index_process.hpp>
+//#include <gal/mng/registry_object.hpp>
+//#include <gal/mng/registry_process.hpp>
 
 namespace gal {
 	class managed_process
