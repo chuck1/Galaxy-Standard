@@ -6,7 +6,18 @@
 
 #include <exception>
 
+#include <gal/error/backtrace.hpp>
+
 namespace gal { namespace error {
+	class base:
+		public std::exception
+	{
+	public:
+		base(gal::error::backtrace const & bt):
+			_M_bt(bt)
+		{}
+		gal::error::backtrace	_M_bt;
+	};
 	class no_index:
 		public std::exception
 	{
@@ -26,11 +37,16 @@ namespace gal { namespace error {
 		char		buffer[128];
 	};
 	class item_not_found:
-		public std::exception
+		public gal::error::base
 	{
 	public:
+		item_not_found(gal::error::backtrace const & bt):
+			gal::error::base(bt)
+		{
+		}
 		virtual const char * what() const noexcept
 		{
+			_M_bt.print();
 			return "item not found";
 		}
 	};

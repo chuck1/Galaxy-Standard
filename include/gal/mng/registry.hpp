@@ -102,7 +102,8 @@ namespace gal {
 
 			auto it = _M_map.find(i);
 			if(it == _M_map.cend()) {
-				throw gal::error::item_not_found();
+				gal::error::backtrace bt; bt.calc();
+				throw gal::error::item_not_found(bt);
 			}
 			return it->second.lock();
 		}
