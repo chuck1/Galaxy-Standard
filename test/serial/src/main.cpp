@@ -28,7 +28,9 @@ int main()
 
 	auto a0 = h->make_shared<gal::test::A>();
 	auto a1 = h->make_shared<gal::test::A>();
-	
+
+	a0->printv(INFO, "printv test\n");
+
 	std::stringstream ss;
 	
 	// save

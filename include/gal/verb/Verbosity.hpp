@@ -1,6 +1,10 @@
 #ifndef NEB_CORE_ITF_VERBOSITY_HPP
 #define NEB_CORE_ITF_VERBOSITY_HPP
 
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+
 #include <map>
 
 #include <glm/glm.hpp>
@@ -10,6 +14,19 @@
 #include <gal/verb/VerbosityBase.hpp>
 #include <gal/verb/VerbosityRegistry.hpp>
 
+pid_t gettid();
+
+/*
+#ifdef sys_gettid
+pid_t gettid()
+{
+	pid_t tid = syscall(SYS_gettid);
+	return tid;
+}
+#else
+#error "sys_gettid unavailable on this system"
+#endif
+*/
 #define printv_func(level) printv(level, "%s\n", __PRETTY_FUNCTION__)
 
 namespace gal { namespace verb {
@@ -43,10 +60,17 @@ namespace gal { namespace verb {
 		template<typename... A>
 		void			printv(
 				int sev,
-				const char * format, A... a) const
+				const char * format,
+				A... a) const
 		{
-			if(sev >= level())
+			//char buffer[BUFLEN];
+
+			if(sev >= level()) {
+				pid_t tid = gettid();
+				printf("[%8i]", tid);
+
 				printf(format, a...);
+			}
 		}
 		template<typename A>
 		void			printv(
@@ -56,6 +80,7 @@ namespace gal { namespace verb {
 			if(sev >= level())
 				gal::etc::print(a);
 		}
+		enum { BUFLEN = 1000 };
 	};
 }}
 
