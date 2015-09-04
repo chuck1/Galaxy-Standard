@@ -1,4 +1,4 @@
-#include <gal/weak_ptr.hpp>
+#include <gal/memory/weak_ptr.hpp>
 
 int main()
 {

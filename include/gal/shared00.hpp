@@ -9,6 +9,8 @@
 // gal/mng/managed_object.hpp
 // gal/mng/registry.hpp
 
+#error hi
+
 namespace gal { namespace itf {
 	class shared00:
 		public gal::verb::Verbosity<gal::managed_object>,

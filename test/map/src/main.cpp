@@ -7,7 +7,7 @@
 
 #include <gal/mng/registry_object.hpp>
 #include <gal/mng/registry_process.hpp>
-#include <gal/unique_ptr.hpp>
+#include <gal/memory/unique_ptr.hpp>
 
 #include <gal/stl/map.hpp>
 

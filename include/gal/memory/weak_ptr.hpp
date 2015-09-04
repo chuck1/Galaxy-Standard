@@ -4,7 +4,7 @@
 #include <memory>
 #include <exception>
 
-#include <gal/unique_ptr.hpp>
+#include <gal/memory/unique_ptr.hpp>
 #include <gal/memory/except.hpp>
 
 namespace gal {
@@ -39,7 +39,43 @@ namespace gal {
 			_M_ptr = u._M_ptr;
 			return *this;
 		}
-		T*	operator->()
+		T const *	operator->() const
+		{
+			std::shared_ptr<T> t = _M_ptr.lock();
+			if(!t) {
+				gal::error::backtrace bt;
+				bt.calc();
+				throw gal::mem::except::weak_null_pointer(bt);
+			} else {
+				return t.get();
+			}
+			return 0;
+		}
+		T*		operator->()
+		{
+			std::shared_ptr<T> t = _M_ptr.lock();
+			if(!t) {
+				gal::error::backtrace bt;
+				bt.calc();
+				throw gal::mem::except::weak_null_pointer(bt);
+			} else {
+				return t.get();
+			}
+			return 0;
+		}
+		T*		get()
+		{
+			std::shared_ptr<T> t = _M_ptr.lock();
+			if(!t) {
+				gal::error::backtrace bt;
+				bt.calc();
+				throw gal::mem::except::weak_null_pointer(bt);
+			} else {
+				return t.get();
+			}
+			return 0;
+		}
+		T const *	get() const
 		{
 			std::shared_ptr<T> t = _M_ptr.lock();
 			if(!t) {

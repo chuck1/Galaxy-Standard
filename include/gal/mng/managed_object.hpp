@@ -29,7 +29,7 @@
 #include <gal/type_info.hpp>
 
 #include <gal/verb/Verbosity.hpp>
-#include <gal/Flag.hpp>
+#include <gal/macro/Flag.hpp>
 //#include <gal/itf/release.hpp>
 //#include <gal/itf/typedef.hpp>
 //#include <gal/decl.hpp>

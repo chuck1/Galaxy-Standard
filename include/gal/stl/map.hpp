@@ -14,7 +14,7 @@
 #include <boost/serialization/map.hpp>
 #endif
 
-#include <gal/weak_ptr.hpp>
+#include <gal/memory/weak_ptr.hpp>
 #include <gal/mng/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
 #include <gal/verb/Verbosity.hpp>
