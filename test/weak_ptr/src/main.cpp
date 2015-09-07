@@ -26,12 +26,14 @@ int main()
 
 	W_B b0;
 	W_B b1(sb);
-	W_B b2(std::move(sb));
+	//W_B b2(std::move(sb));
 	W_B b3(sf);
-	W_B b4(std::move(sf));
+	//W_B b4(std::move(sf));
 	
 	fun(f0);
 
 	return 0;
 }
+
+
 

@@ -228,7 +228,7 @@ namespace gal { namespace stl {
 
 			return std::shared_ptr<T>();
 		}
-		W			find(gal::object_index i)
+		S			find(gal::object_index i)
 		{
 			LOCK lk(mutex_);
 
@@ -261,25 +261,27 @@ namespace gal { namespace stl {
 		}
 		/** @brief begin iterator 0
 		*/
-		W			front(FILTER_FUNC func = FILTER_FUNC())
+		S			front(FILTER_FUNC func = FILTER_FUNC())
 		{
 			if(func) {
 				for(auto it = container_.begin(); it != container_.cend(); ++it) {
 					S& s = it->second.ptr_;
 					assert(s);
-					if(func(s))
+					if(func(s)) {
 						return s;
+					}
 				}
 			} else {
 				auto it = begin();
-				if(it != end())
+				if(it != end()) {
 					return it->second.ptr_;
+				}
 			}
 			return S();
 		}
 		W			random() const
 		{
-			if(empty()) return S();
+			if(empty()) return W();
 			
 			unsigned int i = rand() % size();
 
@@ -289,7 +291,7 @@ namespace gal { namespace stl {
 
 			assert(it != cend());
 
-			return it->second.ptr_;
+			return W(it->second.ptr_);
 		}
 		IC			cbegin() const
 		{

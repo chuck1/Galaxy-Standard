@@ -67,7 +67,7 @@ namespace gal { namespace object {
 			assert_map();
 			_M_map->insert(std::move(s));
 		}
-		W			get(gal::object_index i)
+		S			get(gal::object_index i)
 		{
 			printv_func(DEBUG);
 
@@ -113,12 +113,12 @@ namespace gal { namespace object {
 			if(_M_map) //assert(_M_map);
 				_M_map->clear();
 		}
-		W			front(FILTER_FUNC func = FILTER_FUNC())
+		S			front(FILTER_FUNC func = FILTER_FUNC())
 		{
 			assert_map();
 			return _M_map->front(func);
 		}
-		W			random()
+		S			random()
 		{
 			printv_func(DEBUG);
 

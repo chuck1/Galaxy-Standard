@@ -18,6 +18,9 @@ namespace gal {
 		weak_ptr()
 		{
 		}
+		weak_ptr(int)
+		{
+		}
 		weak_ptr(W && w):
 			_M_ptr(std::move(w._M_ptr))
 		{
@@ -26,17 +29,26 @@ namespace gal {
 			_M_ptr(w._M_ptr)
 		{
 		}
-		weak_ptr(S const & s):
+/*		weak_ptr(S const & s):
 			_M_ptr(s)
+		{
+		}*/
+		weak_ptr(std::weak_ptr<T> const & w):
+			_M_ptr(w)
 		{
 		}
 		weak_ptr(U const & u):
 			_M_ptr(u._M_ptr)
 		{
 		}
-		W&	operator=(U const & u)
+		W&		operator=(U const & u)
 		{
 			_M_ptr = u._M_ptr;
+			return *this;
+		}
+		W&		operator=(W const & w)
+		{
+			_M_ptr = w._M_ptr;
 			return *this;
 		}
 		T const *	operator->() const
@@ -87,24 +99,42 @@ namespace gal {
 			}
 			return 0;
 		}
+		bool			expired() const
+		{
+			return _M_ptr.expired();
+		}
+		/** @brief cast */
+		template<typename T1>
+		gal::weak_ptr<T1>	cast()
+		{
+			auto s0 = lock();
+			auto s1 = std::dynamic_pointer_cast<T1>(s0);
+			return gal::weak_ptr<T1>(s1);
+		}
 		/** @brief conversion */
 		template<typename T1>
 		operator gal::weak_ptr<T1>()
 		{
-			return gal::weak_ptr<T1>(std::move(
-						std::static_pointer_cast<T1>(_M_ptr.lock())));
+			auto s = std::dynamic_pointer_cast<T1>(_M_ptr.lock());
+			return gal::weak_ptr<T1>(s);
 		}
 		/** @brief conversion */
 		template<typename T1>
 		operator gal::weak_ptr<T1>() const
 		{
 			return gal::weak_ptr<T1>(std::move(
-						std::static_pointer_cast<T1>(_M_ptr.lock())));
+				std::static_pointer_cast<T1>(
+					_M_ptr.lock())));
 		}
 		/** @brief conversion */
 		operator std::weak_ptr<T>()
 		{
 			return _M_ptr;
+		}
+		/** @brief conversion */
+		operator std::shared_ptr<T>()
+		{
+			return lock();
 		}
 		/** @brief conversion */
 		template<typename T1>
@@ -127,8 +157,6 @@ namespace gal {
 			}
 			return _M_ptr.lock();
 		}
-	private:
-		W&	operator=(W const & w) = default;
 	private:
 		std::weak_ptr<T>	_M_ptr;
 	};

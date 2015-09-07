@@ -4,6 +4,8 @@
 #include <cassert>
 #include <memory>
 
+#include <gal/memory/weak_ptr.hpp>
+
 namespace gal {
 	class shared:
 		public std::enable_shared_from_this<gal::shared>
@@ -35,6 +37,10 @@ namespace gal {
 			assert(t);
 			return t;
 		}
+/*		gal::weak_ptr<T>	weak_from_this()
+		{
+			return gal::weak_ptr<T>(shared_from_this());
+		}*/
 	};
 }
 
