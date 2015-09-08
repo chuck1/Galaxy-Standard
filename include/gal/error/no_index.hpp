@@ -6,18 +6,11 @@
 
 #include <exception>
 
-#include <gal/error/backtrace.hpp>
+#include <gal/error/base.hpp>
 
 namespace gal { namespace error {
-	class base:
-		public std::exception
-	{
-	public:
-		base(gal::error::backtrace const & bt):
-			_M_bt(bt)
-		{}
-		gal::error::backtrace	_M_bt;
-	};
+
+
 	class no_index:
 		public std::exception
 	{

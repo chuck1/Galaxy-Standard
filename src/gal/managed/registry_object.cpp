@@ -179,14 +179,17 @@ void		THIS::print_table()
 
 	printf("registry object table\n");
 	printf("    %16s%16s%16s\n", "p", "i", "ptr");
+
 	for(auto e : _M_map) {
 		auto s = e.second.lock();
-		assert(s);
-		printf("    %16li%16li%24p%s\n",
-				e.first._M_p._M_i,
-				e.first._M_i,
-				s.get(),
-				typeid(*s).name());
+	
+		if(s) {
+			printf("    %16li%16li%24p%s\n",
+					e.first._M_p._M_i,
+					e.first._M_i,
+					s.get(),
+					typeid(*s).name());
+		}
 	}
 }
 
