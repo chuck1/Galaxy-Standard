@@ -33,6 +33,7 @@ namespace gal { namespace stl {
 	public:
 		using gal::verb::Verbosity< gal::stl::wrapper_base >::printv;
 	};
+
 	template< typename T, typename S_ = std::shared_ptr<T> >
 	class wrapper:
 		virtual public gal::stl::wrapper_base,
@@ -83,7 +84,10 @@ namespace gal { namespace stl {
 		virtual ~wrapper()
 		{
 		}
-		void					release()
+		virtual void			v_check_delete()
+		{
+		}
+		void				release()
 		{
 		}
 		/** @brief %Load */

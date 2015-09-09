@@ -34,7 +34,10 @@ namespace gal { namespace object {
 		{
 			assert(p);
 		}
-		void		setParent(T * const & p)
+		virtual void		v_check_delete()
+		{
+		}
+		void			setParent(T * const & p)
 		{
 			assert(p);	
 
