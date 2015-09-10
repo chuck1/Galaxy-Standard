@@ -1,0 +1,13 @@
+{{ include_block_open }}
+{{ namespace_open }}
+
+class Info
+{
+public:
+	int		_M_level;
+	FILE *		_M_stream;
+};
+
+{{ namespace_close }}
+{{ include_block_close }}
+

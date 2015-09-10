@@ -23,12 +23,16 @@ void			THIS::set(
 	//throw gal::verb::error::not_registered(nickname.c_str());
 	printv(DEBUG, "verb set: not registered %s\n", nickname.c_str());
 }
-int			THIS::get(std::string str)
+THIS::S_I		THIS::get(std::string str)
 {
+	S_I s(new gal::verb::Info);
+	
 	auto it = _M_vec.begin();
 	while(it != _M_vec.end()) {
 		if(std::get<0>(*it) == str) {
-			return std::get<2>(*it);
+			s->_M_level = std::get<2>(*it);
+			s->_M_stream = _M_stream;
+			return s;
 		}
 		it++;
 	}

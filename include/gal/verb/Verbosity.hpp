@@ -11,31 +11,25 @@
 
 #include <gal/etc/print.hpp>
 
+#include <gal/verb/Info.hpp>
 #include <gal/verb/VerbosityBase.hpp>
 #include <gal/verb/VerbosityRegistry.hpp>
 
 pid_t gettid();
 
-/*
-#ifdef sys_gettid
-pid_t gettid()
-{
-	pid_t tid = syscall(SYS_gettid);
-	return tid;
-}
-#else
-#error "sys_gettid unavailable on this system"
-#endif
-*/
 #define printv_func(level) printv(level, "%s\n", __PRETTY_FUNCTION__)
 
 namespace gal { namespace verb {
+
+
 	/** log levels
 	 */
 	/*
-	 * the CRTP is used to disambiguate multiple inheritances of this class
+	 * the CRTP is used to disambiguate multiple 
+	 * inheritances of this class
 	 *
-	 * - every Verbosity<> object must be first initialized with a VR pointer
+	 * - every Verbosity<> object must be first 
+	 *   initialized with a VR pointer
 	 * - do not ues print commands in constructor
 	 */
 	template<typename T>
@@ -43,16 +37,23 @@ namespace gal { namespace verb {
 		virtual public gal::verb::VerbosityBase
 	{
 	public:
-		typedef gal::verb::VerbosityRegistry VR;
-		typedef std::weak_ptr<VR> W_VR;
+		typedef gal::verb::VerbosityRegistry		VR;
+		typedef std::weak_ptr<VR>			W_VR;
+		typedef std::shared_ptr<gal::verb::Info>	S_I;
 	protected:
-		int			level() const
+		Verbosity()
+		{
+			S_I s(new gal::verb::Info);
+			s->_M_level = DEBUG;
+			s->_M_stream = stdout;
+		}
+		S_I			level() const
 		{
 			auto name = typeid(T).name();
 
 			auto r = get_vr();
 			if(!r) {
-				return INFO;
+				return _M_info_default;
 			}
 			
 			return r->get(name);
@@ -63,14 +64,15 @@ namespace gal { namespace verb {
 				const char * format,
 				A... a) const
 		{
-			//char buffer[BUFLEN];
+			auto i = level();
 
-			if(sev >= level()) {
-				pid_t tid = gettid();
-				printf("[%8i]", tid);
+			if(sev < i->_M_level) return;
 
-				printf(format, a...);
-			}
+			pid_t tid = gettid();
+
+			fprintf(i->_M_stream, "[%8i]", tid);
+
+			fprintf(i->_M_stream, format, a...);
 		}
 		template<typename A>
 		void			printv(
@@ -80,8 +82,10 @@ namespace gal { namespace verb {
 			if(sev >= level())
 				gal::etc::print(a);
 		}
-		enum { BUFLEN = 1000 };
+		S_I			_M_info_default;
 	};
+
+
 }}
 
 //template<typename T> int gal::verb::Verbosity<T>::_M_level = INFO;
