@@ -13,7 +13,7 @@
 
 namespace gal { namespace itf {
 	class shared00:
-		public gal::verb::Verbosity<gal::managed_object>,
+		public gal::verb::Verbosity<gal::mng::managed_object>,
 		virtual public gal::enable_shared_from_this<shared00>
 	{
 	public:
@@ -39,7 +39,7 @@ namespace gal { namespace itf {
 		 * does not need to be immediate parent
 		 * can be any ancestor or at least just not a child
 		 */
-		gal::managed_object *		_M_shared_parent;
+		gal::mng::managed_object *		_M_shared_parent;
 		/*
 		 * index for finding this on this machine
 		 */

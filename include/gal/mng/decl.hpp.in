@@ -1,0 +1,13 @@
+{{ include_block_open }}
+
+namespace gal { namespace mng {
+	class managed_object;
+	class managed_process;
+	class registry_object;
+	class registry_process;
+	template<typename, typename, typename>
+	class registry;
+}}
+
+{{ include_block_close }}
+

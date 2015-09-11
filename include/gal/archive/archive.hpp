@@ -6,12 +6,12 @@
 
 namespace gal { namespace archive {
 	class archive:
-		virtual public gal::managed_object
+		virtual public gal::mng::managed_object
 	{
 	public:
 		archive();
-//		gal::managed_object *	get_shared_parent();
-//		gal::managed_object *	_M_shared_parent;
+//		gal::mng::managed_object *	get_shared_parent();
+//		gal::mng::managed_object *	_M_shared_parent;
 	};
 }}
 

@@ -32,15 +32,17 @@ namespace gal { namespace stl {
 	{
 	public:
 		using gal::verb::Verbosity< gal::stl::wrapper_base >::printv;
+		using gal::verb::Verbosity< gal::stl::wrapper_base >::init_verb;
 	};
 
 	template< typename T, typename S_ = std::shared_ptr<T> >
 	class wrapper:
 		virtual public gal::stl::wrapper_base,
-		virtual public gal::managed_object
+		virtual public gal::mng::managed_object
 	{
 	public:
 		using gal::stl::wrapper_base::printv;
+		using gal::stl::wrapper_base::init_verb;
 
 		typedef std::weak_ptr< factory<T> >	factory_weak;
 		typedef S_				S;
@@ -151,16 +153,16 @@ namespace gal { namespace stl {
 				assert(0);
 			}
 		
-			if(gal::managed_object::has_registry()) {
+			if(gal::mng::managed_object::has_registry()) {
 				auto r = get_registry();
 				//ptr_->init_shared(_M_registry_parent);
-				ptr_->gal::managed_object::init(r);
+				ptr_->gal::mng::managed_object::init(r);
 			} else {
 				auto ar1 = dynamic_cast<gal::archive::archive*>(&ar);
 				assert(ar1);
 				//ptr_->init_shared(ar1->get_shared_parent());
-				//ptr_->gal::managed_object::init(ar1->get_shared_parent());
-				ptr_->gal::managed_object::init(ar1->get_registry());
+				//ptr_->gal::mng::managed_object::init(ar1->get_shared_parent());
+				ptr_->gal::mng::managed_object::init(ar1->get_registry());
 			}
 			
 			// read object data
@@ -222,7 +224,7 @@ namespace gal { namespace stl {
 		static gal::object_index const &			static_get_index(gal::stl::wrapper<T, S_> const & wrap)
 		{
 			if(wrap.ptr_->_M_index == -1) {
-				printv(CRITICAL, "warning: gal::managed_object object is uninitialized\n");
+				printv(CRITICAL, "warning: gal::mng::managed_object object is uninitialized\n");
 				throw 0;
 			}
 			return wrap.ptr_->i_;

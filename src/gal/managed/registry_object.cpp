@@ -2,7 +2,7 @@
 
 #include <gal/mng/registry_object.hpp>
 
-typedef gal::registry_object THIS;
+typedef gal::mng::registry_object THIS;
 
 THIS::registry_object()
 {
@@ -26,7 +26,7 @@ THIS::index_type	THIS::first()
 
 	printv_func(DEBUG);
 
-	return index_type(gal::managed_process::get_index(), 0);
+	return index_type(gal::mng::managed_process::get_index(), 0);
 }
 THIS::index_type	THIS::get_index(S s)
 {
@@ -57,7 +57,7 @@ void			THIS::v_insert(S s)
 	typedef std::pair<typename map_type::iterator, bool> PAIR;
 
 	// register the object if not already
-	s->gal::managed_object::init(this);
+	s->gal::mng::managed_object::init(this);
 	
 	for(auto i : s->_M_map_index._M_map) {
 
@@ -103,7 +103,7 @@ void		THIS::set_index(gal::process_index p)
 
 	_M_next._M_p = p;
 
-	gal::managed_process::set_index(p);
+	gal::mng::managed_process::set_index(p);
 }
 void		THIS::set_process_index(gal::process_index p_new)
 {
@@ -118,7 +118,7 @@ void		THIS::set_process_index(gal::process_index p_new)
 	
 	std::vector< std::pair<
 		gal::object_index,
-		std::weak_ptr<gal::managed_object>> > v;
+		std::weak_ptr<gal::mng::managed_object>> > v;
 
 	printv(DEBUG, "m.size(): %u v.size(): %u\n", _M_map.size(), v.size());
 

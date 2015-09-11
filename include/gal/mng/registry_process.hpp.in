@@ -11,17 +11,20 @@
 #include <gal/mng/registry.hpp>
 #include <gal/mng/managed_process.hpp>
 
-namespace gal {
+{{ namespace_open }}
+
 	class registry_process:
-		virtual public gal::verb::Verbosity<gal::registry_process>,
+		virtual public gal::verb::Verbosity<gal::mng::registry_process>,
 		virtual public gal::registry<
 				gal::process_index,
-				gal::managed_process,
+				gal::mng::managed_process,
 				gal::process_index_less>,
-		virtual public gal::managed_process
+		virtual public gal::mng::managed_process
 	{
 	public:
-		using gal::verb::Verbosity<gal::registry_process>::printv;
+		{{ typedef_verb }}
+
+		using gal::verb::Verbosity<gal::mng::registry_process>::printv;
 
 		//registry_process();
 
@@ -31,7 +34,8 @@ namespace gal {
 		virtual void		v_insert(S);
 
 	};
-}
+
+{{ namespace_close }}
 
 #endif
 

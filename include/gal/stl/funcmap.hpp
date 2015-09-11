@@ -107,9 +107,11 @@ namespace gal { namespace stl {
 	class hash_code_less
 	{
 	public:
-		bool	operator()(gal::stl::HashCode const & h0, gal::stl::HashCode const & h1) const
+		bool			operator()(
+				gal::stl::HashCode const & h0,
+				gal::stl::HashCode const & h1) const
 		{
-			return h0.hc < h1.hc;
+			return h0._M_hc < h1._M_hc;
 		}
 	};
 	/** @brief funcmap
@@ -221,7 +223,7 @@ namespace gal { namespace stl {
 			printf("funcmap entries:\n");
 			for(auto p : map_) {
 				printf("%16lu %s\n",
-						p.first.hc,
+						p.first._M_hc,
 						p.second->signature());
 			}
 		}
@@ -238,7 +240,7 @@ namespace gal { namespace stl {
 					"T:   %32s\n"
 					"hash:%32lu\n",
 					typeid(T).name(),
-					h.hc);
+					h._M_hc);
 		}
 		template<typename... Args>
 		std::shared_ptr< __function<T, Args...> >

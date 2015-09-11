@@ -7,17 +7,20 @@
 //#include <gal/mng/registry_object.hpp>
 //#include <gal/mng/registry_process.hpp>
 
-namespace gal {
-	class managed_process
-	{
+{{ namespace_open }}
+
+class managed_process
+{
 	public:
 		gal::process_index	get_index() const;
 		/** overloaded by registry_object */
 		virtual void		set_index(gal::process_index);
-		
+
 		gal::process_index	_M_index;
-	};
-}
+};
+
+
+{{ namespace_close }}
 
 #endif
 

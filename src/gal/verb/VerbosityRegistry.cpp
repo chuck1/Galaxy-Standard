@@ -3,6 +3,9 @@
 
 typedef gal::verb::VerbosityRegistry THIS;
 
+THIS::VerbosityRegistry():
+	_M_stream(stdout)
+{}
 int			THIS::my_level()
 {
 	return INFO;

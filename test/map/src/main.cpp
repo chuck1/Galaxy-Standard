@@ -6,7 +6,7 @@
 #include <gal/dll/helper.hpp>
 
 #include <gal/mng/registry_object.hpp>
-#include <gal/mng/registry_process.hpp>
+#include <gal/mng/registry_process.hpp> // gal/mng/registry_process.hpp.in
 #include <gal/memory/unique_ptr.hpp>
 
 #include <gal/stl/map.hpp>
@@ -14,15 +14,15 @@
 namespace ba = boost::archive;
 
 struct bar:
-	gal::registry_object
-	//gal::managed_object
+	gal::mng::registry_object
+	//gal::mng::managed_object
 {
 	virtual void	release()
 	{
 	}
 };
 
-struct foo: gal::managed_object
+struct foo: gal::mng::managed_object
 {
 	virtual void	release()
 	{
@@ -36,9 +36,9 @@ int main()
 {
 	std::shared_ptr<gal::verb::VerbosityRegistry> vr(new gal::verb::VerbosityRegistry);
 	vr->reg<gal::registry_base>("gal registry_base");
-	vr->reg<gal::registry_process>("gal registry_process");
-	vr->reg<gal::registry_object>("gal registry_object");
-	vr->reg<gal::managed_object>("gal managed_object");
+	vr->reg<gal::mng::registry_process>("gal registry_process");
+	vr->reg<gal::mng::registry_object>("gal registry_object");
+	vr->reg<gal::mng::managed_object>("gal managed_object");
 	vr->reg<gal::stl::map_base>("gal stl map_base");
 	
 	//typedef gal::stl::map<foo, gal::unique_ptr<foo>> M;
@@ -47,29 +47,31 @@ int main()
 	typedef std::shared_ptr<bar> S_B;
 	typedef std::shared_ptr<M> S_M;
 	
-	std::shared_ptr<gal::registry_process> rp(new gal::registry_process);
-	rp->gal::verb::VerbosityBase::init(vr);
+	std::shared_ptr<gal::mng::registry_process> rp(new gal::mng::registry_process);
+
+	rp->VERB::init_verb(vr);
 	rp->init();
 	
 	S_B b(new bar);
-	b->gal::verb::VerbosityBase::init(vr);
+	b->VERB::init_verb(vr);
 
 	rp->reg(b);
 
 	b->init();
 	
 	S_M pm(new M);
-	pm->gal::verb::VerbosityBase::init(vr);
+	pm->init_verb(vr);
 
 	M & m = *pm;
 
 	m.init(b.get());
 
-	foo* f = new foo; f->gal::verb::VerbosityBase::init(vr);
+	foo* f = new foo;
+	f->init_verb(vr);
 	m.insert(M::S(std::move(f)));
-	f = new foo; f->gal::verb::VerbosityBase::init(vr);
+	f = new foo; f->init_verb(vr);
 	m.insert(M::S(std::move(f)));
-	f = new foo; f->gal::verb::VerbosityBase::init(vr);
+	f = new foo; f->init_verb(vr);
 	m.insert(M::S(std::move(f)));
 	
 	m.begin();

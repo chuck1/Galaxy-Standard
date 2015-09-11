@@ -4,28 +4,54 @@
 #include <map>
 #include <memory>
 
-#include <gal/decl.hpp>
+#include <gal/mng/decl.hpp>
 #include <gal/verb/Verbosity.hpp>
 #include <gal/mng/index_object.hpp>
 
 #include <gal/mng/registry.hpp>
 #include <gal/mng/managed_process.hpp>
 
-namespace gal {
+/*
+template<typename A, typename... T>
+class verb_resolver:
+	virtual public T...,
+	virtual public gal::verb::Verbosity<A>
+{
+	virtual std::string	name_verb()
+	{
+		return gal::verb::Verbosity<A>::name_verb();
+	}
+};
+*/
+{{ namespace_open }}
+
 	class registry_object:
-		virtual public gal::verb::Verbosity<gal::registry_object>,
+		/*
+		virtual public verb_resolver<
+			gal::mng::registry_object,
+			gal::registry<
+				gal::object_index,
+				gal::mng::managed_object,
+				gal::less_index>,
+			gal::mng::managed_process
+			>
+			*/
+		virtual public gal::verb::Verbosity<gal::mng::registry_object>,
 		virtual private gal::registry<
 				gal::object_index,
-				gal::managed_object,
+				gal::mng::managed_object,
 				gal::less_index>,
-		virtual public gal::managed_process
+		virtual public gal::mng::managed_process
 	{
 	public:
-		using gal::verb::Verbosity<gal::registry_object>::printv;
+		using gal::verb::Verbosity<gal::mng::registry_object>::printv;
+		//using gal::verb::Verbosity<gal::mng::registry_object>::name_verb;
+
+		{{ typedef_verb }}
 
 		typedef gal::registry<
 				gal::object_index,
-				gal::managed_object,
+				gal::mng::managed_object,
 				gal::less_index> BASE_REGISTRY;
 
 		typedef typename BASE_REGISTRY::S S;
@@ -51,7 +77,7 @@ namespace gal {
 		virtual index_type	get_index(S);
 		virtual void		set_index(S, index_type);
 		/**
-		 * overload gal::managed_process::set_index
+		 * overload gal::mng::managed_process::set_index
 		 * call set_process_index
 		 */
 		virtual void		set_index(gal::process_index);
@@ -67,7 +93,8 @@ namespace gal {
 		void			set_process_index(gal::process_index);
 	private:
 	};
-}
+
+{{ namespace_close }}
 
 #endif
 

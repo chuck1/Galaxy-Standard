@@ -14,25 +14,13 @@
 
 #include <gal/decl.hpp>
 #include <gal/dll/helper_info.hpp>
+#include <gal/dll/helper_base.hpp> // gal/dll/helper_base.hpp.in
 #include <gal/dll/deleter.hpp>
 #include <gal/shared.hpp>
 #include <gal/stl/funcmap.hpp>
 #include <gal/dll/class_info.hpp>
 
 namespace gal { namespace dll {
-	/*
-	 * used by deleter to keep helper alive
-	 */
-	class helper_base:
-		public gal::enable_shared_from_this<helper_base>,
-		public gal::verb::Verbosity<gal::dll::helper_base>
-	{
-	public:
-		using gal::enable_shared_from_this<
-			gal::dll::helper_base>::shared_from_this;
-		using gal::verb::Verbosity<
-			gal::dll::helper_base>::printv;
-	};
 	template< class B_, template<typename T> class S_ >
 	class helper:
 		public helper_base,
@@ -160,7 +148,7 @@ namespace gal { namespace dll {
 			S<B> b = (*f)(args...);
 
 			// attempt to do verbosity registration here...
-			b->gal::verb::VerbosityBase::init(get_vr());
+			b->init_verb(get_vr());
 
 			auto d = std::dynamic_pointer_cast<D>(b);
 			assert(d);

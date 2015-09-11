@@ -6,26 +6,37 @@
 
 #include <gal/decl.hpp>
 #include <gal/verb/decl.hpp>
+#include <gal/type_info.hpp>
 
 namespace gal { namespace verb {
 
-	class VerbosityBase
+	class VerbosityBase:
+		virtual public gal::type_info
 	{
 	public:
 		friend class gal::generic_factory;
 
-		typedef gal::verb::VerbosityRegistry VR;
-		typedef std::weak_ptr<VR>	W_VR;
-		typedef std::shared_ptr<VR>	S_VR;
+		typedef gal::verb::Info				I;
+		typedef gal::verb::VerbosityRegistry		R;
+		typedef std::shared_ptr<R>			S_R;
+		typedef std::weak_ptr<R>			W_R;
+		typedef std::shared_ptr<I>			S_I;
+		typedef std::weak_ptr<I>			W_I;
+
 	protected:
 	//private:
 		VerbosityBase();
 	public:
+		VerbosityBase(VerbosityBase && v):
+			_M_info_default(std::move(v._M_info_default))
+		{
+		}
 		virtual ~VerbosityBase();
-		void			init(std::shared_ptr<VR> r);
-		S_VR			get_vr() const;
-
-		W_VR			_M_reg;
+		S_R			get_vr() const;
+	protected:
+		S_I			_M_info_default;
+		W_I			_M_info;
+		W_R			_M_reg;
 	};
 
 }}

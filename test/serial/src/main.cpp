@@ -19,10 +19,10 @@ int main()
 	typedef gal::verb::VerbosityRegistry VR;
 	std::shared_ptr<VR> vr(new VR);
 	vr->reg<gal::dll::helper_base>("gal dll helper_base");
-	vr->reg<gal::managed_object>("gal managed_object");
+	vr->reg<gal::mng::managed_object>("gal managed_object");
 
 	std::shared_ptr<H> h(new H(filename));
-	h->gal::verb::VerbosityBase::init(vr);
+	h->VERB::init_verb(vr);
 	h->open();
 	h->add<gal::test::A>("A");
 

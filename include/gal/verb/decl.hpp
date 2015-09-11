@@ -5,6 +5,7 @@ namespace gal { namespace verb {
 
 	class VerbosityRegistry;
 	class VerbosityBase;
+	class Info;
 
 }}
 

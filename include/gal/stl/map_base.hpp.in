@@ -1,0 +1,11 @@
+{{ header_open }}
+
+class map_base:
+	virtual public gal::verb::Verbosity<gal::stl::map_base>
+{
+	public:
+		{{ setup_verb }}
+};
+
+{{ header_close }}
+

@@ -27,10 +27,18 @@ namespace gal { namespace stl {
 		public gal::verb::Verbosity<HashCode>
 	{
 		public:
-			HashCode(): hc(0) {}
-			HashCode(gal::hash_type nhc): hc(nhc) {}
+			HashCode(): _M_hc(0) {}
+			HashCode(gal::hash_type hc):
+				_M_hc(hc)
+			{}
+			HashCode(HashCode const & hc):
+				_M_hc(hc._M_hc)
+			{}
 
-			template<class Archive> void	load(Archive & ar, unsigned int const & version)
+			template<class Archive>
+			void			load(
+					Archive & ar,
+					unsigned int const & version)
 			{
 				/// @TODO fix this
 				/*
@@ -40,7 +48,7 @@ namespace gal { namespace stl {
 
 				   ar >> boost::serialization::make_nvp("name", name);
 
-				   hc = gal::managed_object::to_hash_code(name);
+				   hc = gal::mng::managed_object::to_hash_code(name);
 				   }
 				   else if(version == 1)
 				   {
@@ -49,13 +57,16 @@ namespace gal { namespace stl {
 				   else throw InvalidVersion(version);
 				   */
 			}
-			template<class Archive> void	save(Archive & ar, unsigned int const & version) const
+			template<class Archive>
+			void			save(
+					Archive & ar,
+					unsigned int const & version) const
 			{
 				/// @TODO fix this
 				/*
 				   if(version == 0)
 				   {
-				   std::string name = gal::managed_object::to_string(hc);
+				   std::string name = gal::mng::managed_object::to_string(hc);
 
 				   ar << boost::serialization::make_nvp("name", name);
 				   }
@@ -66,7 +77,7 @@ namespace gal { namespace stl {
 				   else throw InvalidVersion(version);
 				   */
 			}
-			void		load(
+			void			load(
 					ba::xml_iarchive & ar,
 					unsigned int const & version)
 			{
@@ -74,32 +85,32 @@ namespace gal { namespace stl {
 
 				//ar >> boost::serialization::make_nvp("name", name);
 
-				//hc = gal::managed_object::to_hash_code(name);
+				//hc = gal::mng::managed_object::to_hash_code(name);
 			}
-			void		save(
+			void			save(
 					ba::xml_oarchive & ar,
 					unsigned int const & version) const
 			{
-				//std::string name = gal::managed_object::to_string(hc);
+				//std::string name = gal::mng::managed_object::to_string(hc);
 
 				//ar << boost::serialization::make_nvp("name", name);
 			}
-			void		load(
+			void			load(
 					ba::binary_iarchive & ar,
 					unsigned int const & version)
 			{
-				ar >> hc;
+				ar >> _M_hc;
 			}
-			void		save(
+			void			save(
 					ba::binary_oarchive & ar,
 					unsigned int const & version) const
 			{
-				ar << hc;
+				ar << _M_hc;
 			}
 
 			BOOST_SERIALIZATION_SPLIT_MEMBER();
 
-			gal::hash_type	hc;
+			gal::hash_type	_M_hc;
 	};
 }}
 

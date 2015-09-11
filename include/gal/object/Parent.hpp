@@ -12,7 +12,7 @@ namespace gal { namespace object {
 	template< typename T, typename S_ = std::shared_ptr<T> >
 	class Parent:
 		virtual public gal::object::ParentBase,
-		virtual public gal::managed_object
+		virtual public gal::mng::managed_object
 	{
 	public:
 		using gal::verb::Verbosity<gal::object::ParentBase>::printv;
@@ -30,11 +30,11 @@ namespace gal { namespace object {
 		Parent()
 		{
 		}
-		void			init(gal::managed_object * parent)
+		void			init(gal::mng::managed_object * parent)
 		{
 			assert_map();
 		}
-		void			register_all(gal::registry_object * r)
+		void			register_all(gal::mng::registry_object * r)
 		{
 			// lock
 			std::lock_guard<std::recursive_mutex> lg(_M_mutex);
@@ -97,7 +97,7 @@ namespace gal { namespace object {
 			t.detach();
 		}
 		void			erase(
-				std::shared_ptr<gal::managed_object> s)
+				std::shared_ptr<gal::mng::managed_object> s)
 		{
 			printv_func(DEBUG);
 
@@ -187,7 +187,7 @@ namespace gal { namespace object {
 		{
 			if(!_M_map) {
 				_M_map.reset(new MAP);
-				_M_map->gal::verb::VerbosityBase::init(get_vr());
+				_M_map->init_verb(get_vr());
 				_M_map->init(get_registry());
 			}
 		}

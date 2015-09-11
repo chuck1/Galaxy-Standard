@@ -17,7 +17,7 @@ namespace gal { namespace stl {
 	 */
 	class FuncMap {
 		private:
-			typedef std::shared_ptr<gal::managed_object>				shared_type;
+			typedef std::shared_ptr<gal::mng::managed_object>				shared_type;
 			/** */
 			struct __base_function {
 				virtual ~__base_function() {}
@@ -87,7 +87,7 @@ namespace gal { namespace stl {
 	class factory2: public FuncMap {
 		public:
 			/** */
-			template<class... Args> std::shared_ptr<gal::managed_object>		alloc(gal::hash_type hash_code, Args&&... args) {
+			template<class... Args> std::shared_ptr<gal::mng::managed_object>		alloc(gal::hash_type hash_code, Args&&... args) {
 				auto f = find<Args...>(hash_code);
 
 				return (f->f_)(::std::forward<Args>(args)...);

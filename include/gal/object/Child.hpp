@@ -18,7 +18,7 @@ namespace gal { namespace object {
 	template<typename T>
 	class Child:
 		virtual public gal::object::ChildBase,
-		virtual public gal::managed_object
+		virtual public gal::mng::managed_object
 	{
 	public:
 
@@ -47,7 +47,7 @@ namespace gal { namespace object {
 			 */
 			//assert(dynamic_cast<gal::object::Child<T>*>(p) != this);
 		
-			auto r = dynamic_cast<gal::managed_object::registry_type*>(p);
+			auto r = dynamic_cast<gal::mng::managed_object::registry_type*>(p);
 			if(!r) {
 				r = p->get_registry();
 				if(!r) {
@@ -55,7 +55,7 @@ namespace gal { namespace object {
 				}
 			}
 			
-			gal::managed_object::init(r);
+			gal::mng::managed_object::init(r);
 
 			_M_parent = p;
 		}

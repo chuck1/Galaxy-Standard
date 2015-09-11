@@ -6,9 +6,9 @@
 #include <gal/mng/registry_object.hpp>
 #include <gal/error/no_index.hpp>
 
-#include <gal/mng/managed_object.hpp>
+#include <gal/mng/managed_object.hpp> // gal/mng/managed_object.hpp.in
 
-typedef gal::managed_object THIS;
+typedef gal::mng::managed_object THIS;
 
 THIS::managed_object():
 	_M_registry_parent(0)
@@ -22,11 +22,11 @@ THIS::~managed_object()
 	//printv_func(DEBUG);
 }
 void    		        THIS::init(registry_type * r)
-//void    		        THIS::init(gal::managed_object * p)
+//void    		        THIS::init(gal::mng::managed_object * p)
 {
 	assert(r);
 
-	gal::verb::VerbosityBase::init(r->get_vr());
+	init_verb(r->get_vr());
 
 	printv_func(DEBUG);
 

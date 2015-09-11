@@ -11,6 +11,7 @@
 
 #include <gal/etc/print.hpp>
 
+
 #include <gal/verb/Info.hpp>
 #include <gal/verb/VerbosityBase.hpp>
 #include <gal/verb/VerbosityRegistry.hpp>
@@ -36,27 +37,52 @@ namespace gal { namespace verb {
 	class Verbosity:
 		virtual public gal::verb::VerbosityBase
 	{
-	public:
-		typedef gal::verb::VerbosityRegistry		VR;
-		typedef std::weak_ptr<VR>			W_VR;
-		typedef std::shared_ptr<gal::verb::Info>	S_I;
 	protected:
 		Verbosity()
 		{
 			S_I s(new gal::verb::Info);
 			s->_M_level = DEBUG;
 			s->_M_stream = stdout;
+			_M_info_default = s;
 		}
+	public:
+		void			init_verb(S_R r)
+		{
+			//assert(r);
+			_M_reg = r;
+		
+			if(r) {
+				_M_info = r->get(name_verb());
+			}
+		}
+	protected:
 		S_I			level() const
 		{
-			auto name = typeid(T).name();
+			S_I s;
 
+			s = _M_info.lock();
+			if(s) return s;
+			
+			assert(_M_info_default);
+
+			return _M_info_default;
+			/*
+			
 			auto r = get_vr();
 			if(!r) {
 				return _M_info_default;
 			}
 			
-			return r->get(name);
+			s = r->get(name);
+
+			_M_info = s;
+
+			return s;
+			*/
+		}
+		std::string		name_verb()
+		{
+			return typeid(T).name();
 		}
 		template<typename... A>
 		void			printv(
@@ -79,10 +105,12 @@ namespace gal { namespace verb {
 				int sev,
 				A const & a) const
 		{
-			if(sev >= level())
-				gal::etc::print(a);
+			auto i = level();
+
+			if(sev < i->_M_level) return;
+
+			gal::etc::print(a);
 		}
-		S_I			_M_info_default;
 	};
 
 

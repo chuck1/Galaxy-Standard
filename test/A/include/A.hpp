@@ -14,7 +14,7 @@ namespace ba = boost::archive;
 namespace gal { namespace test {
 struct A:
 	virtual gal::object::ChildBase,
-	virtual gal::managed_object
+	virtual gal::mng::managed_object
 {
 	virtual ~A() {}
 	virtual void foo() = 0;
@@ -23,7 +23,7 @@ struct A:
 	void serialize(AR & ar, unsigned int const &)
 	{
 		printf("%s\n", __PRETTY_FUNCTION__);
-		ar & boost::serialization::base_object<gal::managed_object>(*this);
+		ar & boost::serialization::base_object<gal::mng::managed_object>(*this);
 	}
 
 	virtual void	v_load(ba::polymorphic_iarchive & ar) = 0;

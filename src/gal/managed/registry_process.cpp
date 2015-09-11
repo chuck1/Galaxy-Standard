@@ -3,7 +3,7 @@
 
 #include <gal/mng/registry_process.hpp>
 
-typedef gal::registry_process THIS;
+typedef gal::mng::registry_process THIS;
 
 THIS::index_type	THIS::first()
 {
@@ -15,7 +15,7 @@ THIS::index_type	THIS::get_index(S s)
 {
 	printv_func(DEBUG);
 
-	gal::process_index p = s->gal::managed_process::get_index();
+	gal::process_index p = s->gal::mng::managed_process::get_index();
 
 	if(p._M_i == -1)
 		throw gal::error::no_index(__FILE__, __LINE__);

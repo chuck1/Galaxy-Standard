@@ -9,7 +9,7 @@ THIS::archive()
 {}
 
 /*
-gal::managed_object *	THIS::get_shared_parent()
+gal::mng::managed_object *	THIS::get_shared_parent()
 {
 	assert(_M_shared_parent);
 	return _M_shared_parent;

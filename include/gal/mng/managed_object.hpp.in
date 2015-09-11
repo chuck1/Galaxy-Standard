@@ -42,7 +42,7 @@
 // gal/mng/managed_object.hpp
 // gal/mng/registry.hpp
 
-namespace gal {
+{{ namespace_open }}
 
 	/** @brief %shared.
 	 *
@@ -52,14 +52,16 @@ namespace gal {
 	 */
 	class managed_object:
 		virtual public gal::type_info,
-		virtual public gal::verb::Verbosity<gal::managed_object>,
-		virtual public gal::enable_shared_from_this<gal::managed_object>
+		virtual public gal::verb::Verbosity<gal::mng::managed_object>,
+		virtual public gal::enable_shared_from_this<gal::mng::managed_object>
 	{
 	public:
+		{{ typedef_verb }}
 
 		class map_index
 		{
 		public:
+
 			typedef std::map<
 				gal::process_index,
 				gal::object_index> map_type;
@@ -97,29 +99,29 @@ namespace gal {
 			map_type	_M_map;
 		};
 
-		using gal::verb::Verbosity<gal::managed_object>::printv;
-		using gal::enable_shared_from_this<gal::managed_object>::shared_from_this;
+		using gal::verb::Verbosity<gal::mng::managed_object>::printv;
+		using gal::enable_shared_from_this<gal::mng::managed_object>::shared_from_this;
 
 		DEFINE_FLAG(flag, ((INITIALIZED)(1<<0)))
 
 		//typedef gal::registry<
 		//	gal::object_index,
-		//	gal::managed_object,
+		//	gal::mng::managed_object,
 		//	gal::less_index> registry_type;
-		//typedef gal::managed_process registry_type;
-		typedef gal::registry_object registry_type;
+		//typedef gal::mng::managed_process registry_type;
+		typedef gal::mng::registry_object registry_type;
 
 
 		friend class gal::registry<
 			gal::object_index,
-			gal::managed_object,
+			gal::mng::managed_object,
 			gal::less_index>;
-		friend class gal::registry_object;
+		friend class gal::mng::registry_object;
 
 		friend class boost::serialization::access;
 
 		virtual void			init(registry_type * parent);
-		//virtual void			init(gal::managed_object * parent);
+		//virtual void			init(gal::mng::managed_object * parent);
 		managed_object();
 		virtual ~managed_object();
 		
@@ -166,7 +168,8 @@ namespace gal {
 		 */
 		boost::recursive_mutex		mutex_;
 	};
-}
+
+{{ namespace_close }}
 
 #endif
 

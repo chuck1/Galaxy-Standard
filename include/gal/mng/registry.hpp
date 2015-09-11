@@ -120,7 +120,7 @@ namespace gal {
 		public gal::verb::Verbosity<gal::object_registry>,
 		public registry<
 				gal::object_index,
-				gal::managed_object,
+				gal::mng::managed_object,
 				gal::less_index>	
 	{
 	public:
@@ -132,7 +132,7 @@ namespace gal {
 		{
 			printv_func(DEBUG);
 		}
-		std::shared_ptr<gal::managed_object>	get(gal::object_index i);
+		std::shared_ptr<gal::mng::managed_object>	get(gal::object_index i);
 	public:
 		void			set_process_index(long int);
 		*

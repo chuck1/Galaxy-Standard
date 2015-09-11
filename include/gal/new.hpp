@@ -11,7 +11,7 @@ namespace gal {
 			assert(vr);
 			
 			T* t = new T;
-			t->gal::verb::VerbosityBase::init(vr);
+			t->init_verb\(vr);
 			return t;
 		}
 	private:

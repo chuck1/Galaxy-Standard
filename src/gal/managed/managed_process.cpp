@@ -1,7 +1,7 @@
 #include <gal/error/no_index.hpp>
 #include <gal/mng/managed_process.hpp>
 
-typedef gal::managed_process THIS;
+typedef gal::mng::managed_process THIS;
 
 gal::process_index	THIS::get_index() const
 {
