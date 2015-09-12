@@ -1,3 +1,4 @@
+#include <gal/error/base.hpp>
 
 #include <gal/verb/VerbosityBase.hpp>
 #include <gal/verb/VerbosityRegistry.hpp>
@@ -16,9 +17,11 @@ THIS::S_R		THIS::get_vr() const
 
 
 	} else {
-		//auto name = typeid(*this).name();
-		//printf("warning: verbosity registry is null. name=%s\n", name);
-		//abort();
+		auto name = typeid(*this).name();
+		printf("warning: verbosity registry is null. name=%s\n", name);
+		
+		gal::error::backtrace bt;
+		throw gal::error::base(bt);
 	}
 	return r;
 }
