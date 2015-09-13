@@ -16,6 +16,7 @@ namespace gal { namespace error {
 		base(gal::error::backtrace const & bt):
 			_M_bt(bt)
 		{}
+		char const *		what() const noexcept;
 		gal::error::backtrace	_M_bt;
 	};
 }}

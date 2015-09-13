@@ -23,8 +23,8 @@
 namespace gal { namespace dll {
 	template< class B_, template<typename T> class S_ >
 	class helper:
-		public helper_base,
-		private gal::stl::funcmap<B_, S_>
+		virtual public helper_base,
+		virtual private gal::stl::funcmap<B_, S_>
 	{
 	public:
 

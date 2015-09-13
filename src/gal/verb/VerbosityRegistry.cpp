@@ -17,7 +17,8 @@ void			THIS::set(
 	auto it = _M_vec.begin();
 	while(it != _M_vec.end()) {
 		if(std::get<1>(*it) == nickname) {
-			std::get<2>(*it) = i;
+			auto s = std::get<2>(*it);
+			s->_M_level = i;
 			return;
 		}
 		it++;
@@ -28,12 +29,12 @@ void			THIS::set(
 }
 THIS::S_I		THIS::get(std::string str)
 {
-	S_I s(new gal::verb::Info);
+	S_I s;
 	
 	auto it = _M_vec.begin();
 	while(it != _M_vec.end()) {
 		if(std::get<0>(*it) == str) {
-			s->_M_level = std::get<2>(*it);
+			s = std::get<2>(*it);
 			s->_M_stream = _M_stream;
 			return s;
 		}

@@ -12,7 +12,7 @@
 
 namespace gal {
 	class registry_base:
-		public gal::verb::Verbosity< gal::registry_base >
+		virtual public gal::verb::Verbosity<gal::registry_base>
 	{
 	};
 	template<

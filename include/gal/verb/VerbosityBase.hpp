@@ -27,12 +27,10 @@ namespace gal { namespace verb {
 	//private:
 		VerbosityBase();
 	public:
-		VerbosityBase(VerbosityBase && v):
-			_M_info_default(std::move(v._M_info_default))
-		{
-		}
+		VerbosityBase(VerbosityBase && v);
 		virtual ~VerbosityBase();
 		S_R			get_vr() const;
+		S_I			get_info_default() const;
 	protected:
 		S_I			_M_info_default;
 		W_I			_M_info;

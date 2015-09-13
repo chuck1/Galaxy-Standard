@@ -4,8 +4,8 @@
  * used by deleter to keep helper alive
  */
 class helper_base:
-	public gal::enable_shared_from_this<helper_base>,
-	public gal::verb::Verbosity<gal::dll::helper_base>
+	virtual public gal::enable_shared_from_this<helper_base>,
+	virtual public gal::verb::Verbosity<gal::dll::helper_base>
 {
 	public:
 		using gal::enable_shared_from_this<

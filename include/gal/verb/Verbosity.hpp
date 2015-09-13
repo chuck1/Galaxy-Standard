@@ -37,7 +37,8 @@ namespace gal { namespace verb {
 	class Verbosity:
 		virtual public gal::verb::VerbosityBase
 	{
-	protected:
+	public:
+	//protected:
 		Verbosity()
 		{
 			S_I s(new gal::verb::Info);
@@ -50,22 +51,25 @@ namespace gal { namespace verb {
 		{
 			//assert(r);
 			_M_reg = r;
-		
+
 			if(r) {
 				_M_info = r->get(name_verb());
+				assert(!_M_info.expired());
+			} else {
+				gal::error::backtrace bt; bt.calc();
+				throw gal::error::base(bt);
 			}
 		}
 	protected:
 		S_I			level() const
 		{
 			S_I s;
-
+			
 			s = _M_info.lock();
+			
 			if(s) return s;
 			
-			assert(_M_info_default);
-
-			return _M_info_default;
+			return get_info_default();
 			/*
 			
 			auto r = get_vr();

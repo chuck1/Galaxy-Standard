@@ -22,7 +22,7 @@ namespace gal { namespace verb {
 		typedef std::tuple<
 			std::string, 
 			std::string, 
-			int> TUPLE;
+			S_I> TUPLE;
 		typedef std::vector<TUPLE> VEC;
 	
 		VerbosityRegistry();
@@ -33,9 +33,13 @@ namespace gal { namespace verb {
 		{
 			std::string str = typeid(T).name();
 			
+			S_I s(new gal::verb::Info);
+			s->_M_level = i;
+			s->_M_stream = _M_stream;
+			
 			_M_vec.insert(
 					_M_vec.end(),
-					TUPLE(str, nickname, i));
+					TUPLE(str, nickname, s));
 			
 			printv(
 					DEBUG,

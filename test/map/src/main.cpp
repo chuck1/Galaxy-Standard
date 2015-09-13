@@ -17,6 +17,9 @@ struct bar:
 	gal::mng::registry_object
 	//gal::mng::managed_object
 {
+	bar()
+	{
+	}
 	virtual void	release()
 	{
 	}
@@ -46,8 +49,9 @@ int main()
 
 	typedef std::shared_ptr<bar> S_B;
 	typedef std::shared_ptr<M> S_M;
-	
-	std::shared_ptr<gal::mng::registry_process> rp(new gal::mng::registry_process);
+	typedef gal::mng::registry_process RP;
+
+	std::shared_ptr<RP> rp(new RP);
 
 	rp->VERB::init_verb(vr);
 	rp->init();

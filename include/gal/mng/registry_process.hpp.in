@@ -9,12 +9,13 @@
 #include <gal/mng/index_process.hpp>
 
 #include <gal/mng/registry.hpp>
-#include <gal/mng/managed_process.hpp>
+#include <gal/mng/managed_process.hpp> // gal/mng/managed_process.hpp.in
 
 {{ namespace_open }}
 
 	class registry_process:
-		virtual public gal::verb::Verbosity<gal::mng::registry_process>,
+		virtual public gal::verb::Verbosity<
+				gal::mng::registry_process>,
 		virtual public gal::registry<
 				gal::process_index,
 				gal::mng::managed_process,
@@ -24,7 +25,10 @@
 	public:
 		{{ typedef_verb }}
 
-		using gal::verb::Verbosity<gal::mng::registry_process>::printv;
+		using gal::verb::Verbosity<
+			gal::mng::registry_process>::printv;
+		using gal::verb::Verbosity<
+			gal::mng::registry_process>::init_verb;
 
 		//registry_process();
 
