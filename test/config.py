@@ -6,3 +6,6 @@ self.include("map")
 self.include("registry")
 self.include("weak_ptr")
 self.include("tuple")
+self.include("object_map")
+self.include("factory_map")
+

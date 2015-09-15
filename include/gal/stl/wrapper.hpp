@@ -44,7 +44,8 @@ namespace gal { namespace stl {
 		using gal::stl::wrapper_base::printv;
 		using gal::stl::wrapper_base::init_verb;
 
-		typedef std::weak_ptr< factory<T> >	factory_weak;
+		typedef std::shared_ptr< factory<T> >	S_F;
+		typedef std::weak_ptr< factory<T> >	W_F;
 		typedef S_				S;
 		struct LoadType
 		{
@@ -60,31 +61,36 @@ namespace gal { namespace stl {
 				return "null ptr";
 			}
 		};
-		wrapper(): 
-			factory_(factory<T>::default_factory_)
+		wrapper() 
+			//factory(factory<T>::default_factory)
 		{
-			assert(!factory_.expired());
+			//assert(!factory.expired());
 		}
 		wrapper(S && ptr):
-			ptr_(std::move(ptr)),
-			factory_(factory<T>::default_factory_)
+			ptr_(std::move(ptr))
+			//factory(factory<T>::default_factory)
 		{
 			assert(ptr_);
 		}
 		wrapper(wrapper<T, S_> const & w):
 			ptr_(w.ptr_),
-			factory_(w.factory_)
+			_M_factory(w._M_factory)
 		{
 			assert(ptr_);
 		}
 		wrapper(wrapper<T, S_>&& w):
 			ptr_(std::move(w.ptr_)),
-			factory_(std::move(w.factory_))
+			_M_factory(std::move(w._M_factory))
 		{
 			assert(ptr_);
 		}
 		virtual ~wrapper()
 		{
+		}
+		void				set_factory(S_F f)
+		{
+			assert(f);
+			_M_factory = f;
 		}
 		virtual void			v_check_delete()
 		{
@@ -187,7 +193,7 @@ namespace gal { namespace stl {
 			printv(DEBUG, "hashcode = %lu\n", h);
 
 			// get the factory
-			auto fs = factory_.lock();
+			auto fs = _M_factory.lock();
 			assert(fs);
 
 			// allocate the object
@@ -212,7 +218,7 @@ namespace gal { namespace stl {
 			// by calling code
 
 			// get the factory
-			auto fs = factory_.lock();
+			auto fs = _M_factory.lock();
 			assert(fs);
 
 			// allocate the object
@@ -232,7 +238,7 @@ namespace gal { namespace stl {
 		*/
 	public:
 		S				ptr_;
-		factory_weak			factory_;
+		W_F				_M_factory;
 	};
 }}
 

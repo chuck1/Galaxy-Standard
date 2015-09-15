@@ -19,10 +19,12 @@ namespace gal { namespace dll {
 	//template<typename H> struct deleter;
 
 	struct helper_info:
-		public gal::verb::Verbosity<gal::dll::helper_info>
+		virtual public gal::verb::Verbosity<gal::dll::helper_info>
 	{
 		public:
 			using gal::verb::Verbosity<gal::dll::helper_info>::printv;
+			using gal::verb::Verbosity<gal::dll::helper_info>::init_verb;
+
 			helper_info();
 			/** @brief constructor
 			* 

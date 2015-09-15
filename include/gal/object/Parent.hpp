@@ -1,7 +1,7 @@
 #ifndef GAL_STD_PARENT_HPP
 #define GAL_STD_PARENT_HPP
 
-#include <gal/stl/map.hpp>
+#include <gal/stl/map.hpp> // gal/stl/map.hpp.in
 #include <gal/mng/managed_object.hpp>
 #include <gal/stl/wrapper.hpp>
 #include <gal/object/Child.hpp>

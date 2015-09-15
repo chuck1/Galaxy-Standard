@@ -25,15 +25,15 @@ THIS::S_R		THIS::get_vr() const
 		printf("warning: verbosity registry is null. name=%s\n",
 				name);
 
-		gal::error::backtrace bt;
+		gal::error::backtrace bt; bt.calc();
 		throw gal::error::base(bt);
 	}
 	return r;
 }
 THIS::S_I		THIS::get_info_default() const
 {
-	gal::error::backtrace bt; bt.calc();
-	throw gal::error::base(bt);
+	//gal::error::backtrace bt; bt.calc();
+	//throw gal::error::base(bt);
 
 	assert(_M_info_default);
 	return _M_info_default;

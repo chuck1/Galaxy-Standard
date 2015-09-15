@@ -1,0 +1,47 @@
+{{ include_block_open }}
+
+#include <gal/stl/object_map.hpp> // gal/stl/object_map.hpp.in
+
+{{ namespace_open }}
+
+class factory_map:
+	public gal::stl::object_map<long int>
+{
+public:
+	typedef gal::stl::object_map<long int>	OM;
+
+	template<typename T>
+	std::shared_ptr< gal::stl::factory<T> >		create()
+	{
+		typedef gal::stl::factory<T>	F;
+		
+	}
+	template<typename T>
+	void			add(
+			std::shared_ptr< gal::stl::factory<T> > o)
+	{
+		long int k = typeid(T).name();
+		
+		OM::add(k, o);
+	}
+	template<typename T>
+	std::shared_ptr< gal::stl::factory<T> >		find()
+	{
+		typedef object__<T>		O;
+		typedef gal::stl::factory<T>	F;
+		
+		auto o = OM::find<T>();
+
+		auto f = std::dynamic_pointer_cast<F>(o);
+
+		return f;
+	}
+};
+
+	
+{{ namespace_close }}
+
+{{ include_block_close }}
+
+
+

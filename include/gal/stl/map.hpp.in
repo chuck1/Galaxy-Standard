@@ -65,8 +65,8 @@ public:
 
 	typedef gal::weak_ptr<T>					W;
 
-	typedef gal::stl::wrapper<T, S_>				wrapper_type;
-	typedef std::map<gal::object_index, wrapper_type, gal::less_index>	container_type;
+	typedef gal::stl::wrapper<T, S_>				WRAPPER;
+	typedef std::map<gal::object_index, WRAPPER, gal::less_index>	container_type;
 	typedef typename container_type::value_type			value_type;
 	typedef typename container_type::iterator			iterator;
 	typedef typename container_type::const_iterator			IC;
@@ -141,13 +141,15 @@ public:
 		auto ret = container_.insert(
 				value_type(
 					i,
-					wrapper_type(std::move(s))));
-
+					WRAPPER(std::move(s))));
+		
 		if(!ret.second) {					
 			printv(CRITICAL, "not inserted i = %i\n", i);
 			abort();
 		}
 		
+		ret.first->second.init_verb(get_vr());
+
 		//return w;
 	}
 	void			for_each(std::function<void(T &)> const & f)
@@ -363,7 +365,7 @@ public:
 		// do base class
 		gal::mng::managed_object::change_process_index(p_old, p_new);
 		
-		//typedef std::pair<gal::object_index, wrapper_type> P;
+		//typedef std::pair<gal::object_index, WRAPPER> P;
 		typedef std::pair<gal::object_index, S> P;
 		std::vector<P> v;
 	
@@ -388,11 +390,10 @@ public:
 
 				it = container_.erase(it);
 
-				auto ret = container_.insert(
-					value_type(
-						o1,
-						wrapper_type(
-							std::move(s))));
+				WRAPPER w(std::move(s));
+				w.init_verb(get_vr());
+
+				auto ret = container_.insert(value_type(o1, w));
 
 				if(!ret.second) {
 					printv(CRITICAL, "not inserted i"
@@ -431,7 +432,7 @@ public:
 			auto ret = container_.insert(
 					value_type(
 						it2->first,
-						wrapper_type(
+						WRAPPER(
 						std::move(s))));
 			assert(ret.second);
 		}

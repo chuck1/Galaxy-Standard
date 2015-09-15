@@ -21,7 +21,8 @@ namespace gal { namespace stl {
 		 * like local and remote??? how does this work?
 		 */
 		template<typename T>
-		class factory: public gal::stl::funcmap<T, std::shared_ptr>
+		class factory:
+			virtual public gal::stl::funcmap<T, std::shared_ptr>
 		{
 		public:
 			typedef std::shared_ptr<T>	shared;
@@ -40,10 +41,11 @@ namespace gal { namespace stl {
 				return (*f)(std::forward<Args>(args)...);
 			}
 		public:
-			static std::shared_ptr< factory<T> >				default_factory_;
+			//static std::shared_ptr< factory<T> >		default_factory_;
 		};
 
-		template<typename T> std::shared_ptr< factory<T> > factory<T>::default_factory_ = std::shared_ptr< factory<T> >(new factory<T>());
+		//template<typename T>
+		//std::shared_ptr< factory<T> > factory<T>::default_factory_ = std::shared_ptr< factory<T> >(new factory<T>());
 }}
 
 #endif

@@ -1,0 +1,11 @@
+
+
+{{ include_block_open }}
+
+namespace gal { namespace stl {
+	template<typename> class factory;
+}}
+
+{{ include_block_close }}
+
+

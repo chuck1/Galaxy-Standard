@@ -43,6 +43,7 @@ int main()
 	vr->reg<gal::mng::registry_object>("gal registry_object");
 	vr->reg<gal::mng::managed_object>("gal managed_object");
 	vr->reg<gal::stl::map_base>("gal stl map_base");
+	vr->reg<gal::stl::wrapper_base>("gal stl wrapper");
 	
 	//typedef gal::stl::map<foo, gal::unique_ptr<foo>> M;
 	typedef gal::stl::map<foo, std::shared_ptr<foo>> M;

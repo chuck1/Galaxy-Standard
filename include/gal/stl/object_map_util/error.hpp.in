@@ -1,0 +1,42 @@
+{{ include_block_open }}
+
+#include <map>
+#include <memory>
+#include <iostream>
+#include <cassert>
+
+//#include <gal/decl.hpp>
+//#include <gal/typedef.hpp>
+//#include <gal/stl/helper.hpp>
+//#include <gal/stl/HashCode.hpp>
+
+{{ namespace_open }}
+
+class key_not_found: public std::exception
+{
+	virtual char const *	what() const noexcept
+	{
+		return "object map: key not found";
+	}
+};
+class args_not_found: public std::exception
+{
+	virtual char const *	what() const noexcept
+	{
+		return "object map: args not found";
+	}
+};
+class invalid_args: public std::exception
+{
+	virtual char const *	what() const noexcept
+	{
+		return "object map: invalid args";
+	}
+};
+
+{{ namespace_close }}
+
+{{ include_block_close }}
+
+
+

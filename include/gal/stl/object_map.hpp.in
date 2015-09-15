@@ -1,0 +1,119 @@
+{{ include_block_open }}
+
+#include <map>
+#include <memory>
+#include <iostream>
+#include <cassert>
+
+#include <gal/stl/object_map_util/error.hpp> // gal/stl/object_map_util/error.hpp.in
+
+{{ namespace_open }}
+
+class object_base__
+{
+public:
+	virtual ~object_base__()
+	{
+	}
+};
+
+template<class T, class... A>
+class object__:
+	public object_base__
+{
+public:
+	virtual ~object__()
+	{
+	}
+};
+
+
+/** @brief object map
+ *
+ * A map containing template objects with arbitrary signatures
+ * Motivation: See factory and Initializer classes
+ */
+template<
+	typename KEY
+	//template<typename... Args> class OBJ<Args...>
+	>
+class object_map
+{
+private:
+	//typedef S_<T>		shared_type;
+	typedef std::shared_ptr<object_base__>		S_OB;
+	typedef std::map<KEY, S_OB>			MAP;
+
+	typedef typename MAP::iterator			ITER;
+public:
+	object_map()
+	{
+	}
+	virtual ~object_map()
+	{
+	}
+	template<typename... Args>
+	void			add(
+			std::shared_ptr< object__<Args...> > o)
+	{
+		KEY k;
+
+		add<Args...>(k, o);
+	}
+	template<typename... Args>
+	void			add(
+			KEY k,
+			std::shared_ptr< object__<Args...> > o)
+	{
+		std::pair<ITER, bool> p = _M_map.insert(std::make_pair(k, o));
+		
+		if(p.second) {
+		} else {
+			assert(0);
+		}
+	}
+	template<typename... Args>
+	std::shared_ptr< object__<Args...> >	find()
+	//std::shared_ptr< OBJ<Args...> >		find()
+	{
+		typedef object__<Args...> O;
+		
+		for(auto it = _M_map.begin(); it != _M_map.end(); ++it) {
+			auto o = std::dynamic_pointer_cast<O>(it->second);
+
+			if(o) return o;
+		}
+
+		throw object_map_util::args_not_found();
+
+		return 0;
+	}
+	template<typename... Args>
+	std::shared_ptr< object__<Args...> >	find(KEY k)
+	{
+		typedef object__<Args...> O;
+		
+		auto it = _M_map.find(k);
+
+		if(it == _M_map.cend()) {
+			throw object_map_util::key_not_found();
+		}
+		
+		auto o = std::dynamic_pointer_cast<O>(it->second);
+		
+		if(!o) {
+			throw object_map_util::invalid_args();
+		}
+		return o;
+	}
+private:
+	MAP		_M_map;
+};
+
+	
+{{ namespace_close }}
+
+{{ include_block_close }}
+
+
+

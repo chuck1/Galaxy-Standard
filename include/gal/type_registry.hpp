@@ -26,10 +26,13 @@ namespace gal {
 		hash_type		to_hash_code(std::string const & str);
 		std::string		to_string(hash_type const & hash);
 		template<typename B, typename D>
-		void			makeDefaultFunc()
+		void			makeDefaultFunc(
+				std::shared_ptr< gal::stl::factory<B> > fact)
 		{
 			printv_func(DEBUG);
-		
+	
+			assert(fact);
+
 			register_type(std::type_index(typeid(B)));
 			register_type(std::type_index(typeid(D)));
 	
@@ -41,7 +44,7 @@ namespace gal {
 
 			std::function< std::shared_ptr<B>() > f(l);
 		
-			gal::stl::factory<B>::default_factory_->template add<D>(f);
+			fact->template add<D>(f);
 		}
 		/** @brief Register new type index.
 		 *
