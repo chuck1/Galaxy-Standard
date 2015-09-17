@@ -1,0 +1,26 @@
+{{ include_block_open }}
+
+#include <gal/error/base.hpp>
+
+{{ namespace_open }}
+
+class null_factory: public gal::error::base
+{
+public:
+	null_factory(gal::error::backtrace bt):
+		gal::error::base(bt)
+	{
+	}
+	virtual char const *	what() const noexcept
+	{
+		_M_bt.print();
+		return "null factory";
+	}
+};
+
+{{ namespace_close }}
+
+{{ include_block_close }}
+
+
+

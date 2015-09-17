@@ -20,33 +20,39 @@
 #include <gal/stl/factory.hpp>
 #include <gal/verb/Verbosity.hpp>
 #include <gal/dll/helper.hpp>
-
+#include <gal/stl/wrapper_util/error.hpp> // gal/stl/wrapper_util/error.hpp
 #include <gal/archive/archive.hpp>
 
 namespace ba = boost::archive;
 namespace bs = boost::serialization;
 
 namespace gal { namespace stl {
+
+
 	class wrapper_base:
-		public gal::verb::Verbosity< gal::stl::wrapper_base >
+		virtual public gal::verb::Verbosity< gal::stl::wrapper_base >
 	{
 	public:
 		using gal::verb::Verbosity< gal::stl::wrapper_base >::printv;
 		using gal::verb::Verbosity< gal::stl::wrapper_base >::init_verb;
 	};
 
-	template< typename T, typename S_ = std::shared_ptr<T> >
+	template< typename T_, typename S_ = std::shared_ptr<T_> >
 	class wrapper:
 		virtual public gal::stl::wrapper_base,
 		virtual public gal::mng::managed_object
 	{
 	public:
+		typedef T_				T;
+		typedef S_				S;
+
 		using gal::stl::wrapper_base::printv;
 		using gal::stl::wrapper_base::init_verb;
 
 		typedef std::shared_ptr< factory<T> >	S_F;
 		typedef std::weak_ptr< factory<T> >	W_F;
-		typedef S_				S;
+
+
 		struct LoadType
 		{
 			enum
@@ -91,6 +97,15 @@ namespace gal { namespace stl {
 		{
 			assert(f);
 			_M_factory = f;
+		}
+		S_F				get_factory()
+		{
+			auto f = _M_factory.lock();
+			if(!f) {
+				gal::error::backtrace bt; bt.calc();
+				throw gal::stl::wrapper_util::null_factory(bt);
+			}
+			return f;
 		}
 		virtual void			v_check_delete()
 		{
@@ -192,10 +207,8 @@ namespace gal { namespace stl {
 
 			printv(DEBUG, "hashcode = %lu\n", h);
 
-			// get the factory
-			auto fs = _M_factory.lock();
-			assert(fs);
-
+			auto fs = get_factory();
+			
 			// allocate the object
 			ptr_ = fs->template alloc<>(h);
 		}
@@ -217,9 +230,7 @@ namespace gal { namespace stl {
 			// search path(s) will be passed to this
 			// by calling code
 
-			// get the factory
-			auto fs = _M_factory.lock();
-			assert(fs);
+			auto fs = get_factory();
 
 			// allocate the object
 			ptr_ = fs->template alloc<gal::dll::helper_info&>(

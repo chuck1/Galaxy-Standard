@@ -8,6 +8,7 @@
 #include <gal/typedef.hpp>
 #include <gal/stl/helper.hpp>
 #include <gal/stl/funcmap.hpp>
+#include <gal/stl/object_map.hpp> // gal/stl/object_map.hpp.in
 
 namespace gal { namespace stl {
 		/** @brief factory.
@@ -22,7 +23,8 @@ namespace gal { namespace stl {
 		 */
 		template<typename T>
 		class factory:
-			virtual public gal::stl::funcmap<T, std::shared_ptr>
+			virtual public gal::stl::funcmap<T, std::shared_ptr>,
+			virtual public gal::stl::object__<T>
 		{
 		public:
 			typedef std::shared_ptr<T>	shared;

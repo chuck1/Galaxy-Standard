@@ -7,12 +7,15 @@
 #include <gal/memory/weak_ptr.hpp>
 
 namespace gal {
+
 	class shared:
 		public std::enable_shared_from_this<gal::shared>
 	{
 	public:
 		virtual ~shared() {};
 	};
+
+
 	template<typename T>
 	class enable_shared_from_this:
 		virtual public gal::shared
@@ -23,6 +26,7 @@ namespace gal {
 		virtual ~enable_shared_from_this()
 		{
 		}
+
 		std::shared_ptr<T>	shared_from_this()
 		{
 			std::shared_ptr<gal::shared> s;
@@ -37,6 +41,13 @@ namespace gal {
 			assert(t);
 			return t;
 		}
+
+		template<typename T2>
+		std::shared_ptr<T2>	cast()
+		{
+			return std::dynamic_pointer_cast<T2>(shared_from_this());
+		}
+
 /*		gal::weak_ptr<T>	weak_from_this()
 		{
 			return gal::weak_ptr<T>(shared_from_this());

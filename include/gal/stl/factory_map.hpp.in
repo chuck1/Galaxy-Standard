@@ -14,14 +14,24 @@ public:
 	std::shared_ptr< gal::stl::factory<T> >		create()
 	{
 		typedef gal::stl::factory<T>	F;
+		typedef std::shared_ptr< gal::stl::factory<T> >	S;
 		
+		S s(new F);
+		
+		add<T>(s);
+
+		return s;
 	}
 	template<typename T>
 	void			add(
-			std::shared_ptr< gal::stl::factory<T> > o)
+			std::shared_ptr< gal::stl::factory<T> > f)
 	{
-		long int k = typeid(T).name();
+		long int k = typeid(T).hash_code();
 		
+		typedef std::shared_ptr< gal::stl::object__<T> > S_O;
+
+		S_O o(f);
+
 		OM::add(k, o);
 	}
 	template<typename T>
