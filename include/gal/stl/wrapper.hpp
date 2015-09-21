@@ -15,18 +15,52 @@
 
 //#include <Nebula/App/BaseFactory.hh>
 
+#include <gal/archive/archive.hpp>
+#include <gal/decl.hpp>
 #include <gal/stl/HashCode.hpp>
-#include <gal/mng/managed_object.hpp>
 #include <gal/stl/factory.hpp>
+#include <gal/stl/factory_map.hpp>
+#include <gal/mng/managed_object.hpp>
 #include <gal/verb/Verbosity.hpp>
 #include <gal/dll/helper.hpp>
 #include <gal/stl/wrapper_util/error.hpp> // gal/stl/wrapper_util/error.hpp
-#include <gal/archive/archive.hpp>
+
+
 
 namespace ba = boost::archive;
 namespace bs = boost::serialization;
 
 namespace gal { namespace stl {
+
+
+	typedef std::weak_ptr<gal::itf::net::communicating>	W_COM;
+
+
+
+	template<typename T, typename = int>
+	struct functor_set_return_address
+	{
+	        void    operator()(std::shared_ptr<T>, W_COM)
+	        {
+	                //printf("no x\n");
+	        }
+		const bool value = false;
+	};
+
+	template<typename T>
+	struct functor_set_return_address <T, decltype((void) &T::set_return_address, 0)>
+	{
+		void    operator()(std::shared_ptr<T> s, W_COM c)
+		{
+			//printf("has x\n");
+			s->set_return_address(c);
+		}
+		const bool value = true;
+	};
+
+
+
+
 
 
 	class wrapper_base:
@@ -51,15 +85,9 @@ namespace gal { namespace stl {
 
 		typedef std::shared_ptr< factory<T> >	S_F;
 		typedef std::weak_ptr< factory<T> >	W_F;
+		typedef std::shared_ptr< factory_map >	S_FM;
+		typedef std::weak_ptr< factory_map >	W_FM;
 
-
-		struct LoadType
-		{
-			enum
-			{
-				
-			};
-		};
 		struct nullptrException: std::exception
 		{
 			virtual const char *	what()
@@ -98,14 +126,40 @@ namespace gal { namespace stl {
 			assert(f);
 			_M_factory = f;
 		}
+		void				set_factory_map(S_FM f)
+		{
+			assert(f);
+			_M_factory_map = f;
+		}
+/*		void				set_factory_map()
+		{
+			auto ra = _M_return_address.lock();
+			assert(ra);
+			auto app = ra->get_fnd_app();
+			
+		}*/
+		S_FM				get_factory_map()
+		{
+			//if(_M_factory_map.expired())
+			//	set_factory_map();
+			
+			auto fm = _M_factory_map.lock();
+
+			return fm;
+		}
 		S_F				get_factory()
 		{
 			auto f = _M_factory.lock();
-			if(!f) {
-				gal::error::backtrace bt; bt.calc();
-				throw gal::stl::wrapper_util::null_factory(bt);
+			if(f) return f;
+
+			auto fm = get_factory_map();
+			if(fm) {
+		 		f = fm->template find<T>();
+				if(f) return f;
 			}
-			return f;
+			
+			gal::error::backtrace bt; bt.calc();
+			throw gal::stl::wrapper_util::null_factory(bt);
 		}
 		virtual void			v_check_delete()
 		{
@@ -164,7 +218,13 @@ namespace gal { namespace stl {
 
 			int load_type;
 			ar >> BOOST_SERIALIZATION_NVP(load_type);
-
+		
+			auto ar0 = dynamic_cast<gal::archive::archive*>(&ar);
+			assert(ar0);
+			auto fm = ar0->_M_factory_map.lock();
+			assert(fm);
+			set_factory_map(fm);
+			
 			if(load_type == 0) {
 				load_0(ar, version);
 			} else if(load_type == 1) {
@@ -186,6 +246,12 @@ namespace gal { namespace stl {
 				ptr_->gal::mng::managed_object::init(ar1->get_registry());
 			}
 			
+			
+
+			// is applicable, set return_address of ptr_
+			functor_set_return_address<T> ftor0;
+			ftor0(ptr_, _M_return_address);
+
 			// read object data
 			//ar >> bs::make_nvp("object", *ptr_);
 			//ar >> bs::make_nvp("object", ptr_);
@@ -250,6 +316,8 @@ namespace gal { namespace stl {
 	public:
 		S				ptr_;
 		W_F				_M_factory;
+		W_FM				_M_factory_map;
+		W_COM				_M_return_address;
 	};
 }}
 

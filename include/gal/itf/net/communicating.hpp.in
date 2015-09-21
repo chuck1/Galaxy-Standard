@@ -1,0 +1,15 @@
+{{ include_block_open }}
+
+{{ namespace_open }}
+
+class communicating
+{
+	virtual ~communicating {}
+};
+
+{{ namespace_close }}
+
+{{ include_block_close }}
+
+
+

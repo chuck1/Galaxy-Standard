@@ -37,16 +37,24 @@ namespace gal { namespace object {
 		virtual void		v_check_delete()
 		{
 		}
-		void			setParent(T * const & p)
+		void			setParent(T * const & p0)
 		{
-			assert(p);	
+			if(p0 == 0) {
+				if(!hasParent())
+					assert(p0);
+			} else {
+				_M_parent = p0;
+			}
 
 			/** TODO need to explain why this was here,
 			 * it needs to be removed or changed as
 			 * some classes cannot be converted as is
 			 */
 			//assert(dynamic_cast<gal::object::Child<T>*>(p) != this);
-		
+
+			assert(_M_parent);
+			T * p = _M_parent;
+
 			auto r = dynamic_cast<gal::mng::managed_object::registry_type*>(p);
 			if(!r) {
 				r = p->get_registry();
@@ -57,7 +65,6 @@ namespace gal { namespace object {
 			
 			gal::mng::managed_object::init(r);
 
-			_M_parent = p;
 		}
 		T* const &	getParent() const
 		{

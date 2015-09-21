@@ -21,10 +21,18 @@ class key_not_found: public std::exception
 };
 class args_not_found: public std::exception
 {
+	args_not_found(char const * sig):
+		_M_sig(sig)
+	{}
 	virtual char const *	what() const noexcept
 	{
+		char buffer[1000];
+		strcpy(buffer, "object map: args not found\n");
+		strcat(_M_sig);
+		return buffer;
 		return "object map: args not found";
 	}
+	char const *	_M_sig;
 };
 class invalid_args: public std::exception
 {
