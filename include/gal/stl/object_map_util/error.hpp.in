@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 #include <cassert>
+#include <cstring>
 
 //#include <gal/decl.hpp>
 //#include <gal/typedef.hpp>
@@ -14,6 +15,7 @@
 
 class key_not_found: public std::exception
 {
+public:
 	virtual char const *	what() const noexcept
 	{
 		return "object map: key not found";
@@ -21,14 +23,15 @@ class key_not_found: public std::exception
 };
 class args_not_found: public std::exception
 {
+public:
 	args_not_found(char const * sig):
 		_M_sig(sig)
 	{}
 	virtual char const *	what() const noexcept
 	{
-		char buffer[1000];
+		char * buffer = new char[1000];
 		strcpy(buffer, "object map: args not found\n");
-		strcat(_M_sig);
+		strcat(buffer, _M_sig);
 		return buffer;
 		return "object map: args not found";
 	}
@@ -36,6 +39,7 @@ class args_not_found: public std::exception
 };
 class invalid_args: public std::exception
 {
+public:
 	virtual char const *	what() const noexcept
 	{
 		return "object map: invalid args";

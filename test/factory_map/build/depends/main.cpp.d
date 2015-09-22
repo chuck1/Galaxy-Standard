@@ -1,0 +1,27 @@
+/home/chuck/git/nebula/external/Galaxy/components/std/test/factory_map/build/objects/main.cpp.o: \
+ /home/chuck/git/nebula/external/Galaxy/components/std/test/factory_map/src/main.cpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/stl/factory.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/decl.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/typedef.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/stl/helper.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/stl/funcmap.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/stl/HashCode.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/verb/Verbosity.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/etc/print.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/math/pose.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/math/serialization/glm.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/build/static/process/include/gal/verb/Info.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/verb/VerbosityBase.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/verb/decl.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/type_info.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/shared.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/memory/weak_ptr.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/memory/unique_ptr.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/memory/except.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/error/backtrace.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/verb/VerbosityRegistry.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/error/no_index.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/include/gal/error/base.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/build/static/process/include/gal/stl/object_map.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/build/static/process/include/gal/stl/object_map_util/error.hpp \
+ /home/chuck/git/nebula/external/Galaxy/components/std/build/static/process/include/gal/stl/factory_map.hpp

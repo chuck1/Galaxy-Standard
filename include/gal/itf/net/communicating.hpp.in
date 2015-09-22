@@ -4,7 +4,8 @@
 
 class communicating
 {
-	virtual ~communicating {}
+public:
+	virtual ~communicating() {}
 };
 
 {{ namespace_close }}
