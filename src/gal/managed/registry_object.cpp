@@ -125,13 +125,15 @@ void		THIS::set_process_index(gal::process_index p_new)
 	auto it = _M_map.begin();
 	while(it != _M_map.end()) {
 		gal::object_index o = it->first;
-
+		printv(INFO, "processing\n");
 		if(o._M_p == p_old) {
 			v.emplace_back(
 					gal::object_index(p_new, o._M_i),
 					it->second);
 			it = _M_map.erase(it);
-			printv(DEBUG, "erase    m.size(): %u v.size(): %u\n", _M_map.size(), v.size());
+			printv(DEBUG, "erase    m.size(): %u v.size(): %u\n", 
+					_M_map.size(), 
+					v.size());
 		} else {
 			printv(DEBUG, "not changing %li %li\n", o._M_p._M_i, o._M_i);
 			it++;
@@ -147,7 +149,7 @@ void		THIS::set_process_index(gal::process_index p_new)
 	while(it2 != v.end()) {
 		auto i = it2->first;
 		auto s = it2->second.lock();
-		printv(DEBUG, "processing %8li %8li\n", i._M_p._M_i, i._M_i);
+		printv(INFO, "processing %8li %8li\n", i._M_p._M_i, i._M_i);
 		if(!s) {
 			printv(DEBUG, "erase from v %li %li\n", i._M_p._M_i, i._M_i);
 			it2 = v.erase(it2);
@@ -170,6 +172,7 @@ void		THIS::set_process_index(gal::process_index p_new)
 
 	printv(DEBUG, "m.size(): %u v.size(): %u\n", _M_map.size(), v.size());
 
+	printv(INFO, "finished\n");
 	//print_table();
 }
 void		THIS::print_table()

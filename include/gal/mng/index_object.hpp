@@ -6,21 +6,10 @@
 namespace gal {
 	struct object_index
 	{
-		object_index():
-			_M_i(-1)
-		{}
-		object_index(long int i):
-			_M_i(i)
-		{}
-		object_index(gal::process_index p, long int i):
-			_M_p(p),
-			_M_i(i)
-		{}
-		object_index&	operator++(int)
-		{
-			_M_i++;
-			return *this;
-		}
+		object_index();
+		object_index(long int i);
+		object_index(gal::process_index p, long int i);
+		object_index&	operator++(int);
 		template<typename A>
 		void		serialize(A & a, unsigned int const & v)
 		{
