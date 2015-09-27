@@ -281,9 +281,9 @@ public:
 		}
 		return S();
 	}
-	W			random() const
+	S			random() const
 	{
-		if(empty()) return W();
+		if(empty()) return S();
 		
 		unsigned int i = rand() % size();
 
@@ -293,7 +293,7 @@ public:
 
 		assert(it != cend());
 
-		return W(it->second.ptr_);
+		return it->second.ptr_;
 	}
 	IC			cbegin() const
 	{
