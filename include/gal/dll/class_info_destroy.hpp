@@ -29,7 +29,7 @@ namespace gal { namespace dll {
 		{
 			D* d = dynamic_cast<D*>(r);
 			if(!d) {
-				abort();
+				assert(0);
 			}
 			operator()(d);
 		}
@@ -45,12 +45,12 @@ namespace gal { namespace dll {
 				//printf("file: %s\n",
 				//	filename_.c_str());
 				perror(dlerror());
-				abort();
+				assert(0);
 			}
 		}
 		void		operator()(D* d)
 		{
-			if(_M_pd == NULL) abort();
+			if(_M_pd == NULL) assert(0);
 			_M_pd(d);
 		}
 	protected:

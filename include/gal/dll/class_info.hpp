@@ -46,12 +46,12 @@ namespace gal { namespace dll {
 				//printf("file: %s\n",
 				//	filename_.c_str());
 				perror(dlerror());
-				abort();
+				assert(0);
 			}
 		}
 		D*		operator()(ARGS... a)
 		{
-			if(_M_pc == NULL) abort();
+			if(_M_pc == NULL) assert(0);
 			return _M_pc(a...);
 		}
 	private:

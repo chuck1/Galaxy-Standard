@@ -59,7 +59,7 @@ namespace gal { namespace dll {
 			if(!handle_) {
 				printf("file: %s\n", filename_.c_str());
 				printf("handle not open\n");
-				abort();
+				assert(0);
 			}
 
 			typedef class_info_destroy_0 CID0;
@@ -121,7 +121,7 @@ namespace gal { namespace dll {
 			if(handle_ == NULL) {
 				printf("file: %s\n", filename_.c_str());
 				perror(dlerror());
-				abort();
+				assert(0);
 			}
 		}
 		~helper() {

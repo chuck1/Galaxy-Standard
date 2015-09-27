@@ -59,7 +59,7 @@ namespace gal { namespace object {
 			if(!r) {
 				r = p->get_registry();
 				if(!r) {
-					abort();
+					assert(0);
 				}
 			}
 			

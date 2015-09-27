@@ -35,7 +35,7 @@ namespace gal {
 			} catch(std::exception& e) {
 				printf("shared_from_this error:\n");
 				printf("%s\n", e.what());
-				abort();
+				assert(0);
 			}
 			std::shared_ptr<T> t = std::dynamic_pointer_cast<T>(s);
 			assert(t);

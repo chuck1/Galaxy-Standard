@@ -78,7 +78,7 @@ namespace gal {
 
 			// why??
 			if(!_M_ready) {
-				abort();
+				assert(0);
 			}
 			
 			// check to see it the object has an index with this_process
