@@ -1,15 +1,15 @@
 
-root_dir          = /home/chuck/git/nebula/external/Galaxy/components/std/test/B
-src_dir           = /home/chuck/git/nebula/external/Galaxy/components/std/test/B/src
-inc_dir           = /home/chuck/git/nebula/external/Galaxy/components/std/test/B/include
-build_dir         = /home/chuck/git/nebula/external/Galaxy/components/std/test/B/build/dynamic
-inc               = -I/home/chuck/git/nebula/external/Galaxy/components/std/test/A/include -I/home/chuck/git/nebula/external/Galaxy/components/std/test/A/build/static/process/include -I/home/chuck/git/nebula/external/Galaxy/components/std/include -I/home/chuck/git/nebula/external/Galaxy/components/std/build/static/process/include -I/home/chuck/usr/lib/pmake/include -I/home/chuck/usr/lib/pmake/build/static/process/include -I/home/chuck/usr/lib/pmake/include -I/home/chuck/usr/lib/pmake/build/static/process/include -I/home/chuck/git/nebula/external/Galaxy/components/std/test/B/include -I/home/chuck/git/nebula/external/Galaxy/components/std/test/B/build/dynamic/process/include 
-define_str        = -DGLM_FORCE_RADIANS=1 -D_DEBUG=1 -DGLM_FORCE_RADIANS=1 -D_DEBUG=1
-binary            = libB.so
-compiler_dir      = /home/chuck/git/pbs
-master_config_dir = /home/chuck/git/nebula
-lib_long_str      = /home/chuck/git/nebula/external/Galaxy/components/std/test/A/build/static/libA.a /home/chuck/git/nebula/external/Galaxy/components/std/build/static/libgalaxy_std.a
-lib_link_str_whole = 
+root_dir              = /home/chuck/git/nebula/external/Galaxy/components/std/test/B
+src_dir               = /home/chuck/git/nebula/external/Galaxy/components/std/test/B/src
+inc_dir               = /home/chuck/git/nebula/external/Galaxy/components/std/test/B/include
+build_dir             = /home/chuck/git/nebula/external/Galaxy/components/std/test/B/build/dynamic
+inc                   = -I/home/chuck/git/nebula/external/Galaxy/components/std/test/A/include -I/home/chuck/git/nebula/external/Galaxy/components/std/test/A/build/static/process/include -I/home/chuck/git/nebula/external/Galaxy/components/std/include -I/home/chuck/git/nebula/external/Galaxy/components/std/build/static/process/include -I/home/chuck/usr/lib/pmake/include -I/home/chuck/usr/lib/pmake/build/static/process/include -I/home/chuck/usr/lib/pmake/include -I/home/chuck/usr/lib/pmake/build/static/process/include -I/home/chuck/git/nebula/external/Galaxy/components/std/test/B/include -I/home/chuck/git/nebula/external/Galaxy/components/std/test/B/build/dynamic/process/include 
+define_str            = -DGLM_FORCE_RADIANS=1 -D_DEBUG=1 -DGLM_FORCE_RADIANS=1 -D_DEBUG=1
+binary                = libB.so
+compiler_dir          = /home/chuck/git/pbs
+master_config_dir     = /home/chuck/git/nebula
+lib_long_str          = /home/chuck/git/nebula/external/Galaxy/components/std/test/A/build/static/libA.a /home/chuck/git/nebula/external/Galaxy/components/std/build/static/libgalaxy_std.a
+lib_link_str_whole    = 
 lib_link_str_no_whole = -l:/home/chuck/git/nebula/external/Galaxy/components/std/test/A/build/static/libA.a -l:/home/chuck/git/nebula/external/Galaxy/components/std/build/static/libgalaxy_std.a -ldl -lboost_serialization -lboost_system
 
 lib_dir_str       = -L/home/chuck/git/nebula/external/Galaxy/components/std/test/A/build/static -L/home/chuck/git/nebula/external/Galaxy/components/std/build/static -L/home/chuck/usr/lib/pmake/build/static -L/home/chuck/usr/lib/pmake/build/static
